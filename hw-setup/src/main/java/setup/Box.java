@@ -12,7 +12,7 @@
 package setup;
 
 import java.lang.Iterable;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * This is a container can be used to contain Balls. The key
@@ -26,6 +26,11 @@ public class Box implements Iterable<Ball> {
      */
     private BallContainer ballContainer;
 
+    /** the maxVolume is the maximum volume of the Box
+     *
+     */
+    private final  double maxVolume;
+
     /**
      * Constructor that creates a new box.
      *
@@ -33,7 +38,8 @@ public class Box implements Iterable<Ball> {
      */
     public Box(double maxVolume) {
         // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+       this.maxVolume = maxVolume;
+       this.ballContainer = new BallContainer();
     }
 
     /**
@@ -65,7 +71,11 @@ public class Box implements Iterable<Ball> {
      */
     public boolean add(Ball b) {
         // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+        if(this.maxVolume >= b.getVolume() + ballContainer.getVolume()){
+            return ballContainer.add(b);
+        }else {
+            return false;
+        }
     }
 
     /**
@@ -78,7 +88,26 @@ public class Box implements Iterable<Ball> {
      */
     public Iterator<Ball> getBallsFromSmallest() {
         // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+        List<Ball> sorted = new ArrayList<>();
+        Iterator<Ball> it = this.iterator();
+        while (it.hasNext()) {
+            Ball b = it.next();
+            sorted.add(b);
+        }
+        sorted.sort(new Comparator<Ball>() {
+            public int compare(Ball x, Ball y) {
+                if (x.getVolume() < y.getVolume()) {
+                    return -1;
+                } else if (x.getVolume() == y.getVolume()) {
+                    return 0;
+                }else {
+                    return 1;
+                }
+            }
+        });
+
+        return sorted.iterator();
+
     }
 
     /**
