@@ -4,13 +4,72 @@
 
 1. Multiplication Pseudocode
 
-
+    r = p * q:
+    set r = 0 by creating a new polynomial with value 0
+    {inv1 r = (p_0 * q) + (p_1 * q) ...(p_i-1 * q) where p_j is the jth term in p}
+    for each term t_p in p{
+        set polyToAdd = 0 by creating a new polynomial with value 0
+        {inv2 termToAdd = (t_p * q_0) + (t_p* q_1) ...(t_p * q_k-1) where p_j is the lth term in p}
+        for each term t_q in q{
+            set mul = t_q * t_p multiplication of terms
+             //termToPoly converts a given term to a single term polynomial
+             polyToAdd = polyToAdd + termToPoly(mul) // uses polynomial addition(defined in assignment)
+        }
+        use polynomial addition(defined in assignment) to add polyToAdd and r
+     }
 
 2. Division Pseudocode
+    q = n / d: // q is quotient, n is numerator, d is denominator
+    rem = n // by copying n to rem
+    q = 0 // by creating a new polynomial with value 0.
+    dHighestDegTerm = the highest degree term in d;
+    {inv: n = dq + rem}
+    while((rem != 0) and (degree of d <= degree of rem)) {
+        // assumes that the polynomial rem has its terms ordered by power from highest to lowest
+        remHighestDegTerm = the highest degree term in rem
+        set multiplier = (remHighestDegTerm/dHighestDegTerm) // returns a term.
+        //termToPoly converts a given term to a single term polynomial
+        q = q + termToPoly(multiplier) // uses polynomial addition previously defined
+        set toSubtract = termToPoly(-multiplier) * d // uses the multiplication function previously made
+                                                     //  with the negated multiplier and the divisor d
+        rem = rem + toSubtract // uses polynomial addition
+    }
+    return q
 
-
+    }
 
 3. Division Example: (x3+x-1) / (x+1) = x2-x+2
+    q = 0
+    n = (x^3+x-1)
+    d = x+1
+    rem = (x^3+x-1) //copy of n
+    dHighestDegTerm = x
+    while ((rem != 0) and (degree of d <= degree of rem)){
+    Iteration 1: rem: x^3 + x - 1, degree of rem = 3, degree of d = 1, q = 0
+        is degree of d <= degree of rem? yes
+        remHighestDegTerm = x^3
+        multiplier = x^3/x = x^2
+        q= 0 + x^2 = x^2
+        toSubtract = -x^2 * x + 1 = -x^3 - x^2
+        rem = x^3 + x -1 +(-x^3 -x^2) = -x^2  + x - 1
+    Iteration 2: rem: -x^2  + x - 1, degree of rem = 2, degree of d = 1, q = x^2
+        is degree of d <= degree of rem? yes
+        remHighestDegTerm = -x^2
+        multiplier = -x^2/x = -x
+        q= x^2 + -x = x^2 -x
+        toSubtract = -(-x) * x+1 = x(x+1) = x^2 + x
+        rem = (-x^2  + x - 1) + (x^2 + x) = 2x - 1
+    Iteration 3: rem: 2x - 1, degree of rem = 1, degree of d = 1, q = x^2 -x
+        is degree of d <= degree of rem? yes
+        remHighestDegTerm = 2x
+        multiplier = 2x/x = 2
+        q=  (x^2 -x) + 2 = x^2 -x + 2
+        toSubtract = -2(x+1) = -2x -2
+        rem =  (2x - 1)+(-2x-2) = -3
+    Iteration 3: rem: -3, degree of rem = 0, degree of d = 1, q = x^2 -x + 2
+        is degree of d <= degree of rem? no
+
+    }
 
 
 
@@ -19,6 +78,43 @@
 ###########################################################################
 
 1. Weakened Rep Invariant
+
+   Method: public RatNum(int n, int d):
+   Changes:
+   a) The constructor would not reduce ratio to lowest terms
+   b) The constructor would thus also not calculate the gcd(n,d)
+   Advantages:
+      faster to execute, less lines of code
+   Disadvantages:
+      none
+
+   Method: private  void checkRep():
+   Changes:
+   a) No need to check that the numer and demo are in
+      reduced form.
+   Advantages:
+        faster to execute, less lines of code
+   Disadvantages:
+        none
+
+   Method: public boolean equals(Object obj)
+   Changes:
+   a) instead of just comparing the numerators and denominators of the
+      two objects you must find the form of the RatNum
+   Advantages:
+        none
+   Disadvantages:
+        slower to execute.
+
+   Method: public String toString()
+   Changes:
+   a) has to first change the numerators and denominators of
+      RatNum to its reduced form
+   Advantages:none
+   Disadvantages: slower to execute
+
+
+
 
 
 
