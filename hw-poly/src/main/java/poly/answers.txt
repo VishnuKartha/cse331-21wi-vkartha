@@ -6,10 +6,10 @@
 
     r = p * q:
     set r = 0 by creating a new polynomial with value 0
-    {inv1 r = (p_0 * q) + (p_1 * q) ...(p_i-1 * q) where p_j is the jth term in p}
+    {inv1 r = (p_0 * q) + (p_1 * q) ...(p_i-1 * q) where p_i is the ith term in p}
     for each term t_p in p{
         set polyToAdd = 0 by creating a new polynomial with value 0
-        {inv2 termToAdd = (t_p * q_0) + (t_p* q_1) ...(t_p * q_k-1) where p_j is the lth term in p}
+        {inv2 polyToAdd = (t_p * q_0) + (t_p* q_1) ...(t_p * q_k-1) where p_j is the lth term in p}
         for each term t_q in q{
             set mul = t_q * t_p multiplication of terms
              //termToPoly converts a given term to a single term polynomial
