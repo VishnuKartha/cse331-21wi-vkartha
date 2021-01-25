@@ -88,7 +88,7 @@
    Disadvantages:
       none
 
-   Method: private  void checkRep():
+   Method: private  void checkRep()
    Changes:
    a) No need to check that the numer and demo are in
       reduced form.
@@ -113,16 +113,24 @@
    Advantages:none
    Disadvantages: slower to execute
 
-
-
-
-
-
-2. Alternate add, sub, mul, div
+2. Alternate add, sub, mul, div.
+    These above changes would fail to meet the specifications because
+    the spec of RatNum declared it to be immutable. Which means that
+    the fields numer and denom would not change throghout a
+    RatNum's object's existstance(after being constructed).Thus,
+    by adding those two lines, we would be breaking the contract
+    of the spec by mutating RatNum's field.
 
 
 
 3. Constructor checkReps
+    In RatNum it is sufficient to call checkRep only at the end of
+    constructors because the representation invariant is affected
+    only by numer and denom. However, as numer and denom are immutable,
+    once they are created in the constructor, it cannot be changed,
+    and thus, if the checkRep() in the constructor passes, then the
+    representation invariant cannot be broken throughout the existance
+    of that RatNum.
 
 
 
@@ -131,20 +139,95 @@
 ###########################################################################
 
 1. Calls to checkRep in RatTerm
-
+      In RatTerm, I only call checkRep  at the end of
+        constructors because the representation invariant is affected
+        only by expt and coeff. However, as expt and coeff are immutable,
+        once they are created in the constructor, it cannot be changed,
+        and thus, if the checkRep() in the constructor passes, then the
+        representation invariant cannot be broken throughout the existance
+        of that RatTerm.
 
 
 2. Weakened Rep Invariant
 
+   Method: public RatTerm(RatNum c, int e):
+   Changes:
+   a) No extra check in the if condition for a special case if the coefficient is 0.
+   Advantages:
+      faster to execute, less lines of code
+   Disadvantages:
+      none
+   Method: public ratTerm add(RatTerm arg){
+   Changes:
+   a) the add method must now explicitly check to see if either this or arg is zero as if only one of them is zero, then
+      the method should return a new RatTerm with same coefficients and exponents as the nonzero RatTerm
+   Advantages:
+        none
+   Disadvantages:
+        slower to execute. More lines of code and more logic needed.
 
+   Method: public String toString()
+   Changes:
+   a) There has to be an additional if statement for zero RatTerms. As in that case the toString should return "0"/
+   Advantages:
+        None
+   Disadvantages:
+        slower and more complicated logic.
+
+   Method: public boolean equals(Object obj)
+   Changes:
+   a) there must be a separate check for zero terms. If the coefficients of both terms are zero then the method should
+      return true regardless of the exponents.
+   Advantages:
+        none
+   Disadvantages:
+        more complicated logic.
+
+   Method: private  void checkRep()
+   Changes:
+   a) delete the second assert statement which requires the exponent to be zero if coeff is zero
+   Advantages:
+        faster to execute, less lines of code
+   Disadvantages:
+        none
+
+   Method: public String toString()
+   Changes:
+   a) has to first change the numerators and denominators of
+      RatNum to its reduced form
+   Advantages:none
+   Disadvantages: slower to execute
 
 3. Alternate Rep Invariant
 
-
+   Method: public RatTerm(RatNum c, int e):
+   Changes:
+   a) Add an extra if statement to check if c is a RatNum NAN and if so set this.expt to 0.
+   Advantages:
+        none
+   Disadvantages:
+       Slower, more complicated logic
+   Method: public String toString()
+   Changes:
+   a) There has to be an additional if statement for zero RatTerms. As in that case the toString should return "0"/
+   Advantages:
+        None
+   Disadvantages:
+        slower and more complicated logic.
+   Method: private void checkRep()
+   Changes:
+   a) add an additional assert statement which fails if the coefficient  is a NAN and the exponent is not 0
+   Advantages:
+        none
+   Disadvantages:
+        slower to execute, more lines of code
 
 4. Preferred Invariants
-
-
+    I  do not prefer the additional RatTerm invariant coeff.isNaN() ⇒ expt = 0 because it added
+    more logic into the code than before,without much benefit to performance.
+    I do prefer the additional RatTerm invariant coeff.equals(RatNum.ZERO) ⇒ expt = 0 because without it,
+    the logic for toString(), add(), and equals() became more complicated,while the only drawback was
+    that the constructor and checkRep() had an additional if statement.
 
 
 ## Part 3
