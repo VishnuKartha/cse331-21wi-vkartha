@@ -151,7 +151,7 @@ public final class RatPoly {
             // binary searching terms
             //{inv: terms at index < left have degree bigger than deg
             //      terms at index > right have degree smaller than deg  }
-            while(left < right) {
+            while(left <= right) {
                 List<RatTerm> result = new ArrayList<>();
                 int mid = (left + right) /2;
                 RatTerm midTerm = this.terms.get(mid);
@@ -252,24 +252,35 @@ public final class RatPoly {
      * cofind(lst,newTerm.getExpt()) + newTerm.getCoeff())
      */
     private static void sortedInsert(List<RatTerm> lst, RatTerm newTerm) {
-//        if(lst.isEmpty()) {
-//            lst.add(newTerm);
-//        } else {
-            int index = 0;
-            RatTerm curr = lst.get(0);
-            //inv: lst.get(0...index-1).getExpt() > newTerm.getExpt();
-            while (index < lst.size()) {
-                if (lst.get(index).getExpt() == newTerm.getExpt()) {
-                    lst.set(index, lst.get(index).add(newTerm));
-                    break;
-                } else if (lst.get(index).getExpt() < newTerm.getExpt()) {
-                    lst.add(index, newTerm);
-                    break;
-                } else {
-                    index++;
+        if(!newTerm.isZero()) {
+            if (lst.isEmpty()) {
+                lst.add(newTerm);
+            } else {
+                int index = 0;
+                boolean termNotAdded = true;
+                //inv: lst.get(0...index-1).getExpt() > newTerm.getExpt() && termNotAdded;
+                while (index < lst.size() && termNotAdded) {
+                    RatTerm curr = lst.get(index);
+                    if (curr.getExpt() == newTerm.getExpt()) {
+                        RatTerm additionResult = curr.add(newTerm);
+                        if (additionResult.isZero()) {
+                            lst.remove(index);
+                        } else {
+                            lst.set(index, additionResult);
+                        }
+                        termNotAdded = false;
+                    } else if (curr.getExpt() < newTerm.getExpt()) {
+                        lst.add(index, newTerm);
+                        termNotAdded = false;
+                    } else {
+                        index++;
+                    }
+                }
+                if (termNotAdded) {
+                    lst.add(newTerm);
                 }
             }
-//        }
+        }
     }
 
 
@@ -374,9 +385,24 @@ public final class RatPoly {
      * @spec.requires p != null
      */
     public RatPoly div(RatPoly p) {
-        // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatPoly.div() is not yet implemented");
+        RatPoly d = p; // d is the divsor
+        RatPoly rem = new RatPoly(this.terms); // the remaining terms
+        RatPoly q = RatPoly.ZERO; // the quotient
+        RatTerm dHighestDegreeTerm = d.getTerm(d.degree());
+        if(d.isZero() || d.isNaN() || this.isNaN()){
+            return RatPoly.NaN;
+        }
+        //{inv: this = d * q  + rem}
+        while (!rem.isZero() && d.degree() <= rem.degree()) {
+            RatTerm remHighestDegreeTerm = rem.getTerm(rem.degree());
+            RatPoly multiplier = new RatPoly(remHighestDegreeTerm.div(dHighestDegreeTerm));
+            q = q.add(multiplier);
+            RatPoly toSubtract = multiplier.mul(d);
+            rem = rem.sub(toSubtract);
+        }
+        return q;
     }
+
 
     /**
      * Return the derivative of this RatPoly.
@@ -386,8 +412,16 @@ public final class RatPoly {
      * <p>The derivative of a polynomial is the sum of the derivative of each term.
      */
     public RatPoly differentiate() {
-        // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatPoly.differentiate() is not yet implemented");
+        List<RatTerm>differentiated = new ArrayList<>();
+        if(this.isNaN()){
+            return RatPoly.NaN;
+        }
+        // {let rt be the ith term in terms. inv: p.terms.get(0 through i-1) have been differentiated and
+        // inserted in the differentiated list in sorted order with like terms merged}
+        for(RatTerm rt : this.terms) {
+            sortedInsert(differentiated,rt.differentiate());
+        }
+        return new RatPoly(differentiated);
     }
 
     /**
@@ -402,8 +436,14 @@ public final class RatPoly {
      * @spec.requires integrationConstant != null
      */
     public RatPoly antiDifferentiate(RatNum integrationConstant) {
-        // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatPoly.antiDifferentiate() unimplemented!");
+        List<RatTerm>antiDifferentiated = new ArrayList<>();
+        // {let rt be the ith term in terms. inv: terms.get(0 through i-1) have been antidiferrentiated and
+        // inserted in the antidiferrentiated list in sorted order with like terms merged}
+        for(RatTerm rt : this.terms) {
+            sortedInsert(antiDifferentiated,rt.antiDifferentiate());
+        }
+        sortedInsert(antiDifferentiated,new RatTerm(integrationConstant,0));
+        return new RatPoly(antiDifferentiated);
     }
 
     /**
@@ -420,8 +460,8 @@ public final class RatPoly {
      * Double.NaN, return Double.NaN.
      */
     public double integrate(double lowerBound, double upperBound) {
-        // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatPoly.integrate() is not yet implemented");
+        return this.antiDifferentiate(new RatNum(0)).eval(upperBound) -
+                this.antiDifferentiate(new RatNum(0)).eval(lowerBound);
     }
 
     /**
@@ -432,8 +472,12 @@ public final class RatPoly {
      * is 5, and "x^2-x" evaluated at 3 is 6. If (this.isNaN() == true), return Double.NaN.
      */
     public double eval(double d) {
-        // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatPoly.eval() is not yet implemented");
+        double result = 0.0;
+        // { let rt be the ith term in terms. inv: terms.get(0 through i-1) have been evaluated at d and added to result}
+        for(RatTerm rt : this.terms) {
+            result += rt.eval(d);
+        }
+       return result;
     }
 
     /**

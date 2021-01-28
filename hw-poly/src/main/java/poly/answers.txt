@@ -234,10 +234,26 @@
 ###########################################################################
 
 1. Calls to checkRep in RatPoly
-
+    In RatPoly, I only call checkRep  at the end of
+        constructors because the representation invariant is affected
+        only by terms. However, as terms is  immutable,
+        once they it is created in the constructor, it cannot be changed.
+        Thus, if the checkRep() in the constructor passes, then the
+        representation invariant cannot be broken throughout the existence
+        of that RatTerm.
 
 
 2. Alternate Representation
+
+    Some advantages of the alternative representation are that you will be able to easily multiply the polynomial by
+    a scalar by multiplying each term in the coefflist by the scalar. You would also be able to easily
+    increment the degree of the polynomial's terms by only operating on the exptlist. This representation however has
+    several disadvantages. The representation would not be able to use any of the methods and work we did in the RatTerm
+    class and thus, we would have to reimplement operations between terms. The representation would also not be
+    as modularized and use as clean of an object oriented structure. This would make it more difficult to isolate
+    classes during tests and make changes to the class in the future. I think the representation of keeping a list
+    of RatPoly objects is better as it makes for more modularized, and logical code, with a not many significant
+    disadvantages.
 
 
 
