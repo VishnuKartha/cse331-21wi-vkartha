@@ -105,6 +105,7 @@ public final class RatPoly {
      */
     public RatPoly(int c, int e) {
         this(new RatTerm(new RatNum(c),e)); // a call to the constructor above
+        checkRep();
     }
 
     /**
@@ -126,6 +127,7 @@ public final class RatPoly {
      * @spec.requires !this.isNaN()
      */
     public int degree() {
+        checkRep();
         if(this.isZero()){
             return 0;
         } else {
@@ -143,19 +145,18 @@ public final class RatPoly {
      * @spec.requires !this.isNaN()
      */
     public RatTerm getTerm(int deg) {
-        if(this.isZero() || this.degree() < deg){
-            return RatTerm.ZERO;
-        } else {
+        checkRep();
+        if (!this.isZero() && this.degree() >= deg) {
             int left = 0;
-            int right = this.terms.size()-1;
+            int right = this.terms.size() - 1;
             // binary searching terms
             //{inv: terms at index < left have degree bigger than deg
-            //      terms at index > right have degree smaller than deg  }
-            while(left <= right) {
-                List<RatTerm> result = new ArrayList<>();
-                int mid = (left + right) /2;
+            //      terms at index > right have degree smaller than deg }
+            while (left <= right) {
+                int mid = (left + right) / 2;
                 RatTerm midTerm = this.terms.get(mid);
-                if(midTerm.getExpt() == deg) {
+                if (midTerm.getExpt() == deg) {
+                    checkRep();
                     return midTerm;
                 } else if (midTerm.getExpt() > deg) {
                     left = mid + 1;
@@ -164,8 +165,9 @@ public final class RatPoly {
                 }
 
             }
-            return RatTerm.ZERO;
         }
+        checkRep();
+        return RatTerm.ZERO;
 
     }
 
@@ -177,6 +179,7 @@ public final class RatPoly {
      * @return true if and only if this has no elements in its terms
      */
     private boolean isZero() {
+        checkRep();
         return this.terms.isEmpty();
     }
 
@@ -186,12 +189,15 @@ public final class RatPoly {
      * @return true if and only if this has some coefficient = "NaN"
      */
     public boolean isNaN() {
+        checkRep();
         //{inv: no term from index 0 to i-1 is a NaN}
         for(int i =0; i < this.terms.size();i++) {
             if(terms.get(i).isNaN()){
+                checkRep();
                 return true;
             }
         }
+        checkRep();
         return false;
     }
 
@@ -293,9 +299,12 @@ public final class RatPoly {
      * @return a RatPoly equal to "0 - this"; if this.isNaN(), returns some r such that r.isNaN()
      */
     public RatPoly negate() {
+        checkRep();
         List<RatTerm> negated = new ArrayList<>(this.terms);
         scaleCoeff(negated, new RatNum(-1));
-        return new RatPoly(negated);
+        RatPoly result = new RatPoly(negated);
+        checkRep();
+        return result;
     }
 
     /**
@@ -307,13 +316,17 @@ public final class RatPoly {
      * @spec.requires p != null
      */
     public RatPoly add(RatPoly p) {
+        checkRep();
         List<RatTerm>added = new ArrayList<>(this.terms);
         // {let rt be the ith term in p.terms. inv: p.terms.get(0 through i-1) have been inserted in the added list
         // in sorted order with like terms merged}
         for(RatTerm rt : p.terms) {
             sortedInsert(added,rt);
         }
-        return new RatPoly(added);
+        RatPoly result = new RatPoly(added);
+        checkRep();
+        return result;
+
     }
 
     /**
@@ -325,7 +338,10 @@ public final class RatPoly {
      * @spec.requires p != null
      */
     public RatPoly sub(RatPoly p) {
-        return this.add(p.negate());
+        checkRep();
+        RatPoly result =  this.add(p.negate());
+        checkRep();
+        return result;
     }
 
     /**
@@ -337,6 +353,7 @@ public final class RatPoly {
      * @spec.requires p != null
      */
     public RatPoly mul(RatPoly p) {
+        checkRep();
         RatPoly result = RatPoly.ZERO;
          //  {inv1 result = (p_0 * this.terms) + (p_1 * this.terms) ...(p_i-1 * this.terms) where p_i is the ith term in p}
         for(RatTerm p_i: p.terms){
@@ -348,6 +365,7 @@ public final class RatPoly {
             }
            result = result.add(polyToAdd);
         }
+        checkRep();
         return result;
     }
 
@@ -385,11 +403,13 @@ public final class RatPoly {
      * @spec.requires p != null
      */
     public RatPoly div(RatPoly p) {
+        checkRep();
         RatPoly d = p; // d is the divsor
         RatPoly rem = new RatPoly(this.terms); // the remaining terms
         RatPoly q = RatPoly.ZERO; // the quotient
         RatTerm dHighestDegreeTerm = d.getTerm(d.degree());
         if(d.isZero() || d.isNaN() || this.isNaN()){
+            checkRep();
             return RatPoly.NaN;
         }
         //{inv: this = d * q  + rem}
@@ -400,6 +420,7 @@ public final class RatPoly {
             RatPoly toSubtract = multiplier.mul(d);
             rem = rem.sub(toSubtract);
         }
+        checkRep();
         return q;
     }
 
@@ -412,8 +433,10 @@ public final class RatPoly {
      * <p>The derivative of a polynomial is the sum of the derivative of each term.
      */
     public RatPoly differentiate() {
+        checkRep();
         List<RatTerm>differentiated = new ArrayList<>();
         if(this.isNaN()){
+            checkRep();
             return RatPoly.NaN;
         }
         // {let rt be the ith term in terms. inv: p.terms.get(0 through i-1) have been differentiated and
@@ -421,6 +444,7 @@ public final class RatPoly {
         for(RatTerm rt : this.terms) {
             sortedInsert(differentiated,rt.differentiate());
         }
+        checkRep();
         return new RatPoly(differentiated);
     }
 
@@ -436,6 +460,7 @@ public final class RatPoly {
      * @spec.requires integrationConstant != null
      */
     public RatPoly antiDifferentiate(RatNum integrationConstant) {
+        checkRep();
         List<RatTerm>antiDifferentiated = new ArrayList<>();
         // {let rt be the ith term in terms. inv: terms.get(0 through i-1) have been antidiferrentiated and
         // inserted in the antidiferrentiated list in sorted order with like terms merged}
@@ -443,6 +468,7 @@ public final class RatPoly {
             sortedInsert(antiDifferentiated,rt.antiDifferentiate());
         }
         sortedInsert(antiDifferentiated,new RatTerm(integrationConstant,0));
+        checkRep();
         return new RatPoly(antiDifferentiated);
     }
 
@@ -460,8 +486,11 @@ public final class RatPoly {
      * Double.NaN, return Double.NaN.
      */
     public double integrate(double lowerBound, double upperBound) {
-        return this.antiDifferentiate(new RatNum(0)).eval(upperBound) -
+        checkRep();
+        double result = this.antiDifferentiate(new RatNum(0)).eval(upperBound) -
                 this.antiDifferentiate(new RatNum(0)).eval(lowerBound);
+        checkRep();
+        return result;
     }
 
     /**
@@ -472,11 +501,13 @@ public final class RatPoly {
      * is 5, and "x^2-x" evaluated at 3 is 6. If (this.isNaN() == true), return Double.NaN.
      */
     public double eval(double d) {
+        checkRep();
         double result = 0.0;
         // { let rt be the ith term in terms. inv: terms.get(0 through i-1) have been evaluated at d and added to result}
         for(RatTerm rt : this.terms) {
             result += rt.eval(d);
         }
+        checkRep();
        return result;
     }
 

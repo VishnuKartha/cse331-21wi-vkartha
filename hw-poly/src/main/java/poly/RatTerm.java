@@ -126,7 +126,6 @@ public final class RatTerm {
      * is 12. if (this.isNaN() == true), return Double.NaN
      */
     public double eval(double d) {
-        // Hint: You may find java.lang.Math's pow() method useful.
         return this.coeff.doubleValue() * Math.pow(d,this.expt);
     }
 
@@ -153,7 +152,7 @@ public final class RatTerm {
             throw new IllegalArgumentException();
         } else {
             return new RatTerm(this.coeff.add(arg.getCoeff()), Math.max(this.expt,arg.getExpt())); // RatNum add takes care of the NaN
-                                                                                                   // math.max takes care of adding 0 exponent terms
+                                                                                                   // Math.max takes care of adding 0 exponent terms
         }
     }
 

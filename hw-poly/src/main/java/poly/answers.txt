@@ -113,11 +113,18 @@
    Advantages:none
    Disadvantages: slower to execute
 
+   Method: public int hashCode()
+   Changes:
+      a) you have to reduce the fraction before creating a hash code to
+        make sure equal fractions result in the same hashcode.
+      Advantages:none
+      Disadvantages: More complicated logic.
+
 2. Alternate add, sub, mul, div.
     These above changes would fail to meet the specifications because
     the spec of RatNum declared it to be immutable. Which means that
-    the fields numer and denom would not change throghout a
-    RatNum's object's existstance(after being constructed).Thus,
+    the fields numer and denom would not change throughout a
+    RatNum's object's existence(after being constructed).Thus,
     by adding those two lines, we would be breaking the contract
     of the spec by mutating RatNum's field.
 
@@ -129,7 +136,7 @@
     only by numer and denom. However, as numer and denom are immutable,
     once they are created in the constructor, it cannot be changed,
     and thus, if the checkRep() in the constructor passes, then the
-    representation invariant cannot be broken throughout the existance
+    representation invariant cannot be broken throughout the existence
     of that RatNum.
 
 
@@ -144,7 +151,7 @@
         only by expt and coeff. However, as expt and coeff are immutable,
         once they are created in the constructor, it cannot be changed,
         and thus, if the checkRep() in the constructor passes, then the
-        representation invariant cannot be broken throughout the existance
+        representation invariant cannot be broken throughout the existence
         of that RatTerm.
 
 
@@ -157,7 +164,7 @@
       faster to execute, less lines of code
    Disadvantages:
       none
-   Method: public ratTerm add(RatTerm arg){
+   Method: public RatTerm add(RatTerm arg){
    Changes:
    a) the add method must now explicitly check to see if either this or arg is zero as if only one of them is zero, then
       the method should return a new RatTerm with same coefficients and exponents as the nonzero RatTerm
@@ -166,13 +173,14 @@
    Disadvantages:
         slower to execute. More lines of code and more logic needed.
 
-   Method: public String toString()
+  Method: public String toString()
    Changes:
    a) There has to be an additional if statement for zero RatTerms. As in that case the toString should return "0"/
    Advantages:
         None
    Disadvantages:
         slower and more complicated logic.
+
 
    Method: public boolean equals(Object obj)
    Changes:
@@ -183,7 +191,7 @@
    Disadvantages:
         more complicated logic.
 
-   Method: private  void checkRep()
+   Method: private void checkRep()
    Changes:
    a) delete the second assert statement which requires the exponent to be zero if coeff is zero
    Advantages:
@@ -191,12 +199,12 @@
    Disadvantages:
         none
 
-   Method: public String toString()
+   Method: public int hashCode()
    Changes:
-   a) has to first change the numerators and denominators of
-      RatNum to its reduced form
-   Advantages:none
-   Disadvantages: slower to execute
+    a) you have to  have an additional explicit check to make sure that zero terms always reduce to the same
+    hashcode.
+    Advantages:none
+    Disadvantages: More complicated logic.
 
 3. Alternate Rep Invariant
 
@@ -207,13 +215,6 @@
         none
    Disadvantages:
        Slower, more complicated logic
-   Method: public String toString()
-   Changes:
-   a) There has to be an additional if statement for zero RatTerms. As in that case the toString should return "0"/
-   Advantages:
-        None
-   Disadvantages:
-        slower and more complicated logic.
    Method: private void checkRep()
    Changes:
    a) add an additional assert statement which fails if the coefficient  is a NAN and the exponent is not 0
@@ -221,6 +222,23 @@
         none
    Disadvantages:
         slower to execute, more lines of code
+
+   Method: public int hashCode()
+      Changes:
+      a) you do not need an additional check  if the term is NaN.
+      Advantages:
+           More simple code
+      Disadvantages:
+            none
+
+
+   Method:  public boolean equals(Object obj)
+         Changes:
+         a) you do not need an additional check  if the term is NaN.
+         Advantages:
+              More simple code
+         Disadvantages:
+              none
 
 4. Preferred Invariants
     I  do not prefer the additional RatTerm invariant coeff.isNaN() ⇒ expt = 0 because it added
@@ -234,21 +252,18 @@
 ###########################################################################
 
 1. Calls to checkRep in RatPoly
-    In RatPoly, I only call checkRep  at the end of
-        constructors because the representation invariant is affected
-        only by terms. However, as terms is  immutable,
-        once they it is created in the constructor, it cannot be changed.
-        Thus, if the checkRep() in the constructor passes, then the
-        representation invariant cannot be broken throughout the existence
-        of that RatTerm.
+    In RatPoly, I  call checkRep  at the end of constructors as well as the beginning and end
+    of every other public method. This is because the representation invariant depends on
+    terms, however as terms is a list, it is mutable. Thus, we have to constantly check to make sure
+    that the representation invariant is never broken.
 
 
 2. Alternate Representation
 
     Some advantages of the alternative representation are that you will be able to easily multiply the polynomial by
-    a scalar by multiplying each term in the coefflist by the scalar. You would also be able to easily
-    increment the degree of the polynomial's terms by only operating on the exptlist. This representation however has
-    several disadvantages. The representation would not be able to use any of the methods and work we did in the RatTerm
+    a scalar by multiplying each term in the coefflist by the scalar and increment the degree of the polynomial's terms by only operating on the exptlist. This representation however has
+    several disadvantages. In other words, you do not have to always access both values(coefficients and exponents)
+     at the same time.The representation would not be able to use any of the methods and work we did in the RatTerm
     class and thus, we would have to reimplement operations between terms. The representation would also not be
     as modularized and use as clean of an object oriented structure. This would make it more difficult to isolate
     classes during tests and make changes to the class in the future. I think the representation of keeping a list

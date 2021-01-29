@@ -55,7 +55,10 @@ public final class RatPolyStack implements Iterable<RatPoly> {
      * @return the size of this sequence
      */
     public int size() {
-        return this.polys.size();
+        checkRep();
+        int result =  this.polys.size();
+        checkRep();
+        return result;
     }
 
     /**
@@ -67,7 +70,9 @@ public final class RatPolyStack implements Iterable<RatPoly> {
      * @spec.effects this_post = [p]:this
      */
     public void push(RatPoly p) {
+        checkRep();
         this.polys.push(p);
+        checkRep();
     }
 
     /**
@@ -79,7 +84,10 @@ public final class RatPolyStack implements Iterable<RatPoly> {
      * @spec.effects If this = [p]:S then this_post = S
      */
     public RatPoly pop() {
-        return this.polys.pop();
+        checkRep();
+        RatPoly result =  this.polys.pop();
+        checkRep();
+        return result;
     }
 
     /**
@@ -90,9 +98,11 @@ public final class RatPolyStack implements Iterable<RatPoly> {
      * @spec.effects If this = [p]:S then this_post = [p, p]:S
      */
     public void dup() {
+        checkRep();
         RatPoly top = this.polys.pop();
         this.push(top);
         this.push(top);
+        checkRep();
     }
 
     /**
@@ -103,10 +113,12 @@ public final class RatPolyStack implements Iterable<RatPoly> {
      * @spec.effects If this = [p1, p2]:S then this_post = [p2, p1]:S
      */
     public void swap() {
+        checkRep();
         RatPoly term1 = this.polys.pop();
         RatPoly term2 = this.polys.pop();
         this.push(term1);
         this.push(term2);
+        checkRep();
     }
 
     /**
@@ -116,7 +128,9 @@ public final class RatPolyStack implements Iterable<RatPoly> {
      * @spec.effects this_post = []
      */
     public void clear() {
-       this.polys.clear();
+        checkRep();
+        this.polys.clear();
+        checkRep();
     }
 
     /**
@@ -127,7 +141,10 @@ public final class RatPolyStack implements Iterable<RatPoly> {
      * @spec.requires {@code index >= 0 && index < this.size()}
      */
     public RatPoly getNthFromTop(int index) {
-       return this.polys.get(this.polys.size() - 1 - index);
+        checkRep();
+        RatPoly result =  this.polys.get(this.polys.size() - 1 - index);
+        checkRep();
+        return result;
     }
 
     /**
@@ -138,9 +155,11 @@ public final class RatPolyStack implements Iterable<RatPoly> {
      * @spec.effects If this = [p1, p2]:S then this_post = [p3]:S where p3 = p1 + p2
      */
     public void add() {
+        checkRep();
         RatPoly term1 = this.polys.pop();
         RatPoly term2 = this.polys.pop();
         this.polys.push(term2.add(term1));
+        checkRep();
     }
 
     /**
@@ -152,9 +171,11 @@ public final class RatPolyStack implements Iterable<RatPoly> {
      * @spec.effects If this = [p1, p2]:S then this_post = [p3]:S where p3 = p2 - p1
      */
     public void sub() {
+        checkRep();
         RatPoly term1 = this.polys.pop();
         RatPoly term2 = this.polys.pop();
         this.polys.push(term2.sub(term1));
+        checkRep();
     }
 
     /**
@@ -165,9 +186,11 @@ public final class RatPolyStack implements Iterable<RatPoly> {
      * @spec.effects If this = [p1, p2]:S then this_post = [p3]:S where p3 = p1 * p2
      */
     public void mul() {
+        checkRep();
         RatPoly term1 = this.polys.pop();
         RatPoly term2 = this.polys.pop();
         this.polys.push(term2.mul(term1));
+        checkRep();
     }
 
     /**
@@ -179,10 +202,11 @@ public final class RatPolyStack implements Iterable<RatPoly> {
      * @spec.effects If this = [p1, p2]:S then this_post = [p3]:S where p3 = p2 / p1
      */
     public void div() {
-        // TODO: Fill in this method, then remove the RuntimeException
+        checkRep();
         RatPoly term1 = this.polys.pop();
         RatPoly term2 = this.polys.pop();
         this.polys.push(term2.div(term1));
+        checkRep();
     }
 
     /**
@@ -194,7 +218,9 @@ public final class RatPolyStack implements Iterable<RatPoly> {
      * @spec.effects If this = [p1]:S then this_post = [p2]:S where p2 = derivative of p1
      */
     public void differentiate() {
+        checkRep();
         this.polys.push(this.polys.pop().differentiate());
+        checkRep();
     }
 
     /**
@@ -207,7 +233,9 @@ public final class RatPolyStack implements Iterable<RatPoly> {
      * with integration constant 0
      */
     public void integrate() {
+        checkRep();
         this.polys.push(this.polys.pop().antiDifferentiate(RatNum.ZERO));
+        checkRep();
     }
 
     /**
