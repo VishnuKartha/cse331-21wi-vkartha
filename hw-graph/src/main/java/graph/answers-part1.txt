@@ -8,10 +8,15 @@
     ### IntQueue1
 
     Abstraction Function:
+    The element at front of the queue ==  entries.get(0)
+    the second element of the queue == entries.get(1)
+    ...
+    the last element of the queue == entries.get(entries.size()-1)
 
 
 
     Representation Invariant:
+    entries never contains a null value.
 
 
 
@@ -19,15 +24,27 @@
     ### IntQueue2
 
     Abstraction Function:
+     The element at front of the queue ==  entries[front]
+     the second element of the queue ==   entries[front + 1 % entries.length]
+     ...
+     the last element of the queue == entries[front + size -1 % entries.length]
 
 
 
     Representation Invariant:
+     0 <= front < entries.length
+     0 <= size <= entries.length
+     (entries never contains a null value) it actually can
 
 
 
 
 2. Group the snapshots of IntQueue2's internal state into groups that have the same abstract state.
+    // <=> means is equivalent to
+    a <=> d <=> g
+    c <=> f
+    b <=> h
+    e is not equivalent to any other group
 
 
 
@@ -36,26 +53,34 @@
 could possibly expose the representation, given the information available. Explain any assumptions you made.
 
     a. `public int solveEquations(int x, int y, int z)`
-
+        This method could not possibly expose the representation as it is not dealing with any mutable
+        objects.(Assuming that no other fields in the class are being mutated)
 
 
     b. `public String[] decode(boolean slowly)`
-
+        This method could possibly expose the representation if the String[] which is checked in the representation
+        invariant as arrays are mutable.
 
 
     c. `private Date myBirthday()`
-
-
+        This method could possibly expose the representation if the Date which is returned is
+        mutable,is checked in the representation invariant, and is returned to the client in the public method
+        where the private method is called of the class.
 
     d. `public String toString()`
-
+        This method could not possibly expose the representation as it is not dealing with any mutable
+        objects.
 
 
     e. `public Iterator<Integer> elements()`
-
+        This method could possibly expose the representation if the Iterator<Integer> which is returned is
+        mutable and it is checked in the representation invariant of the class.
 
 
     f. `public Deck(List<Card> cards)`
+        This method could possibly expose the representation if the Deck which is returned is
+        mutable and it is checked int  the representation invariant of the class.
+        (Assuming that no other fields in the class are being mutated)
 
 
 
