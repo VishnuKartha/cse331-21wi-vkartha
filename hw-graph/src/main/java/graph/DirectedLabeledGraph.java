@@ -16,13 +16,14 @@ import java.util.Set;
  *      Thus, the directed labeled graph can be notated as
  *      {(n_a, {e(n_a,n_i,l_1),e(n_a,n_j,l_2),...}),(n_b, {e(n_b,n_i,l_3),e(n_b,n_j,l_4),...}),...}
  *
- *   @spec.specfield elements: Set(Node,Set(Edge))   // The set of pairs where each pair consists of
+ *     @spec.specfield elements: Set(Node,Set(Edge))   // The set of pairs where each pair consists of
  *                                                      a node and the set of all outgoing edges from that node.
  *
- *  Abstract Invariant:
- *  All nodes in the graph are unique(there are no two nodes in the graph which both contain the same data)
- *  All edges in the graph are unique(there are no two edges in the graph which contain the same start node,
- *  the same end node, and the same label).
+ *  <p> Abstract Invariant:
+ *  <ul>
+ *      <li>All nodes in the graph are unique(there are no two nodes in the graph which both contain the same data</li>
+ *      <li> All edges in the graph are unique(there are no two edges in the graph which contain the same start node,the same end node, and the same label).</li>
+ * </ul>
  */
 public class DirectedLabeledGraph {
 
@@ -35,8 +36,7 @@ public class DirectedLabeledGraph {
     }
 
     /**
-     * @spec.requires n != null, n is a unique node
-     *                  (there are no nodes in elements which are equivalent to n)
+     * @spec.requires n != null, n is a unique node different from all the other nodes in the DLG.
      * @spec.modifies this.elements
      * @spec.effects adds a node to this DLG
      */
@@ -45,8 +45,7 @@ public class DirectedLabeledGraph {
     }
 
     /**
-     * @spec.requires e != null, is a unique node
-     *                  (there are no edges in the graph which are equivalent to e)
+     * @spec.requires e != null, is e a unique edge different from all the other edges in the DLG.
      * @spec.modifies this.elements
      * @spec.effects adds this edge to set of outgoing edges in elements corresponding to the
      *               a appropriate node.
@@ -59,7 +58,7 @@ public class DirectedLabeledGraph {
      * @return the set of all of the nodes in this DLG.
      */
     public Set<Node> getAllNodes(){
-        throw new RuntimeException("getChildren not yet implemented");
+        throw new RuntimeException("getAllNodes() not yet implemented");
     }
 
     /**
@@ -100,9 +99,12 @@ public class DirectedLabeledGraph {
      to an end node. Edges are immutable and labeled by a String.
 
      Specification fields:
-     *  @spec.specfield label : String // the label of the edge
-     *  @spec.specfield start : Node // the node from which the edge starts
-     *  @spec.specfield end : Node // the node from which the edge ends.
+     *  <ul>
+     *      <li>@spec.specfield label : String // the label of the edge</li>
+     *      <li>@spec.specfield start : Node // the node from which the edge starts</li>
+     *      <li>@spec.specfield end : Node // the node from which the edge ends.</li>
+     * </ul>
+     *
      */
     public  class Edge {
         /**
