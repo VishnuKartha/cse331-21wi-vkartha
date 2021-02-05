@@ -11,9 +11,10 @@
 
 package graph.scriptTestRunner;
 
-import graph.DirectedLabeledGraph;
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * This class implements a testing driver which reads test scripts
@@ -76,7 +77,8 @@ public class GraphTestDriver {
     /**
      * String -> Graph: maps the names of graphs to the actual graph
      **/
-    private final Map<String, DirectedLabeledGraph> graphs = new HashMap<>();
+    // TODO for the student: Uncomment and parameterize the next line correctly:
+    //private final Map<String, _______> graphs = new HashMap<String, ________>();
     private final PrintWriter output;
     private final BufferedReader input;
 
@@ -101,7 +103,7 @@ public class GraphTestDriver {
         String inputLine;
         while ((inputLine = input.readLine()) != null) {
             if ((inputLine.trim().length() == 0) ||
-                (inputLine.charAt(0) == '#')) {
+                    (inputLine.charAt(0) == '#')) {
                 // echo blank and comment lines
                 output.println(inputLine);
             } else {
@@ -160,9 +162,9 @@ public class GraphTestDriver {
 
     private void createGraph(String graphName) {
         // TODO Insert your code here.
-        DirectedLabeledGraph dlg = new DirectedLabeledGraph();
-        graphs.put(graphName, dlg);
-        output.println("created graph " + graphName);
+
+        // graphs.put(graphName, ___);
+        // output.println(...);
     }
 
     private void addNode(List<String> arguments) {
@@ -179,11 +181,8 @@ public class GraphTestDriver {
     private void addNode(String graphName, String nodeName) {
         // TODO Insert your code here.
 
-        DirectedLabeledGraph dlg = graphs.get(graphName);
-        DirectedLabeledGraph.Node n = new DirectedLabeledGraph.Node(nodeName);
-        dlg.addNode(n);
-        output.println("added node " + nodeName);
-
+        // ___ = graphs.get(graphName);
+        // output.println(...);
     }
 
     private void addEdge(List<String> arguments) {
@@ -203,13 +202,8 @@ public class GraphTestDriver {
                          String edgeLabel) {
         // TODO Insert your code here.
 
-        DirectedLabeledGraph dlg  = graphs.get(graphName);
-        DirectedLabeledGraph.Node parent = new DirectedLabeledGraph.Node(parentName);
-        DirectedLabeledGraph.Node child = new DirectedLabeledGraph.Node(childName);
-        DirectedLabeledGraph.Edge e = new DirectedLabeledGraph.Edge(edgeLabel,parent,child);
-        dlg.addEdge(e);
-        output.println("added node " + e.getLabel() + " from " + e.getParent() + " to " + e.getChild()
-                        + " in " + graphName);
+        // ___ = graphs.get(graphName);
+        // output.println(...);
     }
 
     private void listNodes(List<String> arguments) {
@@ -224,11 +218,8 @@ public class GraphTestDriver {
     private void listNodes(String graphName) {
         // TODO Insert your code here.
 
-        DirectedLabeledGraph dlg  = graphs.get(graphName);
-        output.println(graphName + " contains:");
-        for(DirectedLabeledGraph.Node n :dlg.getAllNodes()) {
-            output.println(" " + n.getData());
-        }
+        // ___ = graphs.get(graphName);
+        // output.println(...);
     }
 
     private void listChildren(List<String> arguments) {
@@ -243,12 +234,9 @@ public class GraphTestDriver {
 
     private void listChildren(String graphName, String parentName) {
         // TODO Insert your code here.
-        DirectedLabeledGraph dlg  = graphs.get(graphName);
-        DirectedLabeledGraph.Node parent = new DirectedLabeledGraph.Node(parentName);
-        output.println("the children of " + parent.getData() + " in " + graphName +  " are:");
-        for(DirectedLabeledGraph.Edge edge : dlg.getOutgoingEdges(parent)) {
-            output.println(" " + edge.getChild().getData() + "(" + edge.getLabel() + ")");
-        }
+
+        // ___ = graphs.get(graphName);
+        // output.println(...);
     }
 
     /**
