@@ -1,0 +1,21 @@
+# testing to make sure that the children are listed in alphabetical order and if
+# there are two edges for the same child in listChildren they should be ordered alphabetically
+# by edge.
+
+# Create a Graph
+created graph graph1
+
+# Add a pair of nodes
+added node n1 to graph1
+added node n2 to graph1
+added node n3 to graph1
+added node n4 to graph1
+
+# Adds 4 edges
+added edge e3 from n1 to n3 in graph1
+added edge e4 from n1 to n4 in graph1
+added edge e2 from n1 to n2 in graph1
+added edge e1 from n1 to n2 in graph1
+
+#Lists the children
+the children of n1 in graph1 are: n2(e1) n2(e2) n3(e3) n4(e4)

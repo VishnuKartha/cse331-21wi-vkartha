@@ -1,0 +1,12 @@
+# Creates a single graph and adds two nodes to it and lists it.
+
+# Create a graph
+created graph graph1
+
+# Add a pair of nodes
+added node n1 to graph1
+added node n2 to graph1
+
+
+# Lists the nodes
+graph1 contains: n1 n2

@@ -1,0 +1,19 @@
+# listing the children of two different graphs
+
+# Create a Graph
+created graph graph1
+created graph graph2
+
+# Add a pair of nodes
+added node A to graph1
+added node B to graph1
+added node C to graph2
+added node D to graph2
+
+# Adds 2 edges
+added edge e1 from A to B in graph1
+added edge e2 from C to D in graph2
+
+# list the children of both graphs
+the children of A in graph1 are: B(e1)
+the children of B in graph2 are: D(e2)

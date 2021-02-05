@@ -1,0 +1,14 @@
+# Creates 3 graphs and adds 1 node to graph1 2 nodes to graph2 and 3 nodes to graph 3
+
+# Create Graphs
+created graph graph1
+created graph graph2
+created graph graph3
+
+# Add Nodes to the graphs
+added node A to graph1
+added node B to graph2
+added node C to graph2
+added node D to graph3
+added node E to graph3
+added node F to graph3

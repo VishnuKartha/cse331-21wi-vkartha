@@ -1,0 +1,21 @@
+# testing to make sure that the children are listed in alphabetical order and if
+# there are two edges for the same child in listChildren they should be ordered alphabetically
+# by edge.
+
+# Create a Graph
+CreateGraph graph1
+
+# Add a pair of nodes
+AddNode graph1 n1
+AddNode graph1 n2
+AddNode graph1 n3
+AddNode graph1 n4
+
+# Adds 4 edges
+AddEdge graph1 n1 n3 e3
+AddEdge graph1 n1 n4 e4
+AddEdge graph1 n1 n2 e2
+AddEdge graph1 n1 n2 e1
+
+#Lists the children
+ListChildren graph1 n1

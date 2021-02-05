@@ -1,0 +1,7 @@
+# Creates a single graph with no nodes lists the nodes.
+
+# Create a graph
+created graph graph1
+
+# Lists the nodes
+graph1 contains:

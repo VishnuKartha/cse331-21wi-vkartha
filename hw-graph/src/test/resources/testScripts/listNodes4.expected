@@ -1,0 +1,19 @@
+# adds nodes to multiple graphs and prints them out and tests alphabetical ordering
+
+# Create Graphs
+created graph graph1
+created graph graph2
+created graph graph3
+
+# Add Nodes to the graphs
+added node A to graph1
+added node C to graph2
+added node B to graph2
+added node E to graph3
+added node D to graph3
+added node F to graph3
+
+# lists the nodes in the graph
+graph1 contains: A
+graph2 contains: B C
+graph3 contains: D E F

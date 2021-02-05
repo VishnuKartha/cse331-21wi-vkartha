@@ -1,0 +1,7 @@
+# Creates a single graph and adds one node to it
+
+# Create a graph
+created graph graph1
+
+# Add a Node
+added node n1 to graph1

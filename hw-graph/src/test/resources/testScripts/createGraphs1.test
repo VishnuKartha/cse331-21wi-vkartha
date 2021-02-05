@@ -1,0 +1,4 @@
+# Tests if the program allows you to make a single Empty Graph.
+
+# Create a Graph
+CreateGraph graph1

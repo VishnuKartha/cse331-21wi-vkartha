@@ -44,6 +44,7 @@ public class DirectedLabeledGraph {
         throw new RuntimeException("addNode not yet implemented");
     }
 
+
     /**
      * @spec.requires e != null, is e a unique edge different from all the other edges in the DLG.
      * @spec.modifies this.elements
@@ -54,6 +55,7 @@ public class DirectedLabeledGraph {
         throw new RuntimeException("addEdge not yet implemented");
     }
 
+
     /**
      * @return the set of all of the nodes in this DLG.
      */
@@ -63,10 +65,17 @@ public class DirectedLabeledGraph {
 
     /**
      * @spec.requires this.elements contains parentNode
-     * @return the set of all of the children of the given parentNode in this DLG.
+     * @return the set of all outgoing edges from the parentNode.
      */
-    public Set<Node> getChildren(Node parentNode){
+    public Set<Edge> getOutgoingEdges(Node parentNode){
         throw new RuntimeException("getChildren not yet implemented");
+    }
+    /**
+     * @return a String which represents this Graph
+     */
+    @Override
+    public String toString() {
+        throw new RuntimeException("toString() not yet implemented");
     }
 
     /**
@@ -76,7 +85,7 @@ public class DirectedLabeledGraph {
      Specification fields:
      *  @spec.specfield data: String // the data contained in the node
      */
-    public class Node {
+    public static class Node {
         /**
          * @spec.effects creates a new Node with the given data
          * @spec.modifies this.data
@@ -92,6 +101,35 @@ public class DirectedLabeledGraph {
             throw new RuntimeException("getData() not yet implemented");
         }
 
+        /**
+         * @spec.effects  standard equality operation.
+         * @param obj the object to be compared for equality
+         * @return true iff 'obj' is an instance of an Node and 'this' and 'obj' represent the same
+         * Node.
+         */
+        @Override
+        public boolean equals(Object obj) {
+            throw new RuntimeException("equals() not yet implemented");
+
+        }
+
+        /**
+         * @spec.effects  hash code function.
+         * @return an int that all objects equal to this Node will also
+         */
+        @Override
+        public int hashCode() {
+                throw new RuntimeException("hasCode() not yet implemented");
+        }
+
+        /**
+         * @return a String which represents this Node
+         */
+        @Override
+        public String toString() {
+            throw new RuntimeException("toString() not yet implemented");
+        }
+
     }
 
     /**
@@ -101,17 +139,17 @@ public class DirectedLabeledGraph {
      Specification fields:
      *  <ul>
      *      <li>@spec.specfield label : String // the label of the edge</li>
-     *      <li>@spec.specfield start : Node // the node from which the edge starts</li>
-     *      <li>@spec.specfield end : Node // the node from which the edge ends.</li>
+     *      <li>@spec.specfield parent : Node // the node from which the edge starts</li>
+     *      <li>@spec.specfield child : Node // the node from which the edge ends.</li>
      * </ul>
      *
      */
-    public  class Edge {
+    public  static class Edge {
         /**
-         * @spec.effects creates a new Edge with the given label,start node, and end node.
+         * @spec.effects creates a new Edge with the given label, parent node, and child node.
          * @spec.modifies this.data,this.start,this.end
          */
-        public Edge (String label,Node start, Node end) {
+        public Edge (String label,Node parent, Node child) {
             throw new RuntimeException("Edge Constructor not yet implemented");
         }
 
@@ -123,18 +161,47 @@ public class DirectedLabeledGraph {
         }
 
         /**
-         * @return returns the start node of this edge.
+         * @return returns the parent node of this edge.
          */
-        public Node getStart() {
-            throw new RuntimeException("getLabel() not yet implemented");
+        public Node getParent() {
+            throw new RuntimeException("getParent() not yet implemented");
         }
 
         /**
-         * @return returns the end node of this edge.
+         * @return returns the child node of this edge.
          */
-        public Node getEnd() {
-            throw new RuntimeException("getLabel() not yet implemented");
+        public Node getChild() {
+            throw new RuntimeException("getChild() not yet implemented");
         }
+
+        /**
+         * @spec.effects standard equality operation.
+         * @param obj the object to be compared for equality
+         * @return true iff 'obj' is an instance of an Edge and 'this' and 'obj' represent the same
+         * Edge.
+         */
+        @Override
+        public boolean equals(Object obj) {
+            throw new RuntimeException("equals() not yet implemented");
+        }
+
+        /**
+         * @spec.effects  hashCode function.
+         * @return an int that all objects equal to this Edge will also
+         */
+        @Override
+        public int hashCode() {
+            throw new RuntimeException("hasCode() not yet implemented");
+        }
+
+        /**
+         * @return a String which represents this Edge
+         */
+         @Override
+         public String toString() {
+             throw new RuntimeException("toString() not yet implemented");
+        }
+
 
     }
 }

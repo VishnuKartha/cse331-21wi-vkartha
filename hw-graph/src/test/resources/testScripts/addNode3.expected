@@ -1,0 +1,9 @@
+# Creates 2 graphs and adds a node to both of them
+
+# Create Graphs
+created graph graph1
+created graph graph2
+
+# Add a pair of nodes
+added node n1 to graph1
+added node n2 to graph2

@@ -1,0 +1,8 @@
+# Tests if the program allows you to make 5 empty Graphs.
+
+# Create Graphs
+created graph graph1
+created graph graph2
+created graph graph3
+created graph graph4
+created graph graph5

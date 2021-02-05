@@ -1,0 +1,16 @@
+# tests if the uniqueness of edges is too strong
+# Tests that you can add two edges with the same parent and child if they have different labels
+# Then tests that you can add two edges with the same label if it has a different parent or child.
+
+# Create a Graph
+CreateGraph graph1
+
+# Add a pair of nodes
+AddNode graph1 n1
+AddNode graph1 n2
+
+# Adds 4 edges
+AddEdge graph1 n1 n2 e1
+AddEdge graph1 n1 n2 e2
+AddEdge graph1 n2 n1 e2
+AddEdge graph1 n2 n1 e1
