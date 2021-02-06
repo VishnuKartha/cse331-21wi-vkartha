@@ -44,7 +44,6 @@ public class DirectedLabeledGraph {
         throw new RuntimeException("addNode not yet implemented");
     }
 
-
     /**
      * @spec.requires e != null, is e a unique edge different from all the other edges in the DLG.
      * @spec.modifies this.elements
@@ -54,7 +53,6 @@ public class DirectedLabeledGraph {
     public void addEdge(Edge e){
         throw new RuntimeException("addEdge not yet implemented");
     }
-
 
     /**
      * @return the set of all of the nodes in this DLG.
@@ -70,6 +68,7 @@ public class DirectedLabeledGraph {
     public Set<Edge> getOutgoingEdges(Node parentNode){
         throw new RuntimeException("getChildren not yet implemented");
     }
+
     /**
      * @return a String which represents this Graph
      */
@@ -144,7 +143,7 @@ public class DirectedLabeledGraph {
      * </ul>
      *
      */
-    public  static class Edge {
+    public static class Edge {
         /**
          * @spec.effects creates a new Edge with the given label, parent node, and child node.
          * @spec.modifies this.data,this.start,this.end

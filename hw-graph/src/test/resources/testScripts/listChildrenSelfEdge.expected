@@ -1,0 +1,13 @@
+# listing the children of the parent node in a graph where there is a self edge
+
+# Create a Graph
+created graph graph1
+
+# Add a nodes
+added node n1 to graph1
+
+# adds a self edge
+added edge e1 from n1 to n1 in graph1
+
+# List the children
+The children of n1 in graph1 are: n1(e1)

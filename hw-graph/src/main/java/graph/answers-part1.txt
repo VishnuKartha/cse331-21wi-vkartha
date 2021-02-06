@@ -16,7 +16,7 @@
 
 
     Representation Invariant:
-    entries never contains a null value.
+    entries never contains a null value and entries != null.
 
 
 
@@ -25,16 +25,16 @@
 
     Abstraction Function:
      The element at front of the queue ==  entries[front]
-     the second element of the queue ==   entries[front + 1 % entries.length]
+     the second element of the queue ==   entries[front + 1 % entries.size()]
      ...
-     the last element of the queue == entries[front + size -1 % entries.length]
+     the last element of the queue == entries[front + size -1 % entries.size()]
 
 
 
     Representation Invariant:
-     0 <= front < entries.length
-     0 <= size <= entries.length
-     (entries never contains a null value) it actually can
+     0 <= front < entries.size()
+     0 <= size <= entries.size()
+     entries != null
 
 
 
@@ -58,8 +58,8 @@ could possibly expose the representation, given the information available. Expla
 
 
     b. `public String[] decode(boolean slowly)`
-        This method could possibly expose the representation if the String[] which is checked in the representation
-        invariant as arrays are mutable.
+        This method could possibly expose the representation if the String[] which is returned is
+        checked in the representation invariant as arrays are mutable.
 
 
     c. `private Date myBirthday()`
@@ -69,19 +69,18 @@ could possibly expose the representation, given the information available. Expla
 
     d. `public String toString()`
         This method could not possibly expose the representation as it is not dealing with any mutable
-        objects.
+        objects.(Assuming that no other fields in the class are being mutated)
 
 
     e. `public Iterator<Integer> elements()`
         This method could possibly expose the representation if the Iterator<Integer> which is returned is
-        mutable and it is checked in the representation invariant of the class.
+        mutable and it is part of the representation invariant of the class.
 
 
     f. `public Deck(List<Card> cards)`
-        This method could possibly expose the representation if the Deck which is returned is
-        mutable and it is checked int  the representation invariant of the class.
-        (Assuming that no other fields in the class are being mutated)
-
+        This method could possibly expose the representation if the cards is assigned a field
+        to Deck in the constructor. As cards is a list,it is mutable by definition and thus,
+        if cards is part of the representation invariant, there could be exposure.
 
 
 
@@ -93,6 +92,44 @@ interface to a graph. If your design includes multiple classes or interfaces, ex
 included each one; if not, explain whether you considered additional classes and why you decided
 not to include them.
 
+The homework spec said that a graph should be able to represent nodes with string data and edges
+between nodes with a string label and thus I thought it was logical to have a public class for
+DirectedLabeledGraph,Edge, and Node.
+
+I made DirectedLabeledGraph a public class because a user should be able to add and manipulate a graph
+to fit his or her's needs(I also made this class mutable for this reason).
+I made Edge and Node public classes because a user may also want to access those elements outside of the graph
+(for instance they may want to get the list of outgoing edges from
+a certain node). However, in order to help protect the DirectedLabeledGraph class from representation exposure,
+I made sure to make the Edge and Node classes immutable.
+
+Now I will go through each individual class and talk about some of the thought behind the design of each class.
+
+The Node class is a simple immutable class which contains some string data as a field. I gave the Node class a
+getData() method to get the String data assigned to its data field. However, I did not add a method to set
+the data as then the Node class would become mutable.
+
+The Edge class is an immutable class which contains some string data, a parent Node, and a child Node. Similar
+to the node class, I added the field getters getData(), getParent(), and getChild(), but not the setters. I was
+considering adding a method to check if the parent and child of an edge are the same, however I thought that
+the operation was trivial using equals(), getParent(), and getChild().
+
+The Graph class is a mutable class which contains the field elements which is
+a set of pairs where each pair consists of a node and the set of all outgoing edges from that node. I did not
+include a field getter method for elements because then the user could manipulate elements
+which would result in representation exposure. I added an addNode and addEdge method which allows the user
+to manipulate the graph. I added a get getAllNodes method to return all nodes in the list
+(a user might want to see if the graph contains a specific node). I added a getOutgoingEdges method, that
+returns all outgoing edges from a given parent node in the graph (which is useful for a user to find connections
+between nodes).
+
+Another operation I thought of  when designing was a search for path
+operation to determine if there is a path of edges between two nodes however I did not implement this because
+the homework spec said not to worry about path finding and search algorithms.
+
+I also considered having an iterator which gets all edges of the graph, however I did not implement this
+as a user could get all edges from the graph by calling getAllNodes and getOutgoingEdges for all of the nodes.
+I could also easily add this in the future if needed.
 
 
 
@@ -101,6 +138,22 @@ not to include them.
 
 What was your testing strategy for this assignment? How do your script tests and JUnit tests
 differ from each other (if they do), and why?
+
+My overall strategy for testing was to test a variety of cases in all the methods which are in the API, which
+are important in the representation of the graph.(I did not test hashCode, toString, and equals because
+the test for those require knowledge of the implementation).
+I used script tests for any tests involving the DirectedLabeledGraph class as all of
+the methods in this class directly correspond to the methods used in the script test. And I used JUnit tests to test
+the constructors, and getters of my Edge and Node class as those were not tested by the script test.
+
+In my script tests, I first tested  simple examples
+(i.e., making an single graph,adding a single node, making an empty graph, making a single edge etc.). I then
+tested to make sure that that you could do calls to the functions multiple times. I finally
+began to test edge cases(such as lexicographical ordering, selfEdges, adding nodes and edges across several graphs).
+In my jUnit tests, I first did some preprocessing to build  arrays of objects
+and expected values. I then made a JUnit test method to make sure that the program works correctly
+when calling constructors. I also made a JUnit test method to test each method separately by comparing the
+values in the objects to the expected values.
 
 
 

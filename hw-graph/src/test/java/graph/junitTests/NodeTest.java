@@ -28,10 +28,7 @@ public class NodeTest {
     // First we test the  constructors of DLG Nodes in isolation
     // (Note, all of these objects were already constructed above as
     // fields of this class (NodeTest); thus, one could argue that
-    // this test case is redundant. We included this test case anyhow
-    // to give you an example of such a test case and because the
-    // implementation of this class could change eliminating the
-    // fields above.)
+    // this test case is redundant.
 
     ///////////////////////////////////////////////////////////////////////////////////////
     ////  Constructor

@@ -1,0 +1,10 @@
+# makes sure that you can added self edges(edges where the parent and the child are the same)
+
+# Create a Graph
+created graph graph1
+
+# Add a nodes
+added node n1 to graph1
+
+# adds a self edge
+added edge e1 from n1 to n1 in graph1
