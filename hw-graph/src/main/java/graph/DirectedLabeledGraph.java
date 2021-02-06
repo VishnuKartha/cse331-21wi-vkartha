@@ -45,7 +45,7 @@ public class DirectedLabeledGraph {
     }
 
     /**
-     * @spec.requires e != null, is e a unique edge different from all the other edges in the DLG.
+     * @spec.requires e != null, e is a unique edge different from all the other edges in the DLG.
      * @spec.modifies this.elements
      * @spec.effects adds this edge to set of outgoing edges in elements corresponding to the
      *               a appropriate node.
@@ -63,14 +63,14 @@ public class DirectedLabeledGraph {
 
     /**
      * @spec.requires this.elements contains parentNode
-     * @return the set of all outgoing edges from the parentNode.
+     * @return the set of all outgoing edges from the given parent node.
      */
     public Set<Edge> getOutgoingEdges(Node parentNode){
         throw new RuntimeException("getChildren not yet implemented");
     }
 
     /**
-     * @return a String which represents this Graph
+     * @return a String which represents this DLG
      */
     @Override
     public String toString() {
@@ -135,14 +135,15 @@ public class DirectedLabeledGraph {
      This class represents a labeled Edge of the DLG, from a start node
      to an end node. Edges are immutable and labeled by a String.
 
-     Specification fields:
-     *  <ul>
-     *      <li>@spec.specfield label : String // the label of the edge</li>
-     *      <li>@spec.specfield parent : Node // the node from which the edge starts</li>
-     *      <li>@spec.specfield child : Node // the node from which the edge ends.</li>
-     * </ul>
-     *
+     @spec.specfield label : String // the label of the edge
+     <br>
+     @spec.specfield parent : Node // the node from which the edge starts
+     <br>
+     @spec.specfield child : Node // the node from which the edge ends.
+     <br>
      */
+
+
     public static class Edge {
         /**
          * @spec.effects creates a new Edge with the given label, parent node, and child node.
