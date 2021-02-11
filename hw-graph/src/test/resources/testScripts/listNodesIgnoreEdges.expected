@@ -1,6 +1,6 @@
 # tests that adding edges does not affect the ListNodes method
 
-# Create a graph
+# Create a Graph
 created graph graph1
 
 # Add a pair of nodes

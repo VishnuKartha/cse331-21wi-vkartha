@@ -27,10 +27,11 @@ public class DirectedLabeledGraph {
 
     /**  maps each Node in this DLG to set of that Node's outgoing edges */
     private Map<Node, Set<Edge>> adjList;
-    private boolean useCheckRep = true;
+    private boolean useCheckRep = false;
 
 
     // Representation Invariant:
+    //  this is not null
     //  adjList is not null and
     //  for each edge in the adjList,
     //  the adjList contains that edge's parent and child
@@ -44,7 +45,7 @@ public class DirectedLabeledGraph {
      * @spec.effects creates a new empty DLG
      * @spec.modifies this.elements
      */
-    public void DirectedLabeledGraph(){
+    public DirectedLabeledGraph(){
         this.adjList = new HashMap<>();
         if(this.useCheckRep) {
             checkRep();
@@ -102,7 +103,7 @@ public class DirectedLabeledGraph {
         if(this.useCheckRep) {
             checkRep();
         }
-        Set<Node> allNodes = adjList.keySet();
+        Set<Node> allNodes = Collections.unmodifiableSet(adjList.keySet());
         if(this.useCheckRep) {
             checkRep();
         }
@@ -117,7 +118,7 @@ public class DirectedLabeledGraph {
         if(this.useCheckRep) {
             checkRep();
         }
-        Set<Edge> outgoingEdges = adjList.get(parentNode);
+        Set<Edge> outgoingEdges = Collections.unmodifiableSet(adjList.get(parentNode));
         if(this.useCheckRep) {
             checkRep();
         }
@@ -128,6 +129,7 @@ public class DirectedLabeledGraph {
      * Throws an exception if the representation invariant is violated.
      */
     private void checkRep() {
+        assert (this != null) : "this == null";
         assert (this.adjList != null) : "adjList == null";
         for(Node parent : this.adjList.keySet()){
             for(Edge e : adjList.get(parent)){

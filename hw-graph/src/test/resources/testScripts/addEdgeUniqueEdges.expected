@@ -2,14 +2,14 @@
 # Tests that you can add two edges with the same parent and child if they have different labels
 # Then tests that you can add two edges with the same label if it has a different parent or child.
 
-# Create a graph
+# Create a Graph
 created graph graph1
 
 # Add a pair of nodes
 added node n1 to graph1
 added node n2 to graph1
 
-# Add 4 edges
+# Adds 4 edges
 added edge e1 from n1 to n2 in graph1
 added edge e2 from n1 to n2 in graph1
 added edge e2 from n2 to n1 in graph1

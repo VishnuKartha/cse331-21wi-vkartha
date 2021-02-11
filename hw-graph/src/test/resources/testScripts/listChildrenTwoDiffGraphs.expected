@@ -16,4 +16,4 @@ added edge e2 from C to D in graph2
 
 # list the children of both graphs
 the children of A in graph1 are: B(e1)
-the children of B in graph2 are: D(e2)
+the children of C in graph2 are: D(e2)

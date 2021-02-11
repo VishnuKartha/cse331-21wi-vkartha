@@ -1,6 +1,6 @@
 # Creates a single graph with no nodes lists the nodes.
 
-# Create a graph
+# Create a Graph
 created graph graph1
 
 # Lists the nodes

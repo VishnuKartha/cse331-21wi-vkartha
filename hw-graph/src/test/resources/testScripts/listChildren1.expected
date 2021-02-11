@@ -1,7 +1,7 @@
 # Creates a single graph and adds 2 nodes(n1,n2) to it and an edge from n1 to n2.
-# Then lists the children of of n1 in graph1 and n2 in graph1
+# Then lists the children of of n1 in graph1 and n2 in graph1(no children for n2)
 
-# Create a graph
+# Create a Graph
 created graph graph1
 
 # Add a pair of nodes

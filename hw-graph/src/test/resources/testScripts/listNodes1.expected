@@ -1,9 +1,9 @@
 # Creates a single graph and adds one node to it and lists it.
 
-# Create a graph
+# Create a Graph
 created graph graph1
 
-# Add a Node
+# Add a node
 added node n1 to graph1
 
 # Lists the nodes

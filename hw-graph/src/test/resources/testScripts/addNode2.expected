@@ -1,8 +1,8 @@
-# Creates a single graph and adds two nodes to it
+# Creates a single graph and adds 2 nodes to it
 
-# Create a graph
+# Create a Graph
 created graph graph1
 
-# Add a pair of nodes
+# Add a pair of Nodes
 added node n1 to graph1
 added node n2 to graph1

@@ -1,6 +1,6 @@
-# Creates a single graph,adds 2 nodes to it, and adds an edge between the nodes
+# Creates a single graph and adds 2 nodes to it and an edge between the nodes
 
-# Create a graph
+# Create a Graph
 created graph graph1
 
 # Add a pair of nodes
