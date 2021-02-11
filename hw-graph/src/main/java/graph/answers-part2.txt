@@ -16,6 +16,20 @@ A few examples of possible Graph representations:
 representations listed above (for example, in terms of runtime complexity, space
 complexity, or ease of implementation).
 
+One advantage of option A is that it requires less space
+as it does not require storing nodes in the overall graph class.
+One disadvantage of option A is that it is listing all of the nodes in the graph is slow and
+complicated because we are not explicitly storing the nodes and thus, would have to iterate through the
+list of edges and find all of the unique nodes in the edges.
+
+One advantage of option B is that you can easily list all of the nodes in the graph as each node appears in
+the adjacency list. One disadvantage is that returning all the edges in the graph is more complicated and not
+as efficient as it requires iterating through the adjacency list and getting
+all of the outgoing edges of each node.
+
+One advantage of option C is that checking if there is an edge between two nodes is extremely fast O(1) because
+as the matrix holds that data. One disadvantage is that it requires an entry for every possible edge between
+nodes, which will take up more space.
 
 
 
@@ -23,6 +37,10 @@ complexity, or ease of implementation).
 chose it. If you chose to use a different representation than one of the three we described
 above, be sure to list its advantages and disadvantages, too.
 
+I chose to choose option B for my representation because it allows for fast and easy implementations of
+getting outgoing edges of a node in the graph and getting all of the nodes in the graph, which are
+two important methods required by the homework spec. I chose it over option C because it does not require
+as much space.
 
 
 
@@ -39,6 +57,8 @@ tests alone are sufficient.
 
 2. Did you make any changes to your specifications as you were implementing your Graph? (yes/no)
 If yes, describe your changes and why you made them.
+
+no
 
 
 

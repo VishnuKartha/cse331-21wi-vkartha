@@ -1,8 +1,6 @@
 package graph;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This class represents the concept of a mutable Directed Labeled Graph(DLG).
@@ -27,12 +25,30 @@ import java.util.Set;
  */
 public class DirectedLabeledGraph {
 
+    /**  maps each Node in this DLG to set of that Node's outgoing edges */
+    private Map<Node, Set<Edge>> adjList;
+    private boolean useCheckRep = true;
+
+
+    // Representation Invariant:
+    //  adjList is not null and
+    //  for each edge in the adjList,
+    //  the adjList contains that edge's parent and child
+    //  node mapped the corresponding outgoing edges of that node.
+
+    // Abstraction Function:
+    //  AF(r) = a Directed Labeled Graph g
+    //  such that g.elements = r.adjList
+
     /**
      * @spec.effects creates a new empty DLG
      * @spec.modifies this.elements
      */
     public void DirectedLabeledGraph(){
-        throw new RuntimeException("Graph Constructor not yet implemented");
+        this.adjList = new HashMap<>();
+        if(this.useCheckRep) {
+            checkRep();
+        }
     }
 
     /**
@@ -41,7 +57,15 @@ public class DirectedLabeledGraph {
      * @spec.effects adds a node to this DLG
      */
     public void addNode(Node n){
-        throw new RuntimeException("addNode not yet implemented");
+        if(this.useCheckRep) {
+            checkRep();
+        }
+        assert (!adjList.keySet().contains(n)) :
+                 n.toString() + " is not unique";
+        adjList.put(n, new HashSet<>());
+        if(this.useCheckRep) {
+            checkRep();
+        }
     }
 
     /**
@@ -51,14 +75,38 @@ public class DirectedLabeledGraph {
      *               a appropriate node.
      */
     public void addEdge(Edge e){
-        throw new RuntimeException("addEdge not yet implemented");
+        if(this.useCheckRep) {
+            checkRep();
+        }
+        // adds the parent node of the edge to the adjList if not there already
+        if(!adjList.keySet().contains(e.getParent())) {
+            addNode(e.getParent());
+        }
+
+        // adds the parent node of the edge to the adjList if not there already
+        if(!adjList.keySet().contains(e.getChild())){
+            addNode(e.getChild());
+        }
+        Set<Edge> edges = adjList.get(e.getParent());
+        edges.add(e);
+        adjList.put(e.getParent(), edges);
+        if(this.useCheckRep) {
+            checkRep();
+        }
     }
 
     /**
      * @return the set of all of the nodes in this DLG.
      */
     public Set<Node> getAllNodes(){
-        throw new RuntimeException("getAllNodes() not yet implemented");
+        if(this.useCheckRep) {
+            checkRep();
+        }
+        Set<Node> allNodes = adjList.keySet();
+        if(this.useCheckRep) {
+            checkRep();
+        }
+        return allNodes;
     }
 
     /**
@@ -66,15 +114,52 @@ public class DirectedLabeledGraph {
      * @return the set of all outgoing edges from the given parent node.
      */
     public Set<Edge> getOutgoingEdges(Node parentNode){
-        throw new RuntimeException("getChildren not yet implemented");
+        if(this.useCheckRep) {
+            checkRep();
+        }
+        Set<Edge> outgoingEdges = adjList.get(parentNode);
+        if(this.useCheckRep) {
+            checkRep();
+        }
+        return outgoingEdges;
     }
 
+    /**
+     * Throws an exception if the representation invariant is violated.
+     */
+    private void checkRep() {
+        assert (this.adjList != null) : "adjList == null";
+        for(Node parent : this.adjList.keySet()){
+            for(Edge e : adjList.get(parent)){
+                assert (adjList.keySet().contains(e.getParent())) :
+                        "adjList does not contain the parent node of " + e.toString();
+                assert (adjList.keySet().contains(e.getChild())) :
+                     "adjList does not contain the child node of " + e.toString();
+            }
+        }
+    }
     /**
      * @return a String which represents this DLG
      */
     @Override
     public String toString() {
-        throw new RuntimeException("toString() not yet implemented");
+        if(this.useCheckRep) {
+            checkRep();
+        }
+        String result = "";
+        for(Node n : adjList.keySet()){
+            result += "{";
+            result += n.toString();
+            result += ":";
+            for(Edge e : adjList.get(n)){
+                result += " " + e.toString() + ",";
+            }
+            result += "}";
+        }
+        if(this.useCheckRep) {
+            checkRep();
+        }
+        return result;
     }
 
     /**
@@ -85,19 +170,39 @@ public class DirectedLabeledGraph {
      *  @spec.specfield data: String // the data contained in the node
      */
     public static class Node {
+
+        /** the data which is held by this node */
+        private final String data;
+
+        // Representation Invariant:
+        //  data != null
+
+        // Abstraction Function:
+        //  AF(r) = a Node n
+        //  such that n.data equals r.data
+
+
         /**
          * @spec.effects creates a new Node with the given data
          * @spec.modifies this.data
          */
         public Node (String data) {
-            throw new RuntimeException("Node Constructor not yet implemented");
+            this.data = data;
+            checkRep();
         }
 
         /**
          * @return returns the data of this node.
          */
         public String getData() {
-            throw new RuntimeException("getData() not yet implemented");
+            return this.data;
+        }
+
+        /**
+         * Throws an exception if the representation invariant is violated.
+         */
+        private void checkRep() {
+            assert(this.data != null) : "the data of this node is null";
         }
 
         /**
@@ -108,8 +213,12 @@ public class DirectedLabeledGraph {
          */
         @Override
         public boolean equals(Object obj) {
-            throw new RuntimeException("equals() not yet implemented");
-
+            if(obj instanceof Node) {
+                Node n = (Node) obj;
+                return(this.data.equals(n.data));
+            } else {
+                return false;
+            }
         }
 
         /**
@@ -118,7 +227,7 @@ public class DirectedLabeledGraph {
          */
         @Override
         public int hashCode() {
-                throw new RuntimeException("hasCode() not yet implemented");
+                return this.data.hashCode();
         }
 
         /**
@@ -126,7 +235,7 @@ public class DirectedLabeledGraph {
          */
         @Override
         public String toString() {
-            throw new RuntimeException("toString() not yet implemented");
+            return "Node: " + this.getData();
         }
 
     }
@@ -145,33 +254,64 @@ public class DirectedLabeledGraph {
 
 
     public static class Edge {
+
+        // Representation Invariant:
+        //  label != null && parent != null && child != null
+
+        // Abstraction Function:
+        //  AF(r) = an Edge e
+        //  such that: e.label equals r.label and
+        //             e.parent equals r.parent and
+        //             e.child equals r.child
+
+        /** the label of this edge */
+        private final String label;
+
+        /** the parent node of this edge */
+        private final Node parent;
+
+        /** the child node of this edge */
+        private final Node child;
+
         /**
          * @spec.effects creates a new Edge with the given label, parent node, and child node.
          * @spec.modifies this.data,this.start,this.end
          */
         public Edge (String label,Node parent, Node child) {
-            throw new RuntimeException("Edge Constructor not yet implemented");
+            this.label = label;
+            this.parent = parent;
+            this.child = child;
+            checkRep();
         }
 
         /**
          * @return returns the label of this edge.
          */
         public String getLabel() {
-            throw new RuntimeException("getLabel() not yet implemented");
+            return this.label;
         }
 
         /**
          * @return returns the parent node of this edge.
          */
         public Node getParent() {
-            throw new RuntimeException("getParent() not yet implemented");
+            return this.parent;
         }
 
         /**
          * @return returns the child node of this edge.
          */
         public Node getChild() {
-            throw new RuntimeException("getChild() not yet implemented");
+            return this.child;
+        }
+
+        /**
+         * Throws an exception if the representation invariant is violated.
+         */
+        private void checkRep() {
+            assert(this.label != null) : "the label of this edge is null";
+            assert(this.parent != null) : "the parent of this edge is null";
+            assert(this.child != null) : "the child of this edge is null";
         }
 
         /**
@@ -182,7 +322,14 @@ public class DirectedLabeledGraph {
          */
         @Override
         public boolean equals(Object obj) {
-            throw new RuntimeException("equals() not yet implemented");
+            if(obj instanceof Edge) {
+                Edge n = (Edge) obj;
+                return(this.label.equals(n.label) &&
+                        this.parent.equals(n.parent) &&
+                        this.child.equals(n.child));
+            } else {
+                return false;
+            }
         }
 
         /**
@@ -191,7 +338,9 @@ public class DirectedLabeledGraph {
          */
         @Override
         public int hashCode() {
-            throw new RuntimeException("hasCode() not yet implemented");
+            return (this.label.hashCode() * 7) +
+                    (this.parent.hashCode() * 43) +
+                    (this.child.hashCode() * 43);
         }
 
         /**
@@ -199,9 +348,9 @@ public class DirectedLabeledGraph {
          */
          @Override
          public String toString() {
-             throw new RuntimeException("toString() not yet implemented");
-        }
-
+             return "Edge: " + this.getLabel() + " Parent Node:" + this.getParent().toString() +
+                     " Child Node:" + this.getChild().toString();
+         }
 
     }
 }
