@@ -29,7 +29,7 @@ all of the outgoing edges of each node.
 
 One advantage of option C is that checking if there is an edge between two nodes is extremely fast O(1) because
  the adjacency matrix holds that data. One disadvantage is that it requires an entry for every possible edge between
-nodes, which will take up more space.
+nodes, which will take up more space especially for sparse graphs with many nodes and few edges.
 
 
 
