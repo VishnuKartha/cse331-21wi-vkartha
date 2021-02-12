@@ -105,7 +105,6 @@ public class DirectedLabeledGraph {
     /**
      * Returns an unmodifiable set of all nodes in this DLG.
      *
-     *
      * @return the set of all of the nodes in this DLG.
      */
     public Set<Node> getAllNodes(){

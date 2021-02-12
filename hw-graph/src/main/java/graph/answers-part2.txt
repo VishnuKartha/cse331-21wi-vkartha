@@ -18,9 +18,9 @@ complexity, or ease of implementation).
 
 One advantage of option A is that it requires less space
 as it does not require storing nodes in the overall graph class.
-One disadvantage of option A is that it is listing all of the nodes in the graph is slow and
-complicated because we are not explicitly storing the nodes and thus, would have to iterate through the
-list of edges and find all of the unique nodes in the edges.
+One disadvantage of option A is that  listing all of the nodes in the graph is slow and
+complicated because we are not explicitly storing the nodes.Thus, we would have to iterate through the
+list of edges in order to find all of the nodes in the graph.
 
 One advantage of option B is that you can easily list all of the nodes in the graph as each node appears in
 the adjacency list. One disadvantage is that returning all the edges in the graph is more complicated and not
@@ -28,7 +28,7 @@ as efficient as it requires iterating through the adjacency list and getting
 all of the outgoing edges of each node.
 
 One advantage of option C is that checking if there is an edge between two nodes is extremely fast O(1) because
-as the matrix holds that data. One disadvantage is that it requires an entry for every possible edge between
+ the adjacency matrix holds that data. One disadvantage is that it requires an entry for every possible edge between
 nodes, which will take up more space.
 
 
@@ -52,22 +52,23 @@ as much space.
 1. Describe any new tests you added and why you added them, or why you feel that your original
 tests alone are sufficient.
 
-I added tests of the toString methods of the Graph,Node, and Edge classes. I could not test
+I added tests of the toString methods of the Graph, Node, and Edge classes. I could not test
 these methods previously as I did not know the implementation.
-I also added tests of the hashCode methods of Node and Edge.
-I could not test these methods previously as I did not know the implementation.
+I also added tests of the hashCode and equals methods for Node and Edge because those
+are public methods accessible by the client.
 
 Other than these additions, I felt my original tests were sufficient, because I had extensive tests
-for each public method which the client could use.
+for the other public methods.
 
 
 
 2. Did you make any changes to your specifications as you were implementing your Graph? (yes/no)
 If yes, describe your changes and why you made them.
 
-From the feedback of homework part1, I added comments describing each method.
-I also added checkRep functions to my Node and Edge classes to make sure the invariant is not
-broken.
+Yes I made some slight changes.
+Following the feedback of homework part1, I added comments describing each method.
+I also added checkRep functions to my Node and Edge classes to make sure the representation
+invariant does not get broken.
 
 
 
