@@ -52,13 +52,22 @@ as much space.
 1. Describe any new tests you added and why you added them, or why you feel that your original
 tests alone are sufficient.
 
+I added tests of the toString methods of the Graph,Node, and Edge classes. I could not test
+these methods previously as I did not know the implementation.
+I also added tests of the hashCode methods of Node and Edge.
+I could not test these methods previously as I did not know the implementation.
+
+Other than these additions, I felt my original tests were sufficient, because I had extensive tests
+for each public method which the client could use.
 
 
 
 2. Did you make any changes to your specifications as you were implementing your Graph? (yes/no)
 If yes, describe your changes and why you made them.
 
-no
+From the feedback of homework part1, I added comments describing each method.
+I also added checkRep functions to my Node and Edge classes to make sure the invariant is not
+broken.
 
 
 

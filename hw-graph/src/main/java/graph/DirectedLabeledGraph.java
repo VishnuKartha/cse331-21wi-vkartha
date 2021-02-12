@@ -27,7 +27,8 @@ public class DirectedLabeledGraph {
 
     /**  maps each Node in this DLG to set of that Node's outgoing edges */
     private Map<Node, Set<Edge>> adjList;
-    private boolean useCheckRep = false;
+    /**  toggles the checkRep calls in this DLG  */
+    private boolean useCheckRep = true;
 
 
     // Representation Invariant:
@@ -42,6 +43,9 @@ public class DirectedLabeledGraph {
     //  such that g.elements = r.adjList
 
     /**
+     * Constructs a new empty DLG
+     *
+     *
      * @spec.effects creates a new empty DLG
      * @spec.modifies this.elements
      */
@@ -53,6 +57,9 @@ public class DirectedLabeledGraph {
     }
 
     /**
+     * Adds a Node to this DLG
+     *
+     *
      * @spec.requires n != null, n is a unique node different from all the other nodes in the DLG.
      * @spec.modifies this.elements
      * @spec.effects adds a node to this DLG
@@ -70,6 +77,9 @@ public class DirectedLabeledGraph {
     }
 
     /**
+     * Adds a given Edge to this DLG
+     *
+     *
      * @spec.requires e != null, e is a unique edge different from all the other edges in the DLG.
      * @spec.modifies this.elements
      * @spec.effects adds this edge to set of outgoing edges in elements corresponding to the
@@ -97,6 +107,9 @@ public class DirectedLabeledGraph {
     }
 
     /**
+     * Returns the set of all nodes in this DLG.
+     *
+     *
      * @return the set of all of the nodes in this DLG.
      */
     public Set<Node> getAllNodes(){
@@ -111,6 +124,8 @@ public class DirectedLabeledGraph {
     }
 
     /**
+     *  Returns the set of all outgoing edges from the given parent Node.
+     *
      * @spec.requires this.elements contains parentNode
      * @return the set of all outgoing edges from the given parent node.
      */
@@ -141,6 +156,8 @@ public class DirectedLabeledGraph {
         }
     }
     /**
+     *  Returns a string which represents this DLG
+     *
      * @return a String which represents this DLG
      */
     @Override
@@ -185,6 +202,8 @@ public class DirectedLabeledGraph {
 
 
         /**
+         * Constructs a new Node with the given data
+         *
          * @spec.effects creates a new Node with the given data
          * @spec.modifies this.data
          */
@@ -194,6 +213,8 @@ public class DirectedLabeledGraph {
         }
 
         /**
+         * Gets the data of this Node
+         *
          * @return returns the data of this node.
          */
         public String getData() {
@@ -208,6 +229,8 @@ public class DirectedLabeledGraph {
         }
 
         /**
+         * Returns whether the given object is equal to this Node
+         *
          * @spec.effects  standard equality operation.
          * @param obj the object to be compared for equality
          * @return true iff 'obj' is an instance of an Node and 'this' and 'obj' represent the same
@@ -224,6 +247,8 @@ public class DirectedLabeledGraph {
         }
 
         /**
+         * Generates a hash code from this node
+         *
          * @spec.effects  hash code function.
          * @return an int that all objects equal to this Node will also
          */
@@ -233,6 +258,8 @@ public class DirectedLabeledGraph {
         }
 
         /**
+         * Returns the String representation of this NOde
+         *
          * @return a String which represents this Node
          */
         @Override
@@ -276,6 +303,8 @@ public class DirectedLabeledGraph {
         private final Node child;
 
         /**
+         *  Constructs a new Edge with the given label, parent node, and child node
+         *
          * @spec.effects creates a new Edge with the given label, parent node, and child node.
          * @spec.modifies this.data,this.start,this.end
          */
@@ -287,6 +316,8 @@ public class DirectedLabeledGraph {
         }
 
         /**
+         * Gets the label of this Edge
+         *
          * @return returns the label of this edge.
          */
         public String getLabel() {
@@ -294,6 +325,8 @@ public class DirectedLabeledGraph {
         }
 
         /**
+         * Gets the parent Node of this edge
+         *
          * @return returns the parent node of this edge.
          */
         public Node getParent() {
@@ -308,6 +341,8 @@ public class DirectedLabeledGraph {
         }
 
         /**
+         * gets the child Node of this edge
+         *
          * Throws an exception if the representation invariant is violated.
          */
         private void checkRep() {
@@ -317,6 +352,8 @@ public class DirectedLabeledGraph {
         }
 
         /**
+         *  Returns whether the given object is equal to this Edge
+         *
          * @spec.effects standard equality operation.
          * @param obj the object to be compared for equality
          * @return true iff 'obj' is an instance of an Edge and 'this' and 'obj' represent the same

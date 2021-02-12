@@ -231,7 +231,6 @@ public class GraphTestDriver {
             }
         });
         for(DirectedLabeledGraph.Node n :nodes) {
-            System.out.println(n);
             output.print(" " + n.getData());
         }
         output.println();
