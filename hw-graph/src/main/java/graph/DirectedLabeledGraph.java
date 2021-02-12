@@ -32,11 +32,10 @@ public class DirectedLabeledGraph {
 
 
     // Representation Invariant:
-    //  this is not null
     //  adjList is not null and
     //  for each edge in the adjList,
     //  the adjList contains that edge's parent and child
-    //  node mapped the corresponding outgoing edges of that node.
+    //  node mapped to the corresponding outgoing edges of that node.
 
     // Abstraction Function:
     //  AF(r) = a Directed Labeled Graph g
@@ -44,7 +43,6 @@ public class DirectedLabeledGraph {
 
     /**
      * Constructs a new empty DLG
-     *
      *
      * @spec.effects creates a new empty DLG
      * @spec.modifies this.elements
@@ -58,7 +56,6 @@ public class DirectedLabeledGraph {
 
     /**
      * Adds a Node to this DLG
-     *
      *
      * @spec.requires n != null, n is a unique node different from all the other nodes in the DLG.
      * @spec.modifies this.elements
@@ -78,7 +75,6 @@ public class DirectedLabeledGraph {
 
     /**
      * Adds a given Edge to this DLG
-     *
      *
      * @spec.requires e != null, e is a unique edge different from all the other edges in the DLG.
      * @spec.modifies this.elements
@@ -107,7 +103,7 @@ public class DirectedLabeledGraph {
     }
 
     /**
-     * Returns the set of all nodes in this DLG.
+     * Returns an unmodifiable set of all nodes in this DLG.
      *
      *
      * @return the set of all of the nodes in this DLG.
@@ -124,7 +120,7 @@ public class DirectedLabeledGraph {
     }
 
     /**
-     *  Returns the set of all outgoing edges from the given parent Node.
+     *  Returns an unmodifiable set of all outgoing edges from the given parent Node.
      *
      * @spec.requires this.elements contains parentNode
      * @return the set of all outgoing edges from the given parent node.
@@ -144,7 +140,6 @@ public class DirectedLabeledGraph {
      * Throws an exception if the representation invariant is violated.
      */
     private void checkRep() {
-        assert (this != null) : "this == null";
         assert (this.adjList != null) : "adjList == null";
         for(Node parent : this.adjList.keySet()){
             for(Edge e : adjList.get(parent)){
@@ -156,7 +151,13 @@ public class DirectedLabeledGraph {
         }
     }
     /**
-     *  Returns a string which represents this DLG
+     * Returns a string which represents this DLG, which follows the format
+     * "[{node_1: &lt;edge_1&gt;, &lt;edge_2&gt;} {node_2: &lt;edge_3&gt;, &lt;edge_4&gt;}]"
+     *  where the toString methods of node_i and edge_j are called.
+     * Some Examples: "[]"
+     *                "[{NODE A: }]
+     *                "[{NODE a: &lt;EDGE aTob from NODE a to NODE b&gt;}{NODE b: }]"
+     *
      *
      * @return a String which represents this DLG
      */
@@ -265,13 +266,15 @@ public class DirectedLabeledGraph {
         }
 
         /**
-         * Returns the String representation of this NOde
+         * Returns a String representation of this Node, which follows the format
+         * "NODE this.data".
+         *  Some Examples: "NODE a","NODE 1", "NODE "
          *
          * @return a String which represents this Node
          */
         @Override
         public String toString() {
-            return "NODE " + this.getData();
+            return "NODE " + this.data;
         }
 
     }
@@ -348,7 +351,7 @@ public class DirectedLabeledGraph {
         }
 
         /**
-         * gets the child Node of this edge
+         * Gets the child Node of this edge
          *
          * Throws an exception if the representation invariant is violated.
          */
@@ -359,7 +362,7 @@ public class DirectedLabeledGraph {
         }
 
         /**
-         *  Returns whether the given object is equal to this Edge
+         * Returns whether the given object is equal to this Edge
          *
          * @spec.effects standard equality operation.
          * @param obj the object to be compared for equality
@@ -379,6 +382,8 @@ public class DirectedLabeledGraph {
         }
 
         /**
+         * Generates a hash code from this node
+         *
          * @spec.effects  hashCode function.
          * @return an int that all objects equal to this Edge will also
          */
@@ -390,12 +395,18 @@ public class DirectedLabeledGraph {
         }
 
         /**
+         * Returns a String representation of this Edge, which follows the format
+         * "EDGE this.label from this.parent to this.child".
+         * Some Examples:   "EDGE selfEdge from NODE a to NODE a",
+         *                  "EDGE aTob from NODE a to NODE b"
+         *
+         *
          * @return a String which represents this Edge
          */
          @Override
          public String toString() {
-             return "EDGE " + this.getLabel() + " from " + this.getParent().toString() +
-                     " to " + this.getChild().toString();
+             return "EDGE " + this.label + " from " + this.parent.toString() +
+                     " to " + this.child.toString();
          }
 
     }
