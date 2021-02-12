@@ -28,7 +28,7 @@ public class DirectedLabeledGraph {
     /**  maps each Node in this DLG to set of that Node's outgoing edges */
     private Map<Node, Set<Edge>> adjList;
     /**  toggles the checkRep calls in this DLG  */
-    private boolean useCheckRep = true;
+    private boolean useCheckRep = false;
 
 
     // Representation Invariant:
@@ -165,16 +165,23 @@ public class DirectedLabeledGraph {
         if(this.useCheckRep) {
             checkRep();
         }
-        String result = "";
+        String result = "[";
         for(Node n : adjList.keySet()){
-            result += "{";
+            result+= "{";
             result += n.toString();
-            result += ":";
+            result += ": ";
+            boolean first = true;
             for(Edge e : adjList.get(n)){
-                result += " " + e.toString() + ",";
+                if(first) {
+                    result += "<" + e.toString() + ">";
+                    first = false;
+                } else {
+                    result += ", <" + e.toString() + ">";
+                }
             }
-            result += "}";
+            result+= "}";
         }
+        result += "]";
         if(this.useCheckRep) {
             checkRep();
         }
@@ -264,7 +271,7 @@ public class DirectedLabeledGraph {
          */
         @Override
         public String toString() {
-            return "Node: " + this.getData();
+            return "NODE " + this.getData();
         }
 
     }
@@ -387,8 +394,8 @@ public class DirectedLabeledGraph {
          */
          @Override
          public String toString() {
-             return "Edge: " + this.getLabel() + " Parent Node:" + this.getParent().toString() +
-                     " Child Node:" + this.getChild().toString();
+             return "EDGE " + this.getLabel() + " from " + this.getParent().toString() +
+                     " to " + this.getChild().toString();
          }
 
     }
