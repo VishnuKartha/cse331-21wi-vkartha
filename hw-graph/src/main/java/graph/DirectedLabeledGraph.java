@@ -31,15 +31,20 @@ public class DirectedLabeledGraph {
     private static final boolean useCheckRep = false;
 
 
+
     // Representation Invariant:
     //  adjList is not null and
     //  for each edge in the adjList,
     //  the adjList contains that edge's parent and child
     //  node mapped to the corresponding outgoing edges of that node.
+    //  Also, the set of outgoing edges for each node in adjLIst is not null,
+    //  adjList contains no null nodes and no null edges.
 
     // Abstraction Function:
     //  AF(r) = a Directed Labeled Graph g
     //  such that g.elements = r.adjList
+    // the keys of r.adjList represent the nodes in g.elements.
+    // the values of r.adjList represent the Set of outgoing edges of each node in g.elements
 
     /**
      * Constructs a new empty DLG
@@ -74,7 +79,8 @@ public class DirectedLabeledGraph {
      * @spec.requires e != null, e is a unique edge different from all the other edges in the DLG.
      * @spec.modifies this.elements
      * @spec.effects adds this edge to set of outgoing edges in elements corresponding to the
-     *               a appropriate node.
+     *               a appropriate node. Adds the parent and child node of e to the DLG
+     *               if it is not already in the graph.
      */
     public void addEdge(Edge e){
             checkRep();
@@ -83,7 +89,7 @@ public class DirectedLabeledGraph {
             addNode(e.getParent());
         }
 
-        // adds the parent node of the edge to the adjList if not there already
+        // adds the child node of the edge to the adjList if not there already
         if(!adjList.keySet().contains(e.getChild())){
             addNode(e.getChild());
         }
@@ -91,6 +97,40 @@ public class DirectedLabeledGraph {
         edges.add(e);
         adjList.put(e.getParent(), edges);
             checkRep();
+    }
+
+
+    /**
+     * Checks if the given Edge is in this DLG
+     *
+     * @spec.requires e != null,
+     * @spec.effects returns whether or not the given Edge is in the DLG
+     */
+    public boolean containsEdge(Edge e) {
+        checkRep();
+        boolean result = false;
+        for(Node n: this.adjList.keySet()){
+            if(this.adjList.get(n).contains(e)){
+                result = true;
+                break;
+            }
+        }
+        checkRep();
+        return result;
+
+    }
+
+    /**
+     * Checks if the given Node is in this DLG
+     *
+     * @spec.requires n != null,
+     * @spec.effects returns whether or not the given Node is in the DLG
+     */
+    public boolean containsEdge(Node n) {
+        checkRep();
+        boolean result = this.adjList.keySet().contains(n);
+        checkRep();
+        return result;
     }
 
     /**
@@ -108,7 +148,7 @@ public class DirectedLabeledGraph {
     /**
      *  Returns an unmodifiable set of all outgoing edges from the given parent Node.
      *
-     * @spec.requires this.elements contains parentNode
+     * @spec.requires this.elements contains parentNode and parentNode != null
      * @return the set of all outgoing edges from the given parent node.
      */
     public Set<Edge> getOutgoingEdges(Node parentNode){
@@ -125,9 +165,12 @@ public class DirectedLabeledGraph {
         assert (this.adjList != null) : "adjList == null";
         if(this.useCheckRep) {
             for (Node parent : this.adjList.keySet()) {
+                assert(parent != null):"parent == null";
+                assert(adjList.get(parent)!= null):"the outgoing edges from " + parent.toString() +" is null";
                 for (Edge e : adjList.get(parent)) {
                     assert (adjList.keySet().contains(e.getParent())) :
                             "adjList does not contain the parent node of " + e.toString();
+                    assert(e.child != null):"the child node of" + e.toString() + "is null";
                     assert (adjList.keySet().contains(e.getChild())) :
                             "adjList does not contain the child node of " + e.toString();
                 }
