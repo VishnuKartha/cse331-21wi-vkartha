@@ -28,7 +28,7 @@ public class DirectedLabeledGraph {
     /**  maps each Node in this DLG to set of that Node's outgoing edges */
     private Map<Node, Set<Edge>> adjList;
     /**  toggles the checkRep calls in this DLG  */
-    private boolean useCheckRep = false;
+    private static final boolean useCheckRep = false;
 
 
     // Representation Invariant:
@@ -49,9 +49,8 @@ public class DirectedLabeledGraph {
      */
     public DirectedLabeledGraph(){
         this.adjList = new HashMap<>();
-        if(this.useCheckRep) {
             checkRep();
-        }
+
     }
 
     /**
@@ -62,15 +61,11 @@ public class DirectedLabeledGraph {
      * @spec.effects adds a node to this DLG
      */
     public void addNode(Node n){
-        if(this.useCheckRep) {
             checkRep();
-        }
         assert (!adjList.keySet().contains(n)) :
                  n.toString() + " is not unique";
         adjList.put(n, new HashSet<>());
-        if(this.useCheckRep) {
             checkRep();
-        }
     }
 
     /**
@@ -82,9 +77,7 @@ public class DirectedLabeledGraph {
      *               a appropriate node.
      */
     public void addEdge(Edge e){
-        if(this.useCheckRep) {
             checkRep();
-        }
         // adds the parent node of the edge to the adjList if not there already
         if(!adjList.keySet().contains(e.getParent())) {
             addNode(e.getParent());
@@ -97,9 +90,7 @@ public class DirectedLabeledGraph {
         Set<Edge> edges = adjList.get(e.getParent());
         edges.add(e);
         adjList.put(e.getParent(), edges);
-        if(this.useCheckRep) {
             checkRep();
-        }
     }
 
     /**
@@ -108,13 +99,9 @@ public class DirectedLabeledGraph {
      * @return the set of all of the nodes in this DLG.
      */
     public Set<Node> getAllNodes(){
-        if(this.useCheckRep) {
             checkRep();
-        }
         Set<Node> allNodes = Collections.unmodifiableSet(adjList.keySet());
-        if(this.useCheckRep) {
             checkRep();
-        }
         return allNodes;
     }
 
@@ -125,13 +112,9 @@ public class DirectedLabeledGraph {
      * @return the set of all outgoing edges from the given parent node.
      */
     public Set<Edge> getOutgoingEdges(Node parentNode){
-        if(this.useCheckRep) {
             checkRep();
-        }
         Set<Edge> outgoingEdges = Collections.unmodifiableSet(adjList.get(parentNode));
-        if(this.useCheckRep) {
             checkRep();
-        }
         return outgoingEdges;
     }
 
@@ -140,12 +123,14 @@ public class DirectedLabeledGraph {
      */
     private void checkRep() {
         assert (this.adjList != null) : "adjList == null";
-        for(Node parent : this.adjList.keySet()){
-            for(Edge e : adjList.get(parent)){
-                assert (adjList.keySet().contains(e.getParent())) :
-                        "adjList does not contain the parent node of " + e.toString();
-                assert (adjList.keySet().contains(e.getChild())) :
-                     "adjList does not contain the child node of " + e.toString();
+        if(this.useCheckRep) {
+            for (Node parent : this.adjList.keySet()) {
+                for (Edge e : adjList.get(parent)) {
+                    assert (adjList.keySet().contains(e.getParent())) :
+                            "adjList does not contain the parent node of " + e.toString();
+                    assert (adjList.keySet().contains(e.getChild())) :
+                            "adjList does not contain the child node of " + e.toString();
+                }
             }
         }
     }

@@ -11,10 +11,14 @@
 
 package marvel;
 
+import com.opencsv.bean.CsvToBeanBuilder;
+import java.beans.JavaBean;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Parser utility to load the Marvel Comics dataset.
@@ -29,7 +33,7 @@ public class MarvelParser {
      * @spec.requires filename is a valid file in the resources/data folder.
      */
     // TODO: Replace 'void' with the type you want the parser to produce
-    public static void parseData(String filename) {
+    public static Iterator<CharacterAppearance> parseData(String filename) {
         // You can use this code as an example for getting a file from the resources folder
         // in a project like this. If you access TSV files elsewhere in your code, you'll need
         // to use similar code. If you use this code elsewhere, don't forget:
@@ -39,7 +43,7 @@ public class MarvelParser {
         //   - The "/" at the beginning of the path is important
         // Note: Most students won't re-write this code anywhere, this explanation is just for completeness.
         InputStream stream = MarvelParser.class.getResourceAsStream("/data/" + filename);
-        if(stream == null) {
+        if (stream == null) {
             // stream is null if the file doesn't exist.
             // You'll probably want to handle this case so you don't try to call
             // getPath and have a null pointer exception.
@@ -49,7 +53,14 @@ public class MarvelParser {
         }
         Reader reader = new BufferedReader(new InputStreamReader(stream));
 
-        // TODO: Complete this method
-        // Hint: You might want to create a new bean class to use with the OpenCSV Parser
+        Iterator<CharacterAppearance> csvUserIterator =
+                new CsvToBeanBuilder<CharacterAppearance>(reader) // set input
+                        .withType(CharacterAppearance.class) // set entry type
+                        .withSeparator('\t')
+                        .withIgnoreLeadingWhiteSpace(true)
+                        .build() // returns a CsvToBean<Character>
+                        .iterator();
+
+        return csvUserIterator;
     }
 }
