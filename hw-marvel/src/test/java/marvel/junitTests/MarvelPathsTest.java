@@ -14,7 +14,6 @@ import static org.junit.Assert.assertEquals;
 public class MarvelPathsTest {
     @Rule
     public Timeout globalTimeout = Timeout.seconds(10); // 10 seconds max per method tested
-    private DirectedLabeledGraph dlg = new DirectedLabeledGraph();
 
     // builds two marvelPaths objects and tests the constructor
     private final String expectedStaff = "[{NODE Notkin-of-the-Superhuman-Beard: " +
@@ -43,12 +42,10 @@ public class MarvelPathsTest {
     ///////////////////////////////////////////////////////////////////////////////////////
     @Test
     public void findPathsTest() {
-        MarvelPaths.loadGraph(dlg,"staffSuperheroes.tsv");
-//        System.out.println(dlg.toString());
+        DirectedLabeledGraph dlg = MarvelPaths.loadGraph("staffSuperheroes.tsv");
         DirectedLabeledGraph.Node A = new DirectedLabeledGraph.Node("Perkins-the-Magical-Singing-Instructor");
         DirectedLabeledGraph.Node B = new DirectedLabeledGraph.Node("Ernst-the-Bicycling-Wizard");
         for(DirectedLabeledGraph.Edge e :MarvelPaths.findPath(dlg,A,B)){
-//            System.out.println(e.toString());
         }
     }
 

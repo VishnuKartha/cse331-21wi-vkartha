@@ -225,13 +225,7 @@ public class MarvelTestDriver {
     }
 
     private void loadGraph(String graphName, String file) {
-
-         DirectedLabeledGraph dlg = graphs.get(graphName);
-         if(dlg == null){
-             dlg = new DirectedLabeledGraph();
-             graphs.put(graphName,dlg);
-         }
-         MarvelPaths.loadGraph(dlg, file);
+         graphs.put(graphName,MarvelPaths.loadGraph(file));
          output.println("loaded graph " + graphName);
     }
 
