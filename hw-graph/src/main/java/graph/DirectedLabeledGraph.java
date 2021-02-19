@@ -126,7 +126,7 @@ public class DirectedLabeledGraph {
      * @spec.requires n != null,
      * @spec.effects returns whether or not the given Node is in the DLG
      */
-    public boolean containsEdge(Node n) {
+    public boolean containsNode(Node n) {
         checkRep();
         boolean result = this.adjList.keySet().contains(n);
         checkRep();

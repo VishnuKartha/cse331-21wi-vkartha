@@ -1,0 +1,18 @@
+# Tests that the several direct path connection in the staff SuperHeroes Test file works
+
+# To run this test, the staffSuperHeroes dataset must exist at
+#   hw-marvel/src/main/resources/data/staffSuperheroes.tsv
+
+LoadGraph staffSuperheroes staffSuperheroes.tsv
+
+FindPath staffSuperheroes Ernst-the-Bicycling-Wizard Notkin-of-the-Superhuman-Beard
+FindPath staffSuperheroes Ernst-the-Bicycling-Wizard Perkins-the-Magical-Singing-Instructor
+FindPath staffSuperheroes Ernst-the-Bicycling-Wizard Grossman-the-Youngest-of-them-all
+FindPath staffSuperheroes Perkins-the-Magical-Singing-Instructor Notkin-of-the-Superhuman-Beard
+FindPath staffSuperheroes Perkins-the-Magical-Singing-Instructor Grossman-the-Youngest-of-them-all
+FindPath staffSuperheroes Notkin-of-the-Superhuman-Beard Grossman-the-Youngest-of-them-all
+
+
+
+
+

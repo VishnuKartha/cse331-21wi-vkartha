@@ -1,0 +1,5 @@
+# Test the parser on a the soccer database that contains several nodes
+# with two edges each.
+
+LoadGraph soccer soccer.tsv
+ListChildren soccer Neymar

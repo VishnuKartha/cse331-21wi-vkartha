@@ -1,0 +1,16 @@
+#Tries to find paths of a graph loaded from an tsv file with a single connection
+
+# To run this test, the noConnections dataset must exist at
+# hw-marvel/src/main/resources/data/noConnections.tsv
+
+
+loaded graph noConnections
+
+path from Gandhi to Martin Luther King:
+no path found
+path from Nelson Mandela to Martin Luther King:
+no path found
+path from Nelson Mandela to Gandhi:
+no path found
+
+

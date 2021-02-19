@@ -1,0 +1,10 @@
+# Tests that the simple hop between two players in the soccer data base works
+
+# To run this test, the soccer dataset must exist at
+#   hw-marvel/src/main/resources/data/soccer.tsv
+
+LoadGraph soccer soccer.tsv
+
+FindPath soccer Leo_Messi Mbappe
+FindPath soccer Mbappe Leo_Messi
+

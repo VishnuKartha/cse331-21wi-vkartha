@@ -1,0 +1,19 @@
+# Tests that the several direct path connection in the staff SuperHeroes Test file works
+
+# To run this test, the staffSuperHeroes dataset must exist at
+# hw-marvel/src/main/resources/data/staffSuperheroes.tsv
+
+loaded graph staffSuperheroes
+
+path from Ernst-the-Bicycling-Wizard to Notkin-of-the-Superhuman-Beard:
+Ernst-the-Bicycling-Wizard to Notkin-of-the-Superhuman-Beard via CSE331
+path from Ernst-the-Bicycling-Wizard to Perkins-the-Magical-Singing-Instructor:
+Ernst-the-Bicycling-Wizard to Perkins-the-Magical-Singing-Instructor via CSE331
+path from Ernst-the-Bicycling-Wizard to Grossman-the-Youngest-of-them-all:
+Ernst-the-Bicycling-Wizard to Grossman-the-Youngest-of-them-all via CSE331
+path from Perkins-the-Magical-Singing-Instructor to Notkin-of-the-Superhuman-Beard:
+Perkins-the-Magical-Singing-Instructor to Notkin-of-the-Superhuman-Beard via CSE331
+path from Perkins-the-Magical-Singing-Instructor to Grossman-the-Youngest-of-them-all:
+Perkins-the-Magical-Singing-Instructor to Grossman-the-Youngest-of-them-all via CSE331
+path from Notkin-of-the-Superhuman-Beard to Grossman-the-Youngest-of-them-all:
+Notkin-of-the-Superhuman-Beard to Grossman-the-Youngest-of-them-all via CSE331

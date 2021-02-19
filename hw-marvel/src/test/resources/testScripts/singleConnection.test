@@ -1,0 +1,11 @@
+#Tries to find paths of a graph loaded from an tsv file with a single connection
+
+# To run this test, the marvel dataset must exist at
+#   hw-marvel/src/main/resources/data/singleConnection.tsv
+
+
+LoadGraph singleConnection singleConnection.tsv
+
+FindPath singleConnection VISHNU LEBRON_JAMES
+FindPath singleConnection LEBRON_JAMES VISHNU
+FindPath singleConnection LEBRON_JAMES KEVIN_DURANT

@@ -1,0 +1,13 @@
+# Tests that the simple hop between two players in the soccer data base works
+
+# To run this test, the soccer dataset must exist at
+# hw-marvel/src/main/resources/data/soccer.tsv
+
+loaded graph soccer
+
+path from Leo Messi to Mbappe:
+Leo Messi to Neymar via Barcelona
+Neymar to Mbappe via PSG
+path from Mbappe to Leo Messi:
+Mbappe to Neymar via PSG
+Neymar to Leo Messi via Barcelona

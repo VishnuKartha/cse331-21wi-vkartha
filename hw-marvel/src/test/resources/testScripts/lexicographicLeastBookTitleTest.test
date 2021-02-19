@@ -1,0 +1,10 @@
+# Tests that the algorithm favors the path with the lexicographical least book title if the child names are equal
+
+# To run this test, the marvel dataset must exist at
+#   hw-marvel/src/main/resources/data/alphabet2.tsv
+
+LoadGraph alpha2 alphabet2.tsv
+
+FindPath alpha2 A B
+
+FindPath alpha2 B A

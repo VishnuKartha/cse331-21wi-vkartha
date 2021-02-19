@@ -1,0 +1,12 @@
+#Tries to find a path of a graph loaded from an empty tsv file
+
+# To run this test, the marvel dataset must exist at
+# hw-marvel/src/main/resources/data/empty.tsv
+
+
+loaded graph empty
+
+unknown character VISHNU
+unknown character FRIEND OF VISHNU
+unknown character VISHNU
+unknown character VISHNU

@@ -1,0 +1,12 @@
+# Tests that the unknown character functionality
+
+# To run this test, the soccer dataset must exist at
+# hw-marvel/src/main/resources/data/soccer.tsv
+
+loaded graph soccer
+
+unknown character Kobe Bryant
+unknown character Kobe Bryant
+unknown character Kobe Bryant
+unknown character Kobe Bryant
+unknown character Michael Jordan

@@ -1,0 +1,14 @@
+# Tests that the algorithm favors the path with the lexicographical least child
+
+# To run this test, the marvel dataset must exist at
+# hw-marvel/src/main/resources/data/alphabet1.tsv
+
+loaded graph alpha1
+
+path from A to B:
+A to C via connection1
+C to B via connection2
+
+path from B to A:
+B to C via connection2
+C to A via connection1

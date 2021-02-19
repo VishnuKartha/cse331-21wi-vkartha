@@ -1,0 +1,14 @@
+# Tests that the unknown character functionality
+
+# To run this test, the soccer dataset must exist at
+#   hw-marvel/src/main/resources/data/soccer.tsv
+
+LoadGraph soccer soccer.tsv
+
+FindPath soccer Kobe_Bryant Cristiano_Ronaldo
+FindPath soccer Kobe_Bryant Kobe_Bryant
+FindPath soccer Kobe_Bryant Michael_Jordan
+
+
+
+

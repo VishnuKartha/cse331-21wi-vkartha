@@ -1,0 +1,17 @@
+# Find a path with 5 "hops" (edge) using the full Marvel dataset.
+# This test exercises both the parser and BFS algorithm on a rather large
+# graph, so it is more of a system test than a true unit test. Such tests
+# should only be run after you have tested the parser and BFS algorithm
+# separately on much smaller graphs.
+
+# To run this test, the marvel dataset must exist at
+# hw-marvel/src/main/resources/data/marvel.tsv
+
+loaded graph marvel
+
+path from DRAGONMEGAS, JESSIE to MASTER FOUR:
+DRAGONMEGAS, JESSIE to HELLFIRE/MIKAL DRAGO via TER 1
+HELLFIRE/MIKAL DRAGO to DR. STRANGE/STEPHEN via TER 4
+DR. STRANGE/STEPHEN to DAGGER/TANDY BOWEN via FF@ 22
+DAGGER/TANDY BOWEN to KILLRAVEN/JONATHAN R via AA2 18
+KILLRAVEN/JONATHAN R to MASTER FOUR via AA2 20

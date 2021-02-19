@@ -1,2 +1,28 @@
 Briefly list any changes you made to your graph class during hw-marvel, and why you made those changes.
 
+
+I changed the rep invariant and checkRep() function accordingly
+to also include that the nodes are not null,
+that none of the sets of edges are null, and that none of the edges inside those sets are null.
+Additionally, each edge's parent and child should be nodes inside the graph. I changed this
+based on the feedback from hw5 - p2.
+
+I changed the debug flag to be static and final.I changed this based on the feedback from hw5 - p2.
+
+I added more description to the abstraction function stating how the adjacency list represents
+the abstract graph. I changed this based on the feedback from hw5 - p2.
+
+I added a containsEdge() and containsNode() method so that it easy to check if a new Node or Edge is unique.
+
+I changed the location of the debug flag in my code to be inside of the checkRep() function
+so that only the expensive checks are bypassed, the simple checks are not.
+I changed this based on the feedback from hw5 - p2.
+
+
+I changed the description of addEdge(Edge e) in order to specify that if either node in the given
+edge is not in the graph, it adds the node to the graph.I changed this
+based on the feedback from hw5 - p2.
+
+I changed the description of getOutgoingEdge(Node parentNode) in order to
+specify that it requires parentNode != null .I changed this
+based on the feedback from hw5 - p2.

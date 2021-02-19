@@ -1,0 +1,13 @@
+#Tries to find paths of a graph loaded from an tsv file with a single connection
+
+# To run this test, the marvel dataset must exist at
+# hw-marvel/src/main/resources/data/singleConnection.tsv
+
+
+loaded graph singleConnection
+
+path from VISHNU to LEBRON JAMES:
+VISHNU to LEBRON JAMES via basketballTeam
+path from LEBRON JAMES to VISHNU:
+LEBRON JAMES to VISHNU via basketballTeam
+unknown character KEVIN DURANT

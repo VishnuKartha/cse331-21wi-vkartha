@@ -1,0 +1,9 @@
+# Tests that the path between Messi and Neymar is the shortest path(a direct path)
+
+# To run this test, the soccer dataset must exist at
+#   hw-marvel/src/main/resources/data/soccer.tsv
+
+LoadGraph soccer soccer.tsv
+
+FindPath soccer Leo_Messi Neymar
+

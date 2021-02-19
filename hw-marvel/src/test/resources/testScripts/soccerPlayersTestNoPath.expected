@@ -1,0 +1,11 @@
+# Tests the expected behavior of no path between characters
+
+# To run this test, the soccer dataset must exist at
+# hw-marvel/src/main/resources/data/soccer.tsv
+
+loaded graph soccer
+
+path from Leo Messi to Cristiano Ronaldo:
+no path found
+path from Cristiano Ronaldo to Leo Messi:
+no path found

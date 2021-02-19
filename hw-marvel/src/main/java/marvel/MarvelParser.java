@@ -32,7 +32,6 @@ public class MarvelParser {
      * @param filename the file that will be read
      * @spec.requires filename is a valid file in the resources/data folder.
      */
-    // TODO: Replace 'void' with the type you want the parser to produce
     public static Iterator<CharacterAppearance> parseData(String filename) {
         // You can use this code as an example for getting a file from the resources folder
         // in a project like this. If you access TSV files elsewhere in your code, you'll need
