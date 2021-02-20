@@ -1,0 +1,6 @@
+# Test the parser on a the singleConnection database that contains several nodes
+# with two edges each.
+
+LoadGraph singleConnection singleConnection.tsv
+ListChildren singleConnection VISHNU
+

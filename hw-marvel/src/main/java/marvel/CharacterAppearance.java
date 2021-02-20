@@ -1,7 +1,7 @@
 package marvel;
 
 import com.opencsv.bean.CsvBindByName;
-// A Java Bean for each row entry in the marvel tsv.
+// A Java Bean for each row entry in a tsv.
 public class CharacterAppearance {
 
     @CsvBindByName

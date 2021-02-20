@@ -3,6 +3,9 @@ package marvel;
 import graph.*;
 import java.util.*;
 
+/**
+ * Allows for a DLG to be loaded from a tsv file and allows a user to find the shortest path between nodes of the DLG.
+ */
 public  class MarvelPaths {
 
     // class does not represent an ADT
@@ -35,7 +38,8 @@ public  class MarvelPaths {
             // adds both edges between the hero of the current entry and  every other character which
             // appears in the comic book of the current entry
             for(DirectedLabeledGraph.Node character : charactersInCurrBook) {
-                DirectedLabeledGraph.Edge edgeToAdd = new DirectedLabeledGraph.Edge(currEntry.getBook(),character,hero);
+                DirectedLabeledGraph.Edge edgeToAdd = new DirectedLabeledGraph.Edge(currEntry.getBook(),
+                                                                                        character,hero);
                 if(!dlg.getOutgoingEdges(character).contains(edgeToAdd)) {
                     dlg.addEdge(edgeToAdd);
                     dlg.addEdge(new DirectedLabeledGraph.Edge(currEntry.getBook(),hero, character));
@@ -60,7 +64,8 @@ public  class MarvelPaths {
      * @param start the start node of the path
      * @param end the end node of the path
      */
-    public static List<DirectedLabeledGraph.Edge> findPath(DirectedLabeledGraph dlg, DirectedLabeledGraph.Node start, DirectedLabeledGraph.Node end) {
+    public static List<DirectedLabeledGraph.Edge> findPath(DirectedLabeledGraph dlg, DirectedLabeledGraph.Node start,
+                                                           DirectedLabeledGraph.Node end) {
         // Uses a breadth first search algorithm
 
         assert (dlg != null) : "the dlg is null";
@@ -70,8 +75,9 @@ public  class MarvelPaths {
         assert (dlg.containsNode(end)) : "the dlg does not contain the given end node";
 
 
-        // A map which maps nodes encountered to the path to that node from start.
+        // A map which maps  a node that is encountered during the search to the path to that node from start.
         Map<DirectedLabeledGraph.Node, List<DirectedLabeledGraph.Edge>> nodesEncounteredToPaths = new HashMap<>();
+
         // a queue holding the  nodes to visit
         Queue<DirectedLabeledGraph.Node> nodesToVisit = new LinkedList<>();
 
@@ -112,6 +118,18 @@ public  class MarvelPaths {
         return  nodesEncounteredToPaths.get(end);
     }
 
+    /**
+     * Runs an interactive program allowing the user to find paths between characters in a tsv file
+     * @spec.modifies System.out
+     * @spec.effects prompts the user via messages printed to System.out for a tsv file and characters
+     *               to find paths between in the tsv file. Outputs the shortest
+     *               paths between the characters if there exists one. If the user inputs
+     *               an invalid character name the program outputs "unknown character" followed
+     *               by the name of the unknown character. After finding a path, the user can choose
+     *               to find another path between two characters, or exit the program.
+     *
+     * @param args the arguments passed in from the command line
+     */
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);  // Create a Scanner object
 
@@ -120,35 +138,50 @@ public  class MarvelPaths {
         System.out.println("Enter TSV file to read from");
         String fileName = input.nextLine();
 
-        // Read a DLG from the user inputted tsv file
+        // Construct a DLG from the user inputted tsv file
         DirectedLabeledGraph dlg = MarvelPaths.loadGraph(fileName);
 
-        // lets the user find paths between Characters in the graph
+        // lets the user find paths between characters in the graph interactively
         interactiveMarvelPathsLoop(dlg,input);
     }
 
+
+    /**
+     * Finds the shortest path between two characters inputted by the user in the dlg and outputs that path
+     *
+     * @spec.requires dlg != null
+     * @spec.effects prompts the user for characters
+     *               to find paths between in the dlg. Outputs the shortest
+     *               paths between the characters if there exists one. If the user inputs
+     *               an invalid character name the program outputs "unknown character" followed
+     *               by the name of the unknown character. After finding a path, the user can choose
+     *               to find another path between two characters, or exit the program.
+     * @param dlg the graph which is used to find paths between characters
+     * @param input a scanner which is used to read in user input
+     *
+     */
     private static void interactiveMarvelPathsLoop(DirectedLabeledGraph dlg,Scanner input) {
         boolean loopAgain = true;
         while(loopAgain) {
             System.out.println("Enter the Name of the First Character");
-            String node_a = input.nextLine();  // Read user input
+            String characterA = input.nextLine();  // Read user input
             System.out.println("Enter the Name of the Second Character");
-            String node_b = input.nextLine();  // Read user input
+            String characterB = input.nextLine();  // Read user input
             System.out.println();
-            DirectedLabeledGraph.Node a = new DirectedLabeledGraph.Node(node_a);
-            DirectedLabeledGraph.Node b = new DirectedLabeledGraph.Node(node_b);
+            DirectedLabeledGraph.Node a = new DirectedLabeledGraph.Node(characterA);
+            DirectedLabeledGraph.Node b = new DirectedLabeledGraph.Node(characterB);
 
             //checks if the nodes are valid nodes in the dlg
             if (!dlg.containsNode(a) || !dlg.containsNode(b)) {
                 if (!dlg.containsNode(a)) {
-                    System.out.println("unknown character " + node_a);
+                    System.out.println("unknown character " + characterA);
                 }
                 if (!dlg.containsNode(b)) {
-                    System.out.println("unknown character " + node_b);
+                    System.out.println("unknown character " + characterB);
                 }
 
             } else { // both nodes are valid, look for a path
-                System.out.println("path from " + node_a + " to " + node_b + ":");
+                System.out.println("path from " + characterA + " to " + characterB + ":");
                 List<DirectedLabeledGraph.Edge> path = MarvelPaths.findPath(dlg, a, b);
                 if (path == null) {
                     System.out.println("no path found");
@@ -162,9 +195,8 @@ public  class MarvelPaths {
             System.out.println("Would You like to look for another path? type yes if so");
             String result = input.nextLine();  // Read user input
             if(!result.trim().equalsIgnoreCase("yes")){
-                loopAgain = false;
-            } else{
                 System.out.println("Closing MarvelPaths");
+                loopAgain = false;
                 System.out.close();
             }
         }

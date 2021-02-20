@@ -1,0 +1,5 @@
+# Test the parser on a the singleConnection database that contains several nodes
+# with two edges each.
+
+loaded graph singleConnection
+the children of VISHNU in singleConnection are: LEBRON JAMES(basketballTeam)
