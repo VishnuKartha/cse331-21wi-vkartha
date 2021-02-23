@@ -24,7 +24,7 @@ public class MarvelTestDriver {
     /**
      * String -> Graph: maps the names of graphs to the actual graph
      **/
-    private final Map<String, DirectedLabeledGraph> graphs = new HashMap<>();
+    private final Map<String, DirectedLabeledGraph<String,String>> graphs = new HashMap<>();
     private final PrintWriter output;
     private final BufferedReader input;
     // Leave this constructor public
@@ -54,7 +54,7 @@ public class MarvelTestDriver {
                 if (st.hasMoreTokens()) {
                     String command = st.nextToken();
 
-                    List<String> arguments = new ArrayList<String>();
+                    List<String> arguments = new ArrayList<>();
                     while (st.hasMoreTokens()) {
                         arguments.add(st.nextToken());
                     }
@@ -98,17 +98,18 @@ public class MarvelTestDriver {
             output.println("Exception: " + e.toString());
         }
     }
-    private void createGraph(List<String> arguments) {
-        if (arguments.size() != 1) {
-            throw new CommandException("Bad arguments to CreateGraph: " + arguments);
-        }
 
-        String graphName = arguments.get(0);
-        createGraph(graphName);
+private void createGraph(List<String> arguments) {
+    if (arguments.size() != 1) {
+        throw new CommandException("Bad arguments to CreateGraph: " + arguments);
     }
 
+    String graphName = arguments.get(0);
+    createGraph(graphName);
+}
+
     private void createGraph(String graphName) {
-        DirectedLabeledGraph dlg = new DirectedLabeledGraph();
+        DirectedLabeledGraph<String,String> dlg = new DirectedLabeledGraph<>();
         graphs.put(graphName, dlg);
         output.println("created graph " + graphName);
     }
@@ -125,8 +126,8 @@ public class MarvelTestDriver {
     }
 
     private void addNode(String graphName, String nodeName) {
-        DirectedLabeledGraph dlg = graphs.get(graphName);
-        DirectedLabeledGraph.Node n = new DirectedLabeledGraph.Node(nodeName);
+        DirectedLabeledGraph<String,String> dlg = graphs.get(graphName);
+        DirectedLabeledGraph.Node<String> n = new DirectedLabeledGraph.Node<>(nodeName);
         dlg.addNode(n);
         output.print("added node " + nodeName + " to " + graphName);
         output.println();
@@ -148,10 +149,11 @@ public class MarvelTestDriver {
 
     private void addEdge(String graphName, String parentName, String childName,
                          String edgeLabel) {
-        DirectedLabeledGraph dlg  = graphs.get(graphName);
-        DirectedLabeledGraph.Node parent = new DirectedLabeledGraph.Node(parentName);
-        DirectedLabeledGraph.Node child = new DirectedLabeledGraph.Node(childName);
-        DirectedLabeledGraph.Edge e = new DirectedLabeledGraph.Edge(edgeLabel,parent,child);
+
+        DirectedLabeledGraph<String,String> dlg  = graphs.get(graphName);
+        DirectedLabeledGraph.Node<String> parent = new DirectedLabeledGraph.Node<>(parentName);
+        DirectedLabeledGraph.Node<String> child = new DirectedLabeledGraph.Node<>(childName);
+        DirectedLabeledGraph.Edge<String,String> e = new DirectedLabeledGraph.Edge<>(edgeLabel,parent,child);
         dlg.addEdge(e);
         output.println("added edge " + edgeLabel + " from " + parentName + " to " + childName
                 + " in " + graphName);
@@ -168,15 +170,15 @@ public class MarvelTestDriver {
 
     private void listNodes(String graphName) {
 
-        DirectedLabeledGraph dlg  = graphs.get(graphName);
+        DirectedLabeledGraph<String,String> dlg  = graphs.get(graphName);
         output.print(graphName + " contains:");
-        List<DirectedLabeledGraph.Node> nodes =  new ArrayList<>(dlg.getAllNodes());
+        List<DirectedLabeledGraph.Node<String>> nodes =  new ArrayList<>(dlg.getAllNodes());
         Collections.sort(nodes, new Comparator<>() {
-            public int compare(DirectedLabeledGraph.Node a, DirectedLabeledGraph.Node b) {
+            public int compare(DirectedLabeledGraph.Node<String> a, DirectedLabeledGraph.Node<String> b) {
                 return a.getData().compareTo(b.getData());
             }
         });
-        for(DirectedLabeledGraph.Node n :nodes) {
+        for(DirectedLabeledGraph.Node<String> n :nodes) {
             output.print(" " + n.getData());
         }
         output.println();
@@ -193,13 +195,12 @@ public class MarvelTestDriver {
     }
 
     private void listChildren(String graphName, String parentName) {
-
-        DirectedLabeledGraph dlg  = graphs.get(graphName);
-        DirectedLabeledGraph.Node parent = new DirectedLabeledGraph.Node(parentName);
+        DirectedLabeledGraph<String,String> dlg  = graphs.get(graphName);
+        DirectedLabeledGraph.Node<String> parent = new DirectedLabeledGraph.Node<>(parentName);
         output.print("the children of " + parent.getData() + " in " + graphName +  " are:");
-        List<DirectedLabeledGraph.Edge> edges =  new ArrayList<>(dlg.getOutgoingEdges(parent));
+        List<DirectedLabeledGraph.Edge<String,String>> edges =  new ArrayList<>(dlg.getOutgoingEdges(parent));
         Collections.sort(edges, new Comparator<>() {
-            public int compare(DirectedLabeledGraph.Edge a, DirectedLabeledGraph.Edge b) {
+            public int compare(DirectedLabeledGraph.Edge<String,String> a, DirectedLabeledGraph.Edge<String,String> b) {
                 int childComp = a.getChild().getData().compareTo(b.getChild().getData());
                 if(childComp == 0) {
                     return a.getLabel().compareTo(b.getLabel());
@@ -208,11 +209,12 @@ public class MarvelTestDriver {
                 }
             }
         });
-        for(DirectedLabeledGraph.Edge edge : edges) {
+        for(DirectedLabeledGraph.Edge<String,String> edge : edges) {
             output.print(" " + edge.getChild().getData() + "(" + edge.getLabel() + ")");
         }
         output.println();
     }
+
 
     private void loadGraph(List<String> arguments) {
         if (arguments.size() != 2) {
@@ -244,9 +246,9 @@ public class MarvelTestDriver {
     private void findPath(String graphName, String node_a,String node_b) {
         node_a = node_a.replace('_',' ');
         node_b = node_b.replace('_',' ');
-        DirectedLabeledGraph.Node a = new DirectedLabeledGraph.Node(node_a);
-        DirectedLabeledGraph.Node b = new DirectedLabeledGraph.Node(node_b);
-        DirectedLabeledGraph dlg = graphs.get(graphName);
+        DirectedLabeledGraph.Node<String> a = new DirectedLabeledGraph.Node<>(node_a);
+        DirectedLabeledGraph.Node<String> b = new DirectedLabeledGraph.Node<>(node_b);
+        DirectedLabeledGraph<String,String> dlg = graphs.get(graphName);
         if(!dlg.containsNode(a) || !dlg.containsNode(b)){
             if(!dlg.containsNode(a)) {
                 output.println("unknown character " + node_a);
@@ -257,11 +259,11 @@ public class MarvelTestDriver {
 
         } else {
             output.println("path from " + node_a + " to " + node_b +":");
-            List<DirectedLabeledGraph.Edge> path = MarvelPaths.findPath(dlg,a,b);
+            List<DirectedLabeledGraph.Edge<String,String>> path = MarvelPaths.findPath(dlg,a,b);
             if(path == null){
                 output.println("no path found");
             } else {
-                for(DirectedLabeledGraph.Edge e: path){
+                for(DirectedLabeledGraph.Edge<String,String> e: path){
                     output.println(e.getParent().getData() + " to " +
                             e.getChild().getData() +" via " + e.getLabel());
                 }

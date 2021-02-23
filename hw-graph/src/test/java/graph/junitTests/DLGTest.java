@@ -62,15 +62,13 @@ public class DLGTest {
         allNodes.add(empty);
 
 
-
-
-
         emptyGraph = new DirectedLabeledGraph<>();
-         singleNodeGraph = new DirectedLabeledGraph<>();
+        singleNodeGraph = new DirectedLabeledGraph<>();
          singleNodeGraph.addNode(A);
         singleEdgeGraph = new DirectedLabeledGraph<>();
         singleEdgeGraph.addEdge(aTob);
         noEdges = new DirectedLabeledGraph<>();
+
         for(DirectedLabeledGraph.Node<String> n:allNodes){
             noEdges.addNode(n);
         }

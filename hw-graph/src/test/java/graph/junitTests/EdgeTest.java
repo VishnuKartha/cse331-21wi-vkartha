@@ -44,14 +44,7 @@ public class EdgeTest {
     private List<DirectedLabeledGraph.Node<String>> parents= new ArrayList<>();
     private List<DirectedLabeledGraph.Node<String>> children= new ArrayList<>();
 
-//    private DirectedLabeledGraph.Edge[] edges = new DirectedLabeledGraph.Edge[]
-//                                                {selfEdge,selfEdgeEmpty,aTob,aTob2,bToa,cToA,oneToLongLabel};
-//    private DirectedLabeledGraph.Edge[] edgesEqual = new DirectedLabeledGraph.Edge[]
-//            {selfEdgeEqual,selfEdgeEmptyEqual,aTobEqual,aTob2Equal,bToaEqual,cToAEqual,oneToLongLabelEqual};
     private String[] edgeLabels = new String[]{"selfEdge","selfEdge","aTob","aTob2","bToa","cToA","oneToLongLabel"};
-//    private DirectedLabeledGraph.Node[] parents = new DirectedLabeledGraph.Node[]{a,empty,a,a,b,c,one};
-//    private DirectedLabeledGraph.Node[] children = new DirectedLabeledGraph.Node[]{a,empty,b,b,a,A,longLabel};
-
 
     private String[] strs = new String[]{"EDGE selfEdge from NODE a to NODE a",
                                         "EDGE selfEdge from NODE  to NODE ",

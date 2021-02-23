@@ -110,7 +110,7 @@ public class GraphTestDriver {
                 if (st.hasMoreTokens()) {
                     String command = st.nextToken();
 
-                    List<String> arguments = new ArrayList<String>();
+                    List<String> arguments = new ArrayList<>();
                     while (st.hasMoreTokens()) {
                         arguments.add(st.nextToken());
                     }
@@ -230,7 +230,7 @@ public class GraphTestDriver {
                 return a.getData().compareTo(b.getData());
             }
         });
-        for(DirectedLabeledGraph.Node n :nodes) {
+        for(DirectedLabeledGraph.Node<String> n :nodes) {
             output.print(" " + n.getData());
         }
         output.println();
@@ -262,7 +262,7 @@ public class GraphTestDriver {
                 }
             }
         });
-        for(DirectedLabeledGraph.Edge edge : edges) {
+        for(DirectedLabeledGraph.Edge<String,String> edge : edges) {
             output.print(" " + edge.getChild().getData() + "(" + edge.getLabel() + ")");
         }
         output.println();

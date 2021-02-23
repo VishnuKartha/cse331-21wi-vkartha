@@ -16,33 +16,33 @@ public  class MarvelPaths {
      * @spec.effects constructs a DLG loaded from the tsv file in fileName
      * @return the DLG which is loaded from fileName
      */
-    public static DirectedLabeledGraph loadGraph(String fileName) {
-        DirectedLabeledGraph dlg = new DirectedLabeledGraph();
+    public static DirectedLabeledGraph<String,String> loadGraph(String fileName) {
+        DirectedLabeledGraph<String,String> dlg = new DirectedLabeledGraph<>();
         // a map mapping comic books to the characters in them
-        Map<String, Set<DirectedLabeledGraph.Node>> booksToCharacters = new HashMap<>();
+        Map<String, Set<DirectedLabeledGraph.Node<String>>> booksToCharacters = new HashMap<>();
         Iterator<CharacterAppearance> iter= MarvelParser.parseData(fileName);
         while(iter.hasNext()) {
             CharacterAppearance currEntry = iter.next(); // gets the next entry of the file
 
             // add the hero of the current entry to the graph if not previously in the graph
-            DirectedLabeledGraph.Node<String> hero = new DirectedLabeledGraph.Node(currEntry.getHero());
+            DirectedLabeledGraph.Node<String> hero = new DirectedLabeledGraph.Node<>(currEntry.getHero());
             if(!dlg.containsNode(hero)){
                 dlg.addNode(hero);
             }
 
             // gets the set of the other characters that appear in the comic book of the current entry
-            Set<DirectedLabeledGraph.Node> charactersInCurrBook = booksToCharacters.getOrDefault
-                                            (currEntry.getBook(),new HashSet<DirectedLabeledGraph.Node>());
+            Set<DirectedLabeledGraph.Node<String>> charactersInCurrBook = booksToCharacters.getOrDefault
+                                            (currEntry.getBook(),new HashSet<DirectedLabeledGraph.Node<String>>());
 
 
             // adds both edges between the hero of the current entry and  every other character which
             // appears in the comic book of the current entry
             for(DirectedLabeledGraph.Node<String> character : charactersInCurrBook) {
-                DirectedLabeledGraph.Edge<String,String> edgeToAdd = new DirectedLabeledGraph.Edge(currEntry.getBook(),
+                DirectedLabeledGraph.Edge<String,String> edgeToAdd = new DirectedLabeledGraph.Edge<>(currEntry.getBook(),
                                                                                         character,hero);
                 if(!dlg.getOutgoingEdges(character).contains(edgeToAdd)) {
                     dlg.addEdge(edgeToAdd);
-                    dlg.addEdge(new DirectedLabeledGraph.Edge(currEntry.getBook(),hero, character));
+                    dlg.addEdge(new DirectedLabeledGraph.Edge<>(currEntry.getBook(),hero, character));
                 }
 
             }
@@ -139,7 +139,7 @@ public  class MarvelPaths {
         String fileName = input.nextLine();
 
         // Construct a DLG from the user inputted tsv file
-        DirectedLabeledGraph dlg = MarvelPaths.loadGraph(fileName);
+        DirectedLabeledGraph<String,String> dlg = MarvelPaths.loadGraph(fileName);
 
         // lets the user find paths between characters in the graph interactively
         interactiveMarvelPathsLoop(dlg,input);
@@ -160,7 +160,7 @@ public  class MarvelPaths {
      * @param input a scanner which is used to read in user input
      *
      */
-    private static void interactiveMarvelPathsLoop(DirectedLabeledGraph dlg,Scanner input) {
+    private static void interactiveMarvelPathsLoop(DirectedLabeledGraph<String,String> dlg,Scanner input) {
         boolean loopAgain = true;
         while(loopAgain) {
             System.out.println("Enter the Name of the First Character");
@@ -168,8 +168,8 @@ public  class MarvelPaths {
             System.out.println("Enter the Name of the Second Character");
             String characterB = input.nextLine();  // Read user input
             System.out.println();
-            DirectedLabeledGraph.Node a = new DirectedLabeledGraph.Node(characterA);
-            DirectedLabeledGraph.Node b = new DirectedLabeledGraph.Node(characterB);
+            DirectedLabeledGraph.Node<String> a = new DirectedLabeledGraph.Node<>(characterA);
+            DirectedLabeledGraph.Node<String> b = new DirectedLabeledGraph.Node<>(characterB);
 
             //checks if the nodes are valid nodes in the dlg
             if (!dlg.containsNode(a) || !dlg.containsNode(b)) {
@@ -182,11 +182,11 @@ public  class MarvelPaths {
 
             } else { // both nodes are valid, look for a path
                 System.out.println("path from " + characterA + " to " + characterB + ":");
-                List<DirectedLabeledGraph.Edge> path = MarvelPaths.findPath(dlg, a, b);
+                List<DirectedLabeledGraph.Edge<String,String>> path = MarvelPaths.findPath(dlg, a, b);
                 if (path == null) {
                     System.out.println("no path found");
                 } else {
-                    for (DirectedLabeledGraph.Edge e : path) {
+                    for (DirectedLabeledGraph.Edge<String,String> e : path) {
                         System.out.println(e.getParent().getData() + " to " +
                                 e.getChild().getData() + " via " + e.getLabel());
                     }

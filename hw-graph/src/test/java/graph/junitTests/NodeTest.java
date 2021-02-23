@@ -34,13 +34,6 @@ public class NodeTest {
 
 
 
-//    private DirectedLabeledGraph.Node aEqual = new DirectedLabeledGraph.Node("a");
-//    private DirectedLabeledGraph.Node AEqual = new DirectedLabeledGraph.Node("A");
-//    private DirectedLabeledGraph.Node bEqual = new DirectedLabeledGraph.Node("b");
-//    private DirectedLabeledGraph.Node cEqual = new DirectedLabeledGraph.Node("c");
-//    private DirectedLabeledGraph.Node oneEqual = new DirectedLabeledGraph.Node("1");
-//    private DirectedLabeledGraph.Node longLabelEqual = new DirectedLabeledGraph.Node("this_is_a_very_long_label_123");
-//    private DirectedLabeledGraph.Node emptyEqual = new DirectedLabeledGraph.Node("");
 
     private String[] strs = new String[]{"NODE a", "NODE A", "NODE b", "NODE c", "NODE 1",
                                         "NODE this_is_a_very_long_label_123", "NODE "};
@@ -49,10 +42,6 @@ public class NodeTest {
     private List<DirectedLabeledGraph.Node<String>> nodesEqual= new ArrayList<>();
 
 
-
-    //    private DirectedLabeledGraph.Node[] nodes = new DirectedLabeledGraph.Node[]{a,A,b,c,one,longLabel,empty};
-//    private DirectedLabeledGraph.Node[] nodesEqual = new DirectedLabeledGraph.Node[]{aEqual,AEqual,bEqual,
-//                                                    cEqual,oneEqual,longLabelEqual,emptyEqual};
 
     private int[] hashCodes = new int[]{97, 65, 98, 99, 49, -212160805,0};
 
