@@ -25,7 +25,7 @@ public  class MarvelPaths {
             CharacterAppearance currEntry = iter.next(); // gets the next entry of the file
 
             // add the hero of the current entry to the graph if not previously in the graph
-            DirectedLabeledGraph.Node hero = new DirectedLabeledGraph.Node(currEntry.getHero());
+            DirectedLabeledGraph.Node<String> hero = new DirectedLabeledGraph.Node(currEntry.getHero());
             if(!dlg.containsNode(hero)){
                 dlg.addNode(hero);
             }
@@ -37,8 +37,8 @@ public  class MarvelPaths {
 
             // adds both edges between the hero of the current entry and  every other character which
             // appears in the comic book of the current entry
-            for(DirectedLabeledGraph.Node character : charactersInCurrBook) {
-                DirectedLabeledGraph.Edge edgeToAdd = new DirectedLabeledGraph.Edge(currEntry.getBook(),
+            for(DirectedLabeledGraph.Node<String> character : charactersInCurrBook) {
+                DirectedLabeledGraph.Edge<String,String> edgeToAdd = new DirectedLabeledGraph.Edge(currEntry.getBook(),
                                                                                         character,hero);
                 if(!dlg.getOutgoingEdges(character).contains(edgeToAdd)) {
                     dlg.addEdge(edgeToAdd);
@@ -64,8 +64,8 @@ public  class MarvelPaths {
      * @param start the start node of the path
      * @param end the end node of the path
      */
-    public static List<DirectedLabeledGraph.Edge> findPath(DirectedLabeledGraph dlg, DirectedLabeledGraph.Node start,
-                                                           DirectedLabeledGraph.Node end) {
+    public static List<DirectedLabeledGraph.Edge<String,String>> findPath(DirectedLabeledGraph<String,String> dlg, DirectedLabeledGraph.Node<String> start,
+                                                                    DirectedLabeledGraph.Node<String> end) {
         // Uses a breadth first search algorithm
 
         assert (dlg != null) : "the dlg is null";
@@ -76,23 +76,23 @@ public  class MarvelPaths {
 
 
         // A map which maps  a node that is encountered during the search to the path to that node from start.
-        Map<DirectedLabeledGraph.Node, List<DirectedLabeledGraph.Edge>> nodesEncounteredToPaths = new HashMap<>();
+        Map<DirectedLabeledGraph.Node<String>, List<DirectedLabeledGraph.Edge<String,String>>> nodesEncounteredToPaths = new HashMap<>();
 
         // a queue holding the  nodes to visit
-        Queue<DirectedLabeledGraph.Node> nodesToVisit = new LinkedList<>();
+        Queue<DirectedLabeledGraph.Node<String>> nodesToVisit = new LinkedList<>();
 
         nodesToVisit.add(start);
         nodesEncounteredToPaths.put(start, new ArrayList<>());
         while (!nodesToVisit.isEmpty()) {
-            DirectedLabeledGraph.Node curr = nodesToVisit.poll();
+            DirectedLabeledGraph.Node<String> curr = nodesToVisit.poll();
             if (curr.equals(end)) { // search has found the end node, return the path
                 return nodesEncounteredToPaths.get(curr);
             } else { // search has not found the end node
-                List<DirectedLabeledGraph.Edge> edges =  new ArrayList<>(dlg.getOutgoingEdges(curr));
+                List<DirectedLabeledGraph.Edge<String,String>> edges =  new ArrayList<>(dlg.getOutgoingEdges(curr));
 
                 // sorts the outgoing edges lexicographically to favor the lexicographically least path
                 Collections.sort(edges, new Comparator<>() {
-                    public int compare(DirectedLabeledGraph.Edge a, DirectedLabeledGraph.Edge b) {
+                    public int compare(DirectedLabeledGraph.Edge<String,String> a, DirectedLabeledGraph.Edge<String,String> b) {
                         int childComp = a.getChild().getData().compareTo(b.getChild().getData());
                         if(childComp == 0) {
                             return a.getLabel().compareTo(b.getLabel());
@@ -101,12 +101,12 @@ public  class MarvelPaths {
                         }
                     }
                 });
-                for (DirectedLabeledGraph.Edge e : edges) {
+                for (DirectedLabeledGraph.Edge<String,String> e : edges) {
                     if (!nodesEncounteredToPaths.keySet().contains(e.getChild()) && e!= null) {
                         // the child of edge e is a new node which has not been encountered yet
 
-                        List<DirectedLabeledGraph.Edge> pathToCurr = nodesEncounteredToPaths.get(curr);
-                        List<DirectedLabeledGraph.Edge> pathToChild = new ArrayList<>(pathToCurr);
+                        List<DirectedLabeledGraph.Edge<String,String>> pathToCurr = nodesEncounteredToPaths.get(curr);
+                        List<DirectedLabeledGraph.Edge<String,String>> pathToChild = new ArrayList<>(pathToCurr);
                         pathToChild.add(e);
                         nodesEncounteredToPaths.put(e.getChild(), pathToChild);
                         nodesToVisit.add(e.getChild());

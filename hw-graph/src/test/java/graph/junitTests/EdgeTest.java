@@ -1,6 +1,9 @@
 package graph.junitTests;
 
 import graph.DirectedLabeledGraph;
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
@@ -12,37 +15,42 @@ public class EdgeTest {
     public Timeout globalTimeout = Timeout.seconds(10); // 10 seconds max per method tested
 
     // creates some simple Nodes
-    private DirectedLabeledGraph.Node a = new DirectedLabeledGraph.Node("a");
-    private DirectedLabeledGraph.Node A = new DirectedLabeledGraph.Node("A");
-    private DirectedLabeledGraph.Node b = new DirectedLabeledGraph.Node("b");
-    private DirectedLabeledGraph.Node c = new DirectedLabeledGraph.Node("c");
-    private DirectedLabeledGraph.Node one = new DirectedLabeledGraph.Node("1");
-    private DirectedLabeledGraph.Node longLabel = new DirectedLabeledGraph.Node("this_is_a_very_long_label_123");
-    private DirectedLabeledGraph.Node empty = new DirectedLabeledGraph.Node("");
+    private DirectedLabeledGraph.Node<String> a = new DirectedLabeledGraph.Node<String>("a");
+    private DirectedLabeledGraph.Node<String> A = new DirectedLabeledGraph.Node<String>("A");
+    private DirectedLabeledGraph.Node<String> b = new DirectedLabeledGraph.Node<String>("b");
+    private DirectedLabeledGraph.Node<String> c = new DirectedLabeledGraph.Node<String>("c");
+    private DirectedLabeledGraph.Node<String> one = new DirectedLabeledGraph.Node<String>("1");
+    private DirectedLabeledGraph.Node<String> longLabel = new DirectedLabeledGraph.Node<String>("this_is_a_very_long_label_123");
+    private DirectedLabeledGraph.Node<String> empty = new DirectedLabeledGraph.Node<String>("");
 
-    private DirectedLabeledGraph.Edge selfEdge = new DirectedLabeledGraph.Edge("selfEdge",a,a);
-    private DirectedLabeledGraph.Edge selfEdgeEmpty = new DirectedLabeledGraph.Edge("selfEdge",empty,empty);
-    private DirectedLabeledGraph.Edge aTob = new DirectedLabeledGraph.Edge("aTob",a,b);
-    private DirectedLabeledGraph.Edge aTob2 = new DirectedLabeledGraph.Edge("aTob2",a,b);
-    private DirectedLabeledGraph.Edge bToa = new DirectedLabeledGraph.Edge("bToa",b,a);
-    private DirectedLabeledGraph.Edge cToA = new DirectedLabeledGraph.Edge("cToA",c,A);
-    private DirectedLabeledGraph.Edge oneToLongLabel = new DirectedLabeledGraph.Edge("oneToLongLabel",one,longLabel);
+    private DirectedLabeledGraph.Edge<String,String> selfEdge = new DirectedLabeledGraph.Edge<>("selfEdge",a,a);
+    private DirectedLabeledGraph.Edge<String,String> selfEdgeEmpty = new DirectedLabeledGraph.Edge<>("selfEdge",empty,empty);
+    private DirectedLabeledGraph.Edge<String,String> aTob = new DirectedLabeledGraph.Edge<>("aTob",a,b);
+    private DirectedLabeledGraph.Edge<String,String> aTob2 = new DirectedLabeledGraph.Edge<>("aTob2",a,b);
+    private DirectedLabeledGraph.Edge<String,String> bToa = new DirectedLabeledGraph.Edge<>("bToa",b,a);
+    private DirectedLabeledGraph.Edge<String,String> cToA = new DirectedLabeledGraph.Edge<>("cToA",c,A);
+    private DirectedLabeledGraph.Edge<String,String> oneToLongLabel = new DirectedLabeledGraph.Edge<>("oneToLongLabel",one,longLabel);
 
 
-    private DirectedLabeledGraph.Edge selfEdgeEqual = new DirectedLabeledGraph.Edge("selfEdge",a,a);
-    private DirectedLabeledGraph.Edge selfEdgeEmptyEqual = new DirectedLabeledGraph.Edge("selfEdge",empty,empty);
-    private DirectedLabeledGraph.Edge aTobEqual = new DirectedLabeledGraph.Edge("aTob",a,b);
-    private DirectedLabeledGraph.Edge aTob2Equal = new DirectedLabeledGraph.Edge("aTob2",a,b);
-    private DirectedLabeledGraph.Edge bToaEqual = new DirectedLabeledGraph.Edge("bToa",b,a);
-    private DirectedLabeledGraph.Edge cToAEqual = new DirectedLabeledGraph.Edge("cToA",c,A);
-    private DirectedLabeledGraph.Edge oneToLongLabelEqual = new DirectedLabeledGraph.Edge("oneToLongLabel",one,longLabel);
-    private DirectedLabeledGraph.Edge[] edges = new DirectedLabeledGraph.Edge[]
-                                                {selfEdge,selfEdgeEmpty,aTob,aTob2,bToa,cToA,oneToLongLabel};
-    private DirectedLabeledGraph.Edge[] edgesEqual = new DirectedLabeledGraph.Edge[]
-            {selfEdgeEqual,selfEdgeEmptyEqual,aTobEqual,aTob2Equal,bToaEqual,cToAEqual,oneToLongLabelEqual};
+    private DirectedLabeledGraph.Edge<String,String> selfEdgeEqual = new DirectedLabeledGraph.Edge<>("selfEdge",a,a);
+    private DirectedLabeledGraph.Edge<String,String> selfEdgeEmptyEqual = new DirectedLabeledGraph.Edge<>("selfEdge",empty,empty);
+    private DirectedLabeledGraph.Edge<String,String> aTobEqual = new DirectedLabeledGraph.Edge<>("aTob",a,b);
+    private DirectedLabeledGraph.Edge<String,String> aTob2Equal = new DirectedLabeledGraph.Edge<>("aTob2",a,b);
+    private DirectedLabeledGraph.Edge<String,String> bToaEqual = new DirectedLabeledGraph.Edge<>("bToa",b,a);
+    private DirectedLabeledGraph.Edge<String,String> cToAEqual = new DirectedLabeledGraph.Edge<>("cToA",c,A);
+    private DirectedLabeledGraph.Edge<String,String> oneToLongLabelEqual = new DirectedLabeledGraph.Edge<>("oneToLongLabel",one,longLabel);
+    private List<DirectedLabeledGraph.Edge<String,String>> edges = new ArrayList<>();
+    private List<DirectedLabeledGraph.Edge<String,String>> edgesEqual = new ArrayList<>();
+    private List<DirectedLabeledGraph.Node<String>> parents= new ArrayList<>();
+    private List<DirectedLabeledGraph.Node<String>> children= new ArrayList<>();
+
+//    private DirectedLabeledGraph.Edge[] edges = new DirectedLabeledGraph.Edge[]
+//                                                {selfEdge,selfEdgeEmpty,aTob,aTob2,bToa,cToA,oneToLongLabel};
+//    private DirectedLabeledGraph.Edge[] edgesEqual = new DirectedLabeledGraph.Edge[]
+//            {selfEdgeEqual,selfEdgeEmptyEqual,aTobEqual,aTob2Equal,bToaEqual,cToAEqual,oneToLongLabelEqual};
     private String[] edgeLabels = new String[]{"selfEdge","selfEdge","aTob","aTob2","bToa","cToA","oneToLongLabel"};
-    private DirectedLabeledGraph.Node[] parents = new DirectedLabeledGraph.Node[]{a,empty,a,a,b,c,one};
-    private DirectedLabeledGraph.Node[] children = new DirectedLabeledGraph.Node[]{a,empty,b,b,a,A,longLabel};
+//    private DirectedLabeledGraph.Node[] parents = new DirectedLabeledGraph.Node[]{a,empty,a,a,b,c,one};
+//    private DirectedLabeledGraph.Node[] children = new DirectedLabeledGraph.Node[]{a,empty,b,b,a,A,longLabel};
 
 
     private String[] strs = new String[]{"EDGE selfEdge from NODE a to NODE a",
@@ -57,6 +65,51 @@ public class EdgeTest {
     private int[] hashCodes = new int[]{-248820043,-248828385,20826315,645364565
                                         ,21034845,21241825,-229596571};
 
+
+
+    @Before
+    public void setUp() {
+        edges.add(selfEdge);
+        edges.add(selfEdgeEmpty);
+        edges.add(aTob);
+        edges.add(aTob2);
+        edges.add(bToa);
+        edges.add(cToA);
+        edges.add(oneToLongLabel);
+        edgesEqual.add(selfEdgeEqual);
+        edgesEqual.add(selfEdgeEmptyEqual);
+        edgesEqual.add(aTobEqual);
+        edgesEqual.add(aTob2Equal);
+        edgesEqual.add(bToaEqual);
+        edgesEqual.add(cToAEqual);
+        edgesEqual.add(oneToLongLabelEqual);
+
+        parents.add(a);
+        parents.add(empty);
+        parents.add(a);
+        parents.add(a);
+        parents.add(b);
+        parents.add(c);
+        parents.add(one);
+
+        children.add(a);
+        children.add(empty);
+        children.add(b);
+        children.add(b);
+        children.add(a);
+        children.add(A);
+        children.add(longLabel);
+
+
+
+
+
+        //    private DirectedLabeledGraph.Node[] parents = new DirectedLabeledGraph.Node[]{a,empty,a,a,b,c,one};
+//    private DirectedLabeledGraph.Node[] children = new DirectedLabeledGraph.Node[]{a,empty,b,b,a,A,longLabel};
+
+
+    }
+
     // First we test the  constructors of DLG Edges in isolation (assumes that the Node constructors work as specifies)
     // (Note, all of these objects were already constructed above as
     // fields of this class (EdgeTest); thus, one could argue that
@@ -67,13 +120,13 @@ public class EdgeTest {
     ///////////////////////////////////////////////////////////////////////////////////////
     @Test
     public void testConstructor() {
-        new DirectedLabeledGraph.Edge("selfEdge",a,a);
-        new DirectedLabeledGraph.Edge("selfEdge",empty,empty);
-        new DirectedLabeledGraph.Edge("aTob",a,b);
-        new DirectedLabeledGraph.Edge("aTob2",a,b);
-        new DirectedLabeledGraph.Edge("bToa",b,a);
-        new DirectedLabeledGraph.Edge("cToA",c,A);
-        new DirectedLabeledGraph.Edge("oneToLongLabel",one,longLabel);
+        new DirectedLabeledGraph.Edge<>("selfEdge",a,a);
+        new DirectedLabeledGraph.Edge<>("selfEdge",empty,empty);
+        new DirectedLabeledGraph.Edge<>("aTob",a,b);
+        new DirectedLabeledGraph.Edge<>("aTob2",a,b);
+        new DirectedLabeledGraph.Edge<>("bToa",b,a);
+        new DirectedLabeledGraph.Edge<>("cToA",c,A);
+        new DirectedLabeledGraph.Edge<>("oneToLongLabel",one,longLabel);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -81,10 +134,10 @@ public class EdgeTest {
     ///////////////////////////////////////////////////////////////////////////////////////
     @Test
     public void testGetLabel() {
-        for(int i = 0; i < edges.length; i++){
+        for(int i = 0; i < edges.size(); i++){
             assertEquals("Expected edge label: " + edgeLabels[i] +
-                            "Actual edge label: " + edges[i].getLabel()
-                    ,edges[i].getLabel()
+                            "Actual edge label: " + edges.get(i).getLabel()
+                    , edges.get(i).getLabel()
                     ,edgeLabels[i]);
         }
 
@@ -95,11 +148,11 @@ public class EdgeTest {
     ///////////////////////////////////////////////////////////////////////////////////////
     @Test
     public void testGetParent() {
-        for(int i = 0; i < edges.length; i++){
-            assertEquals("Expected Parent: " + parents[i].getData() +
-                            "Actual Parent: " + edges[i].getParent().getData()
-                    ,edges[i].getParent()
-                    ,parents[i]);
+        for(int i = 0; i < edges.size(); i++){
+            assertEquals("Expected Parent: " + parents.get(i).getData() +
+                            "Actual Parent: " + edges.get(i).getParent().getData()
+                    , edges.get(i).getParent()
+                    , parents.get(i));
         }
 
     }
@@ -109,11 +162,11 @@ public class EdgeTest {
     ///////////////////////////////////////////////////////////////////////////////////////
     @Test
     public void testGetChild() {
-        for(int i = 0; i < edges.length; i++){
-            assertEquals("Expected child: " + children[i].getData() +
-                            "Actual child: " + edges[i].getChild().getData()
-                    ,edges[i].getChild()
-                    ,children[i]);
+        for(int i = 0; i < edges.size(); i++){
+            assertEquals("Expected child: " + children.get(i).getData() +
+                            "Actual child: " + edges.get(i).getChild().getData()
+                    , edges.get(i).getChild()
+                    , children.get(i));
         }
 
     }
@@ -123,9 +176,9 @@ public class EdgeTest {
     ///////////////////////////////////////////////////////////////////////////////////////
     @Test
     public void testToString() {
-        for(int i = 0; i < edges.length;i++){
-            assertEquals("Expected: " + strs[i] + "Actual: " + edges[i].toString(),
-                    strs[i],edges[i].toString());
+        for(int i = 0; i < edges.size();i++){
+            assertEquals("Expected: " + strs[i] + "Actual: " + edges.get(i).toString(),
+                    strs[i], edges.get(i).toString());
         }
 
     }
@@ -135,9 +188,9 @@ public class EdgeTest {
     ///////////////////////////////////////////////////////////////////////////////////////
     @Test
     public void testEquals() {
-        for(int i = 0; i < edges.length;i++){
-            assertEquals(edges[i].toString() +"not equal to "+ edgesEqual[i].toString() ,
-                    edgesEqual[i],edges[i]);
+        for(int i = 0; i < edges.size();i++){
+            assertEquals(edges.get(i).toString() +"not equal to "+ edgesEqual.get(i).toString() ,
+                    edgesEqual.get(i), edges.get(i));
         }
 
     }
@@ -147,11 +200,11 @@ public class EdgeTest {
     ///////////////////////////////////////////////////////////////////////////////////////
     @Test
     public void testHashCode() {
-        for(int i = 0; i < edges.length;i++){
-            assertEquals("Expected: " + hashCodes[i] + "Actual: " + edges[i].hashCode(),
-                    hashCodes[i],edges[i].hashCode());
-            assertEquals(edges[i].hashCode() +"not equal to "+ edgesEqual[i].hashCode() ,
-                    edgesEqual[i],edges[i]);
+        for(int i = 0; i < edges.size();i++){
+            assertEquals("Expected: " + hashCodes[i] + "Actual: " + edges.get(i).hashCode(),
+                    hashCodes[i], edges.get(i).hashCode());
+            assertEquals(edges.get(i).hashCode() +"not equal to "+ edgesEqual.get(i).hashCode() ,
+                    edgesEqual.get(i), edges.get(i));
         }
 
     }

@@ -23,10 +23,10 @@ import java.util.*;
  *      <li> All edges in the graph are unique(there are no two edges in the graph which contain the same start node,the same end node, and the same label).</li>
  * </ul>
  */
-public class DirectedLabeledGraph {
+public class DirectedLabeledGraph<D,L>{
 
     /**  maps each Node in this DLG to set of that Node's outgoing edges */
-    private Map<Node, Set<Edge>> adjList;
+    private Map<Node<D>, Set<Edge<D,L>>> adjList;
     /**  toggles the checkRep calls in this DLG  */
     private static final boolean useCheckRep = false;
 
@@ -65,7 +65,7 @@ public class DirectedLabeledGraph {
      * @spec.modifies this.elements
      * @spec.effects adds a node to this DLG
      */
-    public void addNode(Node n){
+    public void addNode(Node<D> n){
             checkRep();
         assert (!adjList.keySet().contains(n)) :
                  n.toString() + " is not unique";
@@ -82,7 +82,7 @@ public class DirectedLabeledGraph {
      *               a appropriate node. Adds the parent and child node of e to the DLG
      *               if it is not already in the graph.
      */
-    public void addEdge(Edge e){
+    public void addEdge(Edge<D,L> e){
             checkRep();
         // adds the parent node of the edge to the adjList if not there already
         if(!adjList.keySet().contains(e.getParent())) {
@@ -93,7 +93,7 @@ public class DirectedLabeledGraph {
         if(!adjList.keySet().contains(e.getChild())){
             addNode(e.getChild());
         }
-        Set<Edge> edges = adjList.get(e.getParent());
+        Set<Edge<D,L>> edges = adjList.get(e.getParent());
         edges.add(e);
         adjList.put(e.getParent(), edges);
             checkRep();
@@ -106,10 +106,10 @@ public class DirectedLabeledGraph {
      * @spec.requires e != null,
      * @spec.effects returns whether or not the given Edge is in the DLG
      */
-    public boolean containsEdge(Edge e) {
+    public boolean containsEdge(Edge<D,L> e) {
         checkRep();
         boolean result = false;
-        for(Node n: this.adjList.keySet()){
+        for(Node<D> n: this.adjList.keySet()){
             if(this.adjList.get(n).contains(e)){
                 result = true;
                 break;
@@ -126,7 +126,7 @@ public class DirectedLabeledGraph {
      * @spec.requires n != null,
      * @spec.effects returns whether or not the given Node is in the DLG
      */
-    public boolean containsNode(Node n) {
+    public boolean containsNode(Node<D> n) {
         checkRep();
         boolean result = this.adjList.keySet().contains(n);
         checkRep();
@@ -138,9 +138,9 @@ public class DirectedLabeledGraph {
      *
      * @return the set of all of the nodes in this DLG.
      */
-    public Set<Node> getAllNodes(){
+    public Set<Node<D>> getAllNodes(){
             checkRep();
-        Set<Node> allNodes = Collections.unmodifiableSet(adjList.keySet());
+        Set<Node<D>> allNodes = Collections.unmodifiableSet(adjList.keySet());
             checkRep();
         return allNodes;
     }
@@ -151,9 +151,9 @@ public class DirectedLabeledGraph {
      * @spec.requires this.elements contains parentNode and parentNode != null
      * @return the set of all outgoing edges from the given parent node.
      */
-    public Set<Edge> getOutgoingEdges(Node parentNode){
+    public Set<Edge<D,L>> getOutgoingEdges(Node<D> parentNode){
             checkRep();
-        Set<Edge> outgoingEdges = Collections.unmodifiableSet(adjList.get(parentNode));
+        Set<Edge<D,L>> outgoingEdges = Collections.unmodifiableSet(adjList.get(parentNode));
             checkRep();
         return outgoingEdges;
     }
@@ -223,10 +223,10 @@ public class DirectedLabeledGraph {
      Specification fields:
      *  @spec.specfield data: String // the data contained in the node
      */
-    public static class Node {
+    public static class Node <D>{
 
         /** the data which is held by this node */
-        private final String data;
+        private final D data;
 
         // Representation Invariant:
         //  data != null
@@ -242,7 +242,7 @@ public class DirectedLabeledGraph {
          * @spec.effects creates a new Node with the given data
          * @spec.modifies this.data
          */
-        public Node (String data) {
+        public Node (D data) {
             this.data = data;
             checkRep();
         }
@@ -252,7 +252,7 @@ public class DirectedLabeledGraph {
          *
          * @return returns the data of this node.
          */
-        public String getData() {
+        public D getData() {
             return this.data;
         }
 
@@ -319,7 +319,7 @@ public class DirectedLabeledGraph {
      */
 
 
-    public static class Edge {
+    public static class Edge<D,L> {
 
         // Representation Invariant:
         //  label != null && parent != null && child != null
@@ -331,13 +331,13 @@ public class DirectedLabeledGraph {
         //             e.child equals r.child
 
         /** the label of this edge */
-        private final String label;
+        private final L label;
 
         /** the parent node of this edge */
-        private final Node parent;
+        private final Node<D> parent;
 
         /** the child node of this edge */
-        private final Node child;
+        private final Node<D> child;
 
         /**
          *  Constructs a new Edge with the given label, parent node, and child node
@@ -345,7 +345,7 @@ public class DirectedLabeledGraph {
          * @spec.effects creates a new Edge with the given label, parent node, and child node.
          * @spec.modifies this.data,this.start,this.end
          */
-        public Edge (String label,Node parent, Node child) {
+        public Edge (L label,Node<D> parent, Node<D> child) {
             this.label = label;
             this.parent = parent;
             this.child = child;
@@ -357,7 +357,7 @@ public class DirectedLabeledGraph {
          *
          * @return returns the label of this edge.
          */
-        public String getLabel() {
+        public L getLabel() {
             return this.label;
         }
 
@@ -366,14 +366,14 @@ public class DirectedLabeledGraph {
          *
          * @return returns the parent node of this edge.
          */
-        public Node getParent() {
+        public Node<D> getParent() {
             return this.parent;
         }
 
         /**
          * @return returns the child node of this edge.
          */
-        public Node getChild() {
+        public Node<D> getChild() {
             return this.child;
         }
 

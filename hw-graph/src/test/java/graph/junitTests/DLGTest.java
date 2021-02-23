@@ -1,6 +1,8 @@
 package graph.junitTests;
 
 import graph.DirectedLabeledGraph;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -13,53 +15,78 @@ public class DLGTest {
     public Timeout globalTimeout = Timeout.seconds(10); // 10 seconds max per method tested
 
     // creates some simple Nodes
-    private DirectedLabeledGraph.Node a = new DirectedLabeledGraph.Node("a");
-    private DirectedLabeledGraph.Node A = new DirectedLabeledGraph.Node("A");
-    private DirectedLabeledGraph.Node b = new DirectedLabeledGraph.Node("b");
-    private DirectedLabeledGraph.Node c = new DirectedLabeledGraph.Node("c");
-    private DirectedLabeledGraph.Node one = new DirectedLabeledGraph.Node("1");
-    private DirectedLabeledGraph.Node longLabel = new DirectedLabeledGraph.Node("this_is_a_very_long_label_123");
-    private DirectedLabeledGraph.Node empty = new DirectedLabeledGraph.Node("");
+    private DirectedLabeledGraph.Node<String> a = new DirectedLabeledGraph.Node<String>("a");
+    private DirectedLabeledGraph.Node<String> A = new DirectedLabeledGraph.Node<String>("A");
+    private DirectedLabeledGraph.Node<String> b = new DirectedLabeledGraph.Node<String>("b");
+    private DirectedLabeledGraph.Node<String> c = new DirectedLabeledGraph.Node<String>("c");
+    private DirectedLabeledGraph.Node<String> one = new DirectedLabeledGraph.Node<String>("1");
+    private DirectedLabeledGraph.Node<String> longLabel = new DirectedLabeledGraph.Node<String>("this_is_a_very_long_label_123");
+    private DirectedLabeledGraph.Node<String> empty = new DirectedLabeledGraph.Node<String>("");
 
-    private DirectedLabeledGraph.Edge selfEdge = new DirectedLabeledGraph.Edge("selfEdge",a,a);
-    private DirectedLabeledGraph.Edge selfEdgeEmpty = new DirectedLabeledGraph.Edge("selfEdge",empty,empty);
-    private DirectedLabeledGraph.Edge aTob = new DirectedLabeledGraph.Edge("aTob",a,b);
-    private DirectedLabeledGraph.Edge aTob2 = new DirectedLabeledGraph.Edge("aTob2",a,b);
-    private DirectedLabeledGraph.Edge bToa = new DirectedLabeledGraph.Edge("bToa",b,a);
-    private DirectedLabeledGraph.Edge cToA = new DirectedLabeledGraph.Edge("cToA",c,A);
-    private DirectedLabeledGraph.Edge oneToLongLabel = new DirectedLabeledGraph.Edge("oneToLongLabel",one,longLabel);
+    private DirectedLabeledGraph.Edge<String,String> selfEdge = new DirectedLabeledGraph.Edge<>("selfEdge",a,a);
+    private DirectedLabeledGraph.Edge<String,String> selfEdgeEmpty = new DirectedLabeledGraph.Edge<>("selfEdge",empty,empty);
+    private DirectedLabeledGraph.Edge<String,String> aTob = new DirectedLabeledGraph.Edge<>("aTob",a,b);
+    private DirectedLabeledGraph.Edge<String,String> aTob2 = new DirectedLabeledGraph.Edge<>("aTob2",a,b);
+    private DirectedLabeledGraph.Edge<String,String> bToa = new DirectedLabeledGraph.Edge<>("bToa",b,a);
+    private DirectedLabeledGraph.Edge<String,String> cToA = new DirectedLabeledGraph.Edge<>("cToA",c,A);
+    private DirectedLabeledGraph.Edge<String,String> oneToLongLabel = new DirectedLabeledGraph.Edge<>("oneToLongLabel",one,longLabel);
 
-    private DirectedLabeledGraph.Edge[] edges = new DirectedLabeledGraph.Edge[]
-            {selfEdge,selfEdgeEmpty,aTob,aTob2,bToa,cToA,oneToLongLabel};
-    private final  DirectedLabeledGraph.Node[] allNodes = new DirectedLabeledGraph.Node[]{a,A,b,c,one,longLabel,empty};
-    private DirectedLabeledGraph emptyGraph;
-    private DirectedLabeledGraph singleNodeGraph;
-    private DirectedLabeledGraph singleEdgeGraph;
-    private DirectedLabeledGraph noEdges;
-    private DirectedLabeledGraph fullGraph;
-    private DirectedLabeledGraph[] graphs;
+    private List<DirectedLabeledGraph.Edge<String,String>> edges = new ArrayList<>();
+    private List<DirectedLabeledGraph.Node<String>> allNodes= new ArrayList<>();
+
+
+    private DirectedLabeledGraph<String,String> emptyGraph;
+    private DirectedLabeledGraph<String,String> singleNodeGraph;
+    private DirectedLabeledGraph<String,String> singleEdgeGraph;
+    private DirectedLabeledGraph<String,String> noEdges;
+    private DirectedLabeledGraph<String,String> fullGraph;
+    private List<DirectedLabeledGraph<String,String>> graphs = new ArrayList<>();
     private String[] strs;
 
     @Before
     public void setUp() {
-         emptyGraph = new DirectedLabeledGraph();
-         singleNodeGraph = new DirectedLabeledGraph();
+        edges.add(selfEdge);
+        edges.add(selfEdgeEmpty);
+        edges.add(aTob);
+        edges.add(aTob2);
+        edges.add(bToa);
+        edges.add(cToA);
+        edges.add(oneToLongLabel);
+
+        allNodes.add(a);
+        allNodes.add(A);
+        allNodes.add(b);
+        allNodes.add(c);
+        allNodes.add(one);
+        allNodes.add(longLabel);
+        allNodes.add(empty);
+
+
+
+
+
+        emptyGraph = new DirectedLabeledGraph<>();
+         singleNodeGraph = new DirectedLabeledGraph<>();
          singleNodeGraph.addNode(A);
-        singleEdgeGraph = new DirectedLabeledGraph();
+        singleEdgeGraph = new DirectedLabeledGraph<>();
         singleEdgeGraph.addEdge(aTob);
-        noEdges = new DirectedLabeledGraph();
-        for(DirectedLabeledGraph.Node n:allNodes){
+        noEdges = new DirectedLabeledGraph<>();
+        for(DirectedLabeledGraph.Node<String> n:allNodes){
             noEdges.addNode(n);
         }
-        fullGraph = new DirectedLabeledGraph();
-        for(DirectedLabeledGraph.Node n:allNodes){
+        fullGraph = new DirectedLabeledGraph<>();
+        for(DirectedLabeledGraph.Node<String> n:allNodes){
             fullGraph.addNode(n);
         }
-        for(DirectedLabeledGraph.Edge e:edges){
+        for(DirectedLabeledGraph.Edge<String,String> e:edges){
             fullGraph.addEdge(e);
         }
 
-        graphs = new DirectedLabeledGraph[]{emptyGraph,singleNodeGraph,singleEdgeGraph,noEdges,fullGraph};
+        graphs.add(emptyGraph);
+        graphs.add(singleNodeGraph);
+        graphs.add(singleEdgeGraph);
+        graphs.add(noEdges);
+        graphs.add(fullGraph);
         strs = new String[]{"[]","[{NODE A: }]",
                 "[{NODE a: <EDGE aTob from NODE a to NODE b>}{NODE b: }]",
                 "[{NODE : }{NODE a: }{NODE A: }{NODE 1: }{NODE this_is_a_very_long_label_123: }{NODE b: }{NODE c: }]",
@@ -77,9 +104,9 @@ public class DLGTest {
     ///////////////////////////////////////////////////////////////////////////////////////
     @Test
     public void testToString() {
-        for(int i = 0; i < graphs.length;i++){
-            assertEquals("Expected: " + strs[i] + "Actual: " + graphs[i].toString(),
-                    strs[i],graphs[i].toString());
+        for(int i = 0; i < graphs.size();i++){
+            assertEquals("Expected: " + strs[i] + "Actual: " + graphs.get(i).toString(),
+                    strs[i],graphs.get(i).toString());
         }
 
     }
