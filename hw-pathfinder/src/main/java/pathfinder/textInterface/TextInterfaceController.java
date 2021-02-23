@@ -15,6 +15,7 @@ import pathfinder.ModelAPI;
 import pathfinder.datastructures.Path;
 
 import java.util.Map;
+import pathfinder.datastructures.Point;
 
 /**
  * This class does most of the controller work for the text user interface version
@@ -128,7 +129,7 @@ public class TextInterfaceController implements InputHandler {
             view.basePrompt();
             return;
         }
-        Path path = model.findShortestPath(start, end);
+        Path<Point> path = model.findShortestPath(start, end);
         if(path == null) {
             // No path. This is guaranteed not to happen by the homework spec,
             // so let's fall on our face if it does.

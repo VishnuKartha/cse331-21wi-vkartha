@@ -14,6 +14,7 @@ package pathfinder;
 import pathfinder.datastructures.Path;
 
 import java.util.Map;
+import pathfinder.datastructures.Point;
 
 /*
 In the pathfinder homework, the text user interface calls these methods to talk
@@ -66,7 +67,7 @@ public interface ModelAPI {
      *                                  {@literal null}, or not valid short names of buildings in
      *                                  this campus map.
      */
-    public Path findShortestPath(String startShortName, String endShortName);
+    public Path<Point> findShortestPath(String startShortName, String endShortName);
     // You'll need to change this return type to use the generic Path once you've
     // updated the Path ADT to be generic.
 
