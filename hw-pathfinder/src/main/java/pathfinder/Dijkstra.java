@@ -23,7 +23,7 @@ public  class Dijkstra {
      * @param start the start node of the path
      * @param end the end node of the path
      */
-    public static <D> Path<DirectedLabeledGraph.Node<D>> findPath(DirectedLabeledGraph<D,Double> dlg, DirectedLabeledGraph.Node<D> start,
+    public static <D> Path<D> findPath(DirectedLabeledGraph<D,Double> dlg, DirectedLabeledGraph.Node<D> start,
                                                                   DirectedLabeledGraph.Node<D> end) {
         // Uses a breadth first search algorithm
 
@@ -40,24 +40,24 @@ public  class Dijkstra {
         // Each element is a path from start to a given node.
         // A path's “priority” in the queue is the total cost of that path.
         // Nodes for which no path is known yet are not in the queue.
-        PriorityQueue<Path<DirectedLabeledGraph.Node<D>>> active = new PriorityQueue<>(new Comparator<Path<DirectedLabeledGraph.Node<D>>>() {
+        PriorityQueue<Path<D>> active = new PriorityQueue<>(new Comparator<Path<D>>() {
             @Override
-            public int compare(Path<DirectedLabeledGraph.Node<D>> o1, Path<DirectedLabeledGraph.Node<D>> o2) {
+            public int compare(Path<D> o1, Path<D> o2) {
                 return Double.compare(o1.getCost(),o2.getCost());
             }
         });
 
 
-        // Initially we only know of the path from start to itself
-        active.add(new Path<>(start));
+                // Initially we only know of the path from start to itself
+                active.add(new Path<>(start.getData()));
 
         //  finished = set of nodes for which we know the minimum-cost path from start.
         Set<DirectedLabeledGraph.Node<D>> finished = new HashSet<>();
 
 
         while (!active.isEmpty()) {
-            Path<DirectedLabeledGraph.Node<D>> minPath = active.poll();
-            DirectedLabeledGraph.Node<D> minDest = minPath.getEnd();
+            Path<D> minPath = active.poll();
+            DirectedLabeledGraph.Node<D> minDest = new DirectedLabeledGraph.Node<>(minPath.getEnd());
             if (minDest.equals(end)) { // search has found the end node, return the path
                 return minPath;
             } else  if(finished.contains(minDest)) {
@@ -67,7 +67,7 @@ public  class Dijkstra {
                     if (e!= null && !finished.contains(e.getChild())) {
                         // the child of edge e is a new node which has not been encountered yet the label of e has
                         // the distance between the nodes
-                        Path<DirectedLabeledGraph.Node<D>> newPath = minPath.extend(e.getChild(),e.getLabel());
+                        Path<D> newPath = minPath.extend(e.getChild().getData(),e.getLabel());
                         active.add(newPath);
                     }
                 }

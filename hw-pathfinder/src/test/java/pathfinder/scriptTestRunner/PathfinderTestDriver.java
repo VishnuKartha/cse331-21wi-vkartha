@@ -245,15 +245,15 @@ public class PathfinderTestDriver {
 
         } else {
             output.println("path from " + node_a + " to " + node_b +":");
-           Path<DirectedLabeledGraph.Node<String>> path = Dijkstra.findPath(dlg,a,b);
+           Path<String> path = Dijkstra.findPath(dlg,a,b);
             if(path == null){
                 output.println("no path found");
             } else {
-                Iterator<Path<DirectedLabeledGraph.Node<String>>.Segment> iter = path.iterator();
+                Iterator<Path<String>.Segment> iter = path.iterator();
                 while(iter.hasNext()){
-                    Path<DirectedLabeledGraph.Node<String>>.Segment curr = iter.next();
-                    output.println(curr.getStart().getData() + " to " +
-                            curr.getEnd().getData() + " with " + String.format("weight %.3f", curr.getCost()));
+                    Path<String>.Segment curr = iter.next();
+                    output.println(curr.getStart() + " to " +
+                            curr.getEnd() + " with " + String.format("weight %.3f", curr.getCost()));
                 }
                 output.println("total cost:" + String.format(" %.3f", path.getCost()));
             }
