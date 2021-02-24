@@ -1,0 +1,12 @@
+# Creates a single graph, adds two nodes, and adds two edges between the two nodes.
+
+# Create a Graph
+CreateGraph graph1
+
+# Add a pair of nodes
+AddNode graph1 n1
+AddNode graph1 n2
+
+# Add two edges between the two nodes
+AddEdge graph1 n1 n2 1010.00
+AddEdge graph1 n2 n1 2020.00

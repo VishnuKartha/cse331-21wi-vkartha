@@ -1,0 +1,40 @@
+ind a path with Dijkstra's algorithm with a large graph (the large graph was presented in section)
+
+CreateGraph largeGraph
+
+AddNode largeGraph A
+AddNode largeGraph B
+AddNode largeGraph C
+AddNode largeGraph D
+AddNode largeGraph E
+AddNode largeGraph F
+AddNode largeGraph G
+AddNode largeGraph H
+
+
+
+
+AddEdge largeGraph A B 2.0
+AddEdge largeGraph A C 1.0
+AddEdge largeGraph A D 4.0
+
+AddEdge largeGraph B C 5.0
+AddEdge largeGraph B E 10.0
+AddEdge largeGraph B F 2.0
+
+AddEdge largeGraph C A 9.0
+AddEdge largeGraph C E 11.0
+
+AddEdge largeGraph D C 2.0
+
+AddEdge largeGraph E D 7.0
+AddEdge largeGraph E G 1.0
+
+AddEdge largeGraph F H 3.0
+
+AddEdge largeGraph G E 3.0
+AddEdge largeGraph G F 2.0
+
+AddEdge largeGraph H G 1.0
+
+FindPath largeGraph A E

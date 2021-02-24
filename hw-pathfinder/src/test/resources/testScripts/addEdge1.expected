@@ -1,0 +1,11 @@
+# Creates a single graph and adds 2 nodes to it and an edge between the nodes
+
+# Create a Graph
+created graph graph1
+
+# Add a pair of nodes
+added node n1 to graph1
+added node n2 to graph1
+
+# Add an edge between the two nodes
+added edge 20.000 from n1 to n2 in graph1

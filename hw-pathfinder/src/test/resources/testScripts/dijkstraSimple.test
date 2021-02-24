@@ -1,0 +1,17 @@
+# Find a path with Dijkstra's algorithm with a small graph
+
+CreateGraph smallGraph
+
+AddNode smallGraph A
+AddNode smallGraph B
+
+
+
+AddEdge smallGraph A B 2.0
+AddEdge smallGraph B A 10000000.0
+
+
+
+
+
+FindPath smallGraph A B

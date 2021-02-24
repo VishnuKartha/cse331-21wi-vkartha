@@ -1,0 +1,46 @@
+Unrecognized command: ind
+
+created graph largeGraph
+
+added node A to largeGraph
+added node B to largeGraph
+added node C to largeGraph
+added node D to largeGraph
+added node E to largeGraph
+added node F to largeGraph
+added node G to largeGraph
+added node H to largeGraph
+
+
+
+
+added edge 2.000 from A to B in largeGraph
+added edge 1.000 from A to C in largeGraph
+added edge 4.000 from A to D in largeGraph
+
+added edge 5.000 from B to C in largeGraph
+added edge 10.000 from B to E in largeGraph
+added edge 2.000 from B to F in largeGraph
+
+added edge 9.000 from C to A in largeGraph
+added edge 11.000 from C to E in largeGraph
+
+added edge 2.000 from D to C in largeGraph
+
+added edge 7.000 from E to D in largeGraph
+added edge 1.000 from E to G in largeGraph
+
+added edge 3.000 from F to H in largeGraph
+
+added edge 3.000 from G to E in largeGraph
+added edge 2.000 from G to F in largeGraph
+
+added edge 1.000 from H to G in largeGraph
+
+path from A to E:
+A to B with weight 2.000
+B to F with weight 2.000
+F to H with weight 3.000
+H to G with weight 1.000
+G to E with weight 3.000
+total cost: 11.000

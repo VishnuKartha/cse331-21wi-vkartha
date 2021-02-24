@@ -4,9 +4,9 @@ import java.util.*;
 
 /**
  * This class represents the concept of a mutable Directed Labeled Graph(DLG).
- *  <p> A node n_i is a representation of a single piece of String data.
+ *  <p> A node n_i is a representation of a single piece of  data.
  *      An edge e(n_a,n_b,l_i) represents that the node n_b is directly reachable from n_a and
- *      is given the label l_i, where l_i is a String.
+ *      is given the label l_i.
  *      An outgoing edge to a node n_i is an edge where the other node in the edge n_j is directly
  *      reachable from n_i.
  *      The directed labeled graph is a set of pairs where the first element of the pair is a node
@@ -23,6 +23,13 @@ import java.util.*;
  *      <li> All edges in the graph are unique(there are no two edges in the graph which contain the same start node,
  *      the same end node, and the same label).</li>
  * </ul>
+ */
+
+/**
+ * @param <D> the type of the data represented in nodes of the DLG
+ * @param <L> the type of the labels used by edges of the DLG
+
+  Behavior is undefined if the data of the nodes and labels of the edges in the DLG is mutated
  */
 public class DirectedLabeledGraph<D,L>{
 
@@ -218,11 +225,17 @@ public class DirectedLabeledGraph<D,L>{
     }
 
     /**
-     This class represents a single node of the DLG, which contains some String data. Nodes
+     This class represents a single node of the DLG, which contains some  data. Nodes
      are immutable
 
      Specification fields:
      *  @spec.specfield data:  // the data contained in the node
+
+
+     * @param <D> the type of the data represented in a Node
+     *
+     * Behavior is undefined if the data of the node is mutated
+     *
      */
     public static class Node <D>{
 
@@ -317,9 +330,15 @@ public class DirectedLabeledGraph<D,L>{
      <br>
      @spec.specfield child : Node // the node from which the edge ends.
      <br>
+
+     Behavior is undefined if the data of the nodes of the node and the label of the edge is mutated
+
      */
 
-
+    /**
+     * @param <D> the type of the data represented in nodes of the edge
+     * @param <L> the type of the label used in the edge
+     */
     public static class Edge<D,L> {
 
         // Representation Invariant:
