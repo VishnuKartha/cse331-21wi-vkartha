@@ -20,7 +20,8 @@ import java.util.*;
  *  <p> Abstract Invariant:
  *  <ul>
  *      <li>All nodes in the graph are unique(there are no two nodes in the graph which both contain the same data</li>
- *      <li> All edges in the graph are unique(there are no two edges in the graph which contain the same start node,the same end node, and the same label).</li>
+ *      <li> All edges in the graph are unique(there are no two edges in the graph which contain the same start node,
+ *      the same end node, and the same label).</li>
  * </ul>
  */
 public class DirectedLabeledGraph<D,L>{
@@ -164,10 +165,10 @@ public class DirectedLabeledGraph<D,L>{
     private void checkRep() {
         assert (this.adjList != null) : "adjList == null";
         if(this.useCheckRep) {
-            for (Node parent : this.adjList.keySet()) {
+            for (Node<D> parent : this.adjList.keySet()) {
                 assert(parent != null):"parent == null";
                 assert(adjList.get(parent)!= null):"the outgoing edges from " + parent.toString() +" is null";
-                for (Edge e : adjList.get(parent)) {
+                for (Edge<D,L> e : adjList.get(parent)) {
                     assert (adjList.keySet().contains(e.getParent())) :
                             "adjList does not contain the parent node of " + e.toString();
                     assert(e.child != null):"the child node of" + e.toString() + "is null";
@@ -194,12 +195,12 @@ public class DirectedLabeledGraph<D,L>{
             checkRep();
         }
         String result = "[";
-        for(Node n : adjList.keySet()){
+        for(Node<D> n : adjList.keySet()){
             result+= "{";
             result += n.toString();
             result += ": ";
             boolean first = true;
-            for(Edge e : adjList.get(n)){
+            for(Edge<D,L> e : adjList.get(n)){
                 if(first) {
                     result += "<" + e.toString() + ">";
                     first = false;
@@ -221,7 +222,7 @@ public class DirectedLabeledGraph<D,L>{
      are immutable
 
      Specification fields:
-     *  @spec.specfield data: String // the data contained in the node
+     *  @spec.specfield data:  // the data contained in the node
      */
     public static class Node <D>{
 
@@ -273,8 +274,8 @@ public class DirectedLabeledGraph<D,L>{
          */
         @Override
         public boolean equals(Object obj) {
-            if(obj instanceof Node) {
-                Node n = (Node) obj;
+            if(obj instanceof Node<?>) {
+                Node<?> n = (Node<?>) obj;
                 return(this.data.equals(n.data));
             } else {
                 return false;
@@ -398,8 +399,8 @@ public class DirectedLabeledGraph<D,L>{
          */
         @Override
         public boolean equals(Object obj) {
-            if(obj instanceof Edge) {
-                Edge n = (Edge) obj;
+            if(obj instanceof Edge<?,?>) {
+                Edge<?,?> n = (Edge<?,?>) obj;
                 return(this.label.equals(n.label) &&
                         this.parent.equals(n.parent) &&
                         this.child.equals(n.child));
@@ -432,7 +433,7 @@ public class DirectedLabeledGraph<D,L>{
          */
          @Override
          public String toString() {
-             return "EDGE " + this.label + " from " + this.parent.toString() +
+             return "EDGE " + this.label.toString() + " from " + this.parent.toString() +
                      " to " + this.child.toString();
          }
 
