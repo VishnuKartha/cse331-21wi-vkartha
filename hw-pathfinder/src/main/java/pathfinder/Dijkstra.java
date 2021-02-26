@@ -15,13 +15,13 @@ public  class Dijkstra {
     /**
      * Returns the shortest path between the Nodes start and end if there is one.
      * @spec.requires dlg != null, start != null, end != null and dlg contains the nodes start and end.
-     * @spec.effects returns the list of edges which represents the shortest path
-     *               between nodeA and nodeB in dlg. returns null if there is no path between
-     *               nodeA and nodeB in dlg. If there are multiple shortest path, returns the lexicographically
-     *               least path.
+     * @spec.effects returns the shortest path between start and end in dlg. returns null if there is no path between
+     *               nodeA and nodeB in dlg.
+     * @return the representation of the shortest path between start and end in dlg
      * @param dlg the graph which is used to search for a path
      * @param start the start node of the path
      * @param end the end node of the path
+     * @param <D> the type of data held by the nodes of dlg
      */
     public static <D> Path<D> findPath(DirectedLabeledGraph<D,Double> dlg, DirectedLabeledGraph.Node<D> start,
                                                                   DirectedLabeledGraph.Node<D> end) {
@@ -38,7 +38,7 @@ public  class Dijkstra {
 
         // a queue holding the  nodes to visit
         // Each element is a path from start to a given node.
-        // A path's “priority” in the queue is the total cost of that path.
+        // A path's priority in the queue is the total cost of that path.
         // Nodes for which no path is known yet are not in the queue.
         PriorityQueue<Path<D>> active = new PriorityQueue<>(new Comparator<Path<D>>() {
             @Override

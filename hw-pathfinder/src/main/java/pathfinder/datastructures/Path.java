@@ -21,7 +21,8 @@ import java.util.List;
  * version of the total cost along this path, for efficient repeated access.
  *
  *
- * @param <E> the type of the data stored in nodes of the Path
+ * @param <E> the type of the data stored in nodes of the Path.
+ *
  * Behavior is undefined if the nodes in the path are mutated
  */
 public class Path<E> implements Iterable<Path<E>.Segment> {
@@ -72,7 +73,7 @@ public class Path<E> implements Iterable<Path<E>.Segment> {
     }
 
     /**
-     * Can cause representation exposure if newEnd is mutated
+     * Can cause representation exposure if newEnd is mutated.
      *
      * Appends a new single segment to the end of this path, originating at the current last node
      * in this path and terminating at {@code newEnd}. The cost of adding this additional segment
@@ -106,7 +107,7 @@ public class Path<E> implements Iterable<Path<E>.Segment> {
     }
 
     /**
-     * Can cause representation exposure if this.start is mutated
+     * Can cause representation exposure if this.start is mutated.
      *
      * @return The node at the beginning of this path.
      */
@@ -115,7 +116,7 @@ public class Path<E> implements Iterable<Path<E>.Segment> {
     }
 
     /**
-     * Can cause representation exposure if the returned end node is mutated
+     * Can cause representation exposure if the returned end node is mutated.
      *
      * @return The node at the end of this path, which may be the start node if this path
      * contains no segments (i.e. this path is from the start node to itself).
@@ -128,7 +129,7 @@ public class Path<E> implements Iterable<Path<E>.Segment> {
     }
 
     /**
-     * Can cause representation exposure if the nodes in the segments are mutated
+     * Can cause representation exposure if the nodes in the segments are mutated.
      *
      * @return An iterator of the segments in this path, in order, beginning from the starting
      * node and ending at the end node. In the case that this path represents a path between
@@ -280,7 +281,7 @@ public class Path<E> implements Iterable<Path<E>.Segment> {
         }
 
         /**
-         * Can cause representation exposure if this.start is mutated
+         * Can cause representation exposure if this.start is mutated.
          * @return The beginning node of this segment.
          */
         public E getStart() {
@@ -288,7 +289,7 @@ public class Path<E> implements Iterable<Path<E>.Segment> {
         }
 
         /**
-         * Can cause representation exposure if this.end is mutated
+         * Can cause representation exposure if this.end is mutated.
          * @return The ending node of this segment.
          */
         public E getEnd() {

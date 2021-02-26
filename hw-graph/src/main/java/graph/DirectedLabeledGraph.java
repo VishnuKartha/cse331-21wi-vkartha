@@ -23,13 +23,10 @@ import java.util.*;
  *      <li> All edges in the graph are unique(there are no two edges in the graph which contain the same start node,
  *      the same end node, and the same label).</li>
  * </ul>
- */
+ *  Behavior is undefined if the data of the nodes and labels of the edges in the DLG is mutated.
 
-/**
  * @param <D> the type of the data represented in nodes of the DLG
  * @param <L> the type of the labels used by edges of the DLG
-
-  Behavior is undefined if the data of the nodes and labels of the edges in the DLG is mutated
  */
 public class DirectedLabeledGraph<D,L>{
 
@@ -232,7 +229,7 @@ public class DirectedLabeledGraph<D,L>{
      *  @spec.specfield data:  // the data contained in the node
 
 
-     * @param <D> the type of the data represented in a Node
+     * @param <D> the type of the data represented in a Node.
      *
      * Behavior is undefined if the data of the node is mutated
      *
@@ -333,9 +330,6 @@ public class DirectedLabeledGraph<D,L>{
 
      Behavior is undefined if the data of the nodes of the node and the label of the edge is mutated
 
-     */
-
-    /**
      * @param <D> the type of the data represented in nodes of the edge
      * @param <L> the type of the label used in the edge
      */
