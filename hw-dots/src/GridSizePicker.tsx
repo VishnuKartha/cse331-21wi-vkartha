@@ -12,13 +12,23 @@
 /* A simple TextField that only allows numerical input */
 
 import React, {Component} from 'react';
+import {Simulate} from "react-dom/test-utils";
+import input = Simulate.input;
 
 interface GridSizePickerProps {
-    value: string;                    // text to display in the text area
+    value:string   // text to display in the text area
     onChange(newSize: number): void;  // called when a new size is picked
 }
 
-class GridSizePicker extends Component<GridSizePickerProps> {
+interface GridSizePickerDisplayText {
+    gridSizePickerDisplayText:string; // the string to display on the gridSizePicker
+}
+
+class GridSizePicker extends Component<GridSizePickerProps,GridSizePickerDisplayText> {
+    constructor(props: GridSizePickerDisplayText) {
+        super(props);
+        this.state = ({gridSizePickerDisplayText: "4"})
+    }
 
     onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         // Every event handler with JS can optionally take a single parameter that
@@ -28,8 +38,20 @@ class GridSizePicker extends Component<GridSizePickerProps> {
         // below.
         //
         // TODO - Not currently doing any validation or error handling. Should probably add some...
-        const newSize: number = parseInt(event.target.value);
-        this.props.onChange(newSize); // Tell our parent component about the new size.
+        const inputString:string = event.target.value
+        const newSize: number = parseInt(inputString);
+        const maxSize:number = 100;
+        const minSize:number = 0;
+        if(newSize > maxSize || newSize < minSize) {
+            alert("GridOutOfBounds");
+        } else if(inputString === ""){
+            this.setState({gridSizePickerDisplayText: ""});
+            this.props.onChange(0);
+        }else {
+            this.setState({gridSizePickerDisplayText: inputString});
+            this.props.onChange(newSize); // Tell our parent component about the new size.
+        }
+
     };
 
     render() {
@@ -38,7 +60,7 @@ class GridSizePicker extends Component<GridSizePickerProps> {
                 <label>
                     Grid Size:
                     <input
-                        value={this.props.value}
+                        value={this.state.gridSizePickerDisplayText}
                         onChange={this.onInputChange}
                         type="number"
                         min={1}

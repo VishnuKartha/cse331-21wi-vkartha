@@ -19,6 +19,7 @@ import "./App.css";
 
 interface AppState {
     gridSize: number;  // size of the grid to display
+      textBoxContents:string; // the string to display on the gridSizePicker
 }
 
 class App extends Component<{}, AppState> { // <- {} means no props.
@@ -27,13 +28,14 @@ class App extends Component<{}, AppState> { // <- {} means no props.
         super(props);
         this.state = {
             gridSize: 4,
+            textBoxContents: ""
         };
     }
 
     updateGridSize = (newSize: number) => {
-        this.setState({
-            gridSize: newSize
-        });
+            this.setState({
+                gridSize: newSize,
+            });
     };
 
     render() {
@@ -43,7 +45,11 @@ class App extends Component<{}, AppState> { // <- {} means no props.
                 <p id="app-title">Connect the Dots!</p>
                 <GridSizePicker value={this.state.gridSize.toString()} onChange={this.updateGridSize}/>
                 <Grid size={this.state.gridSize} width={canvas_size} height={canvas_size}/>
-                <EdgeList onChange={(value) => {console.log("EdgeList onChange", value)}}/>
+                <EdgeList textBoxContents={this.state.textBoxContents} onChange={(value) =>
+                    this.setState({
+                        textBoxContents:value // the string to display on the gridSizePicker
+                    })}/>
+
             </div>
 
         );

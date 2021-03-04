@@ -13,7 +13,7 @@ public  class Dijkstra {
     // class does not represent an ADT
 
     /**
-     * Returns the shortest path between the Nodes start and end if there is one.
+     * Returns the shortest path by edge weight between the Nodes start and end if there is one.
      * @spec.requires dlg != null, start != null, end != null and dlg contains the nodes start and end.
      * @spec.effects returns the shortest path between start and end in dlg. returns null if there is no path between
      *               nodeA and nodeB in dlg.
