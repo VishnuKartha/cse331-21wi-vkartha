@@ -20,7 +20,6 @@ interface EdgeListProps {
 
 interface EdgeListState{
     edgeListTextBoxDisplay:string
-    edges:[[number, number],[number,number],string][]
 }
 
 /**
@@ -30,7 +29,8 @@ interface EdgeListState{
 class EdgeList extends Component<EdgeListProps,EdgeListState> {
     constructor(props: EdgeListProps) {
         super(props);
-        this.state = ({edgeListTextBoxDisplay: "",edges:[]})
+        this.state = ({edgeListTextBoxDisplay: ""})
+
     }
     onInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         const inputString:string = event.target.value;
@@ -39,8 +39,7 @@ class EdgeList extends Component<EdgeListProps,EdgeListState> {
     };
 
     drawOnClick = () => {
-        // this.clearOnClick();
-        let edgesTemp:[[number, number],[number,number],string][] = this.state.edges;
+        let edgesToDraw:[[number, number],[number,number],string][] = [];
         let inputtedEdges:string[] = this.state.edgeListTextBoxDisplay.split("\n");
         for(let i:number = 0; i < inputtedEdges.length;i++){
             console.log("INPUT:" + inputtedEdges[i]);
@@ -51,24 +50,32 @@ class EdgeList extends Component<EdgeListProps,EdgeListState> {
             } else { //inputEdge has 3 fields
                 let point1Strings:string[] = inputEdgeComponents[0].split(",");
                 let point2Strings:string[] = inputEdgeComponents[1].split(",");
-                let x1:number = Number.parseInt(point1Strings[0]);
-                let y1:number = Number.parseInt(point1Strings[1])
-                let x2:number = Number.parseInt(point2Strings[0]);
-                let y2:number = Number.parseInt(point2Strings[1]);
-                if(x1 < 0 || x2 < 0 || y1 < 0 || y2 < 0 ) {
-                    alert("Line " + i + ": Coordinate(s) contains negative value(s)");
-                    break;
+                if(point1Strings.length != 2) {
+                    alert("Line " + i + ": wrong number of parts to the first coordinate");
+                } else if (point2Strings.length != 2){
+                    alert("Line " + i + ": wrong number of parts to the second coordinate");
                 } else {
-                    let point1: [number, number] = [x1, y1];
-                    let point2: [number, number] = [x2, y2];
-                    let colorString: string = inputEdgeComponents[2];
-                    edgesTemp[i] = [point1, point2, colorString];
-                    console.log("STORED:" + edgesTemp[i]);
+                    let x1: number = Number.parseInt(point1Strings[0]);
+                    let y1: number = Number.parseInt(point1Strings[1])
+                    let x2: number = Number.parseInt(point2Strings[0]);
+                    let y2: number = Number.parseInt(point2Strings[1]);
+                    if(Number.isNaN(x1) ||Number.isNaN(y1) || Number.isNaN(x2)  || Number.isNaN(y2)) {
+                        alert("Line " + i + ": invalid coordinates(contain non-number characters)");
+                    } else if (x1 < 0 || x2 < 0 || y1 < 0 || y2 < 0) {
+                        alert("Line " + i + ": Coordinate(s) contains negative value(s)");
+                        break;
+                    } else {
+                        let point1: [number, number] = [x1, y1];
+                        let point2: [number, number] = [x2, y2];
+                        let colorString: string = inputEdgeComponents[2];
+                        edgesToDraw[i] = [point1, point2, colorString];
+                        console.log("STORED:" + edgesToDraw[i]);
+                    }
                 }
             }
 
         }
-        this.props.onChange(edgesTemp);
+        this.props.onChange(edgesToDraw);
     };
 
     clearOnClick = () => {
