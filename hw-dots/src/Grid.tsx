@@ -15,6 +15,7 @@ interface GridProps {
     size: number;    // size of the grid to display
     width: number;   // width of the canvas on which to draw
     height: number;  // height of the canvas on which to draw
+    edges: [[number, number],[number,number],string][] // the edges to draw on the grid
 }
 
 interface GridState {
@@ -86,6 +87,12 @@ class Grid extends Component<GridProps, GridState> {
         for (let coordinate of coordinates) {
             this.drawCircle(ctx, coordinate);
         }
+
+        //draw all the edges
+
+        for(let edge of this.props.edges) {
+            this.drawEdge(ctx,edge);
+        }
     };
 
     /**
@@ -114,6 +121,39 @@ class Grid extends Component<GridProps, GridState> {
         ctx.beginPath();
         ctx.arc(coordinate[0], coordinate[1], radius, 0, 2 * Math.PI);
         ctx.fill();
+    };
+
+    drawEdge = (ctx: CanvasRenderingContext2D, edge: [[number, number],[number,number],string]) => {
+        console.log("IN DRAWEDGE");
+        console.log("Drawing edge" + edge);
+
+        let xScaleFactor:number = this.props.width /(this.props.size +1);
+        let yScaleFactor:number = this.props.height /(this.props.size +1);
+
+        let point1:[number,number] = edge[0];
+        let point2:[number,number] = edge[1];
+        let max:number = Math.max(point1[0],point1[1],point2[0],point2[1]) + 1;
+
+        if(max > this.props.size) {
+            let customMessage:string =""
+            if(max <= 100){
+                customMessage = " grid must be at least size " + max;
+            }
+            alert("cannot draw edges:" + customMessage)
+        } else {
+
+            let x1ToDraw: number = (point1[0] + 1) * xScaleFactor;
+            let y1ToDraw: number = (point1[1] + 1) * yScaleFactor;
+            let x2ToDraw: number = (point2[0] + 1) * xScaleFactor;
+            let y2ToDraw: number = (point2[1] + 1) * yScaleFactor;
+
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = edge[2];
+            ctx.beginPath()
+            ctx.moveTo(x1ToDraw, y1ToDraw);
+            ctx.lineTo(x2ToDraw, y2ToDraw);
+            ctx.stroke()
+        }
     };
 
     render() {

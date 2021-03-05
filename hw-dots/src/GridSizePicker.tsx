@@ -12,8 +12,6 @@
 /* A simple TextField that only allows numerical input */
 
 import React, {Component} from 'react';
-import {Simulate} from "react-dom/test-utils";
-import input = Simulate.input;
 
 interface GridSizePickerProps {
     value:string   // text to display in the text area
@@ -25,7 +23,7 @@ interface GridSizePickerDisplayText {
 }
 
 class GridSizePicker extends Component<GridSizePickerProps,GridSizePickerDisplayText> {
-    constructor(props: GridSizePickerDisplayText) {
+    constructor(props: GridSizePickerProps) {
         super(props);
         this.state = ({gridSizePickerDisplayText: "4"})
     }
@@ -37,7 +35,6 @@ class GridSizePicker extends Component<GridSizePickerProps,GridSizePickerDisplay
         // box updates, it'll tell you the new contents of the text box, like we're using
         // below.
         //
-        // TODO - Not currently doing any validation or error handling. Should probably add some...
         const inputString:string = event.target.value
         const newSize: number = parseInt(inputString);
         const maxSize:number = 100;
