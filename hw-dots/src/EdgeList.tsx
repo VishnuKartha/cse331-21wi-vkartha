@@ -15,6 +15,7 @@ interface EdgeListProps {
     onChange(edges: [[number, number],[number,number],string][]): void;  // called when a new edge list is ready
                                  // once you decide how you want to communicate the edges to the App, you should
                                  // change the type of edges so it isn't any
+    size: number;    // size of the grid to display
 }
 
 interface EdgeListState{
@@ -38,7 +39,8 @@ class EdgeList extends Component<EdgeListProps,EdgeListState> {
     };
 
     drawOnClick = () => {
-        this.setState({edges: []});
+        // this.clearOnClick();
+        let edgesTemp:[[number, number],[number,number],string][] = this.state.edges;
         let inputtedEdges:string[] = this.state.edgeListTextBoxDisplay.split("\n");
         for(let i:number = 0; i < inputtedEdges.length;i++){
             console.log("INPUT:" + inputtedEdges[i]);
@@ -55,22 +57,22 @@ class EdgeList extends Component<EdgeListProps,EdgeListState> {
                 let y2:number = Number.parseInt(point2Strings[1]);
                 if(x1 < 0 || x2 < 0 || y1 < 0 || y2 < 0 ) {
                     alert("Line " + i + ": Coordinate(s) contains negative value(s)");
+                    break;
                 } else {
                     let point1: [number, number] = [x1, y1];
                     let point2: [number, number] = [x2, y2];
                     let colorString: string = inputEdgeComponents[2];
-                    this.state.edges[i] = [point1, point2, colorString];
-                    console.log("STORED:" + this.state.edges[i]);
+                    edgesTemp[i] = [point1, point2, colorString];
+                    console.log("STORED:" + edgesTemp[i]);
                 }
             }
 
         }
-        this.props.onChange(this.state.edges);
+        this.props.onChange(edgesTemp);
     };
 
     clearOnClick = () => {
-       this.setState({edges: []});
-       this.props.onChange(this.state.edges);
+       this.props.onChange([]);
     };
 
     render() {

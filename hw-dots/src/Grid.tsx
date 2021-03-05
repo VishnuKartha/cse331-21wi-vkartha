@@ -123,7 +123,7 @@ class Grid extends Component<GridProps, GridState> {
         ctx.fill();
     };
 
-    drawEdge = (ctx: CanvasRenderingContext2D, edge: [[number, number],[number,number],string]) => {
+    drawEdge = (ctx: CanvasRenderingContext2D, edge: [[number, number],[number,number],string])=> {
         console.log("IN DRAWEDGE");
         console.log("Drawing edge" + edge);
 
@@ -132,28 +132,19 @@ class Grid extends Component<GridProps, GridState> {
 
         let point1:[number,number] = edge[0];
         let point2:[number,number] = edge[1];
-        let max:number = Math.max(point1[0],point1[1],point2[0],point2[1]) + 1;
 
-        if(max > this.props.size) {
-            let customMessage:string =""
-            if(max <= 100){
-                customMessage = " grid must be at least size " + max;
-            }
-            alert("cannot draw edges:" + customMessage)
-        } else {
 
             let x1ToDraw: number = (point1[0] + 1) * xScaleFactor;
             let y1ToDraw: number = (point1[1] + 1) * yScaleFactor;
             let x2ToDraw: number = (point2[0] + 1) * xScaleFactor;
             let y2ToDraw: number = (point2[1] + 1) * yScaleFactor;
 
-            ctx.lineWidth = 5;
+            ctx.lineWidth = 3;
             ctx.strokeStyle = edge[2];
             ctx.beginPath()
             ctx.moveTo(x1ToDraw, y1ToDraw);
             ctx.lineTo(x2ToDraw, y2ToDraw);
             ctx.stroke()
-        }
     };
 
     render() {
