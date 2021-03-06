@@ -13,13 +13,12 @@ import React, {Component} from 'react';
 
 interface EdgeListProps {
     onChange(edges: [[number, number],[number,number],string][]): void;  // called when a new edge list is ready
-                                 // once you decide how you want to communicate the edges to the App, you should
-                                 // change the type of edges so it isn't any
     size: number;    // size of the grid to display
 }
 
+// adds additional state to EdgeList
 interface EdgeListState{
-    edgeListTextBoxDisplay:string
+    edgeListTextBoxDisplay:string // the text which is displayed on the edge list box
 }
 
 /**
@@ -27,38 +26,51 @@ interface EdgeListState{
  * Also contains the buttons that the user will use to interact with the app.
  */
 class EdgeList extends Component<EdgeListProps,EdgeListState> {
+    // initializes state
     constructor(props: EdgeListProps) {
         super(props);
         this.state = ({edgeListTextBoxDisplay: ""})
 
     }
+
+    // displays the user inputted text in the edge list text box
     onInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         const inputString:string = event.target.value;
         this.setState({edgeListTextBoxDisplay: inputString});
 
     };
 
+    // draws the edges that the user inputs in the edge list text box.
+    // alerts the user of bad inputs with a descriptive message.
     drawOnClick = () => {
-        let edgesToDraw:[[number, number],[number,number],string][] = [];
+        let edges:[[number, number],[number,number],string][] = []; // the list of edges which are parsed
         let inputtedEdges:string[] = this.state.edgeListTextBoxDisplay.split("\n");
         for(let i:number = 0; i < inputtedEdges.length;i++){
-            console.log("INPUT:" + inputtedEdges[i]);
-
             let inputEdgeComponents:string[] = inputtedEdges[i].split(" ");
-            if(inputEdgeComponents.length != 3){
+            if(inputEdgeComponents.length > 3){
                 alert("Line " + i + ": Extra portion of the line or an extra space.");
+            } else if (inputEdgeComponents.length < 3){
+                alert("Line " + i + ": Missing a portion of the line, or missing a space.");
             } else { //inputEdge has 3 fields
+
                 let point1Strings:string[] = inputEdgeComponents[0].split(",");
                 let point2Strings:string[] = inputEdgeComponents[1].split(",");
+
+                // makes sure that the points have the correct elements in them
                 if(point1Strings.length != 2) {
-                    alert("Line " + i + ": wrong number of parts to the first coordinate");
+                    alert("Line " + i + ": wrong number of parts to the first coordinate should be of form (x,y)");
                 } else if (point2Strings.length != 2){
-                    alert("Line " + i + ": wrong number of parts to the second coordinate");
+                    alert("Line " + i + ": wrong number of parts to the second coordinate should be of form (x,y)");
                 } else {
+                    //parse the start point coordinates of the edge
                     let x1: number = Number.parseInt(point1Strings[0]);
                     let y1: number = Number.parseInt(point1Strings[1])
+
+                    //parse the end point coordinates of the edge
                     let x2: number = Number.parseInt(point2Strings[0]);
                     let y2: number = Number.parseInt(point2Strings[1]);
+
+                    // checks if the coordinates in the points are valid
                     if(Number.isNaN(x1) ||Number.isNaN(y1) || Number.isNaN(x2)  || Number.isNaN(y2)) {
                         alert("Line " + i + ": invalid coordinates(contain non-number characters)");
                     } else if (x1 < 0 || x2 < 0 || y1 < 0 || y2 < 0) {
@@ -68,16 +80,16 @@ class EdgeList extends Component<EdgeListProps,EdgeListState> {
                         let point1: [number, number] = [x1, y1];
                         let point2: [number, number] = [x2, y2];
                         let colorString: string = inputEdgeComponents[2];
-                        edgesToDraw[i] = [point1, point2, colorString];
-                        console.log("STORED:" + edgesToDraw[i]);
+                        edges[i] = [point1, point2, colorString];
                     }
                 }
             }
 
         }
-        this.props.onChange(edgesToDraw);
+        this.props.onChange(edges);
     };
 
+    // clears the drawn edges when the user clicks clear
     clearOnClick = () => {
        this.props.onChange([]);
     };

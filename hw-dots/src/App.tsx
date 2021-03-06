@@ -19,12 +19,12 @@ import "./App.css";
 
 interface AppState {
     gridSize: number;  // size of the grid to display
-    edges: [[number, number],[number,number],string][] //the edges used to store data internally
-    // requiredGridSize: number // the grid size required to be able to draw the edges
+    edges: [[number, number],[number,number],string][] //a representation of the edges the the user inputs
 }
 
 class App extends Component<{}, AppState> { // <- {} means no props.
 
+    // sets the starting state
     constructor(props: any) {
         super(props);
         this.state = {
@@ -33,21 +33,19 @@ class App extends Component<{}, AppState> { // <- {} means no props.
         };
     }
 
+    // this method updates the gridSize of the app to newSize
     updateGridSize = (newSize: number) => {
         this.setState({
             gridSize: newSize,
         });
     };
 
+    // this method updates the edges of the app to newEdges if the newEdges are able
+    // to be drawn given the app's gridSize. Otherwise clears edges.
     updateEdges = (newEdges : [[number, number],[number,number],string][]) => {
-
-        console.log("edges: " + newEdges);
-
         let requiredGridSize:number =this.getRequiredGridSize(newEdges);
-        console.log("actualSize: " + this.state.gridSize)
-
         if (requiredGridSize > this.state.gridSize) {
-            let customMessage: string = ""
+            let customMessage: string;
             if (requiredGridSize <= 100) {
                 customMessage = " grid must be at least size " + requiredGridSize;
             } else {
@@ -64,13 +62,13 @@ class App extends Component<{}, AppState> { // <- {} means no props.
         }
     }
 
+    // Given edges, return the grid size required to be able to accommodate the points in all of the edges
      getRequiredGridSize = (edges : [[number, number],[number,number],string][]):number => {
         let globalMax:number = 0;
         for(let edge of edges) {
             let currMax: number = Math.max(edge[0][0], edge[0][1], edge[1][0], edge[1][1]) + 1;
             globalMax = Math.max(globalMax, currMax);
         }
-        console.log("GLOBAL MAX: " + globalMax);
          return globalMax
 
      }
@@ -82,7 +80,7 @@ class App extends Component<{}, AppState> { // <- {} means no props.
                 <p id="app-title">Connect the Dots!</p>
                 <GridSizePicker value={this.state.gridSize.toString()} onChange={this.updateGridSize}/>
                 <Grid edges={this.state.edges} size={this.state.gridSize} width={canvas_size} height={canvas_size}/>
-                <EdgeList onChange={this.updateEdges}size= {this.state.gridSize}/>
+                <EdgeList onChange={this.updateEdges} size= {this.state.gridSize}/>
             </div>
 
         );

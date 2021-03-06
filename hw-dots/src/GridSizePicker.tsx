@@ -17,17 +17,20 @@ interface GridSizePickerProps {
     value:string   // text to display in the text area
     onChange(newSize: number): void;  // called when a new size is picked
 }
-
+// adds additional state to GridSizePickerDisplayText
 interface GridSizePickerDisplayText {
     gridSizePickerDisplayText:string; // the string to display on the gridSizePicker
 }
 
 class GridSizePicker extends Component<GridSizePickerProps,GridSizePickerDisplayText> {
+
+    // sets the starting state
     constructor(props: GridSizePickerProps) {
         super(props);
         this.state = ({gridSizePickerDisplayText: "4"})
     }
 
+    // changes the gridSize of the app, after user input
     onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         // Every event handler with JS can optionally take a single parameter that
         // is an "event" object - contains information about an event. For mouse clicks,
@@ -35,13 +38,14 @@ class GridSizePicker extends Component<GridSizePickerProps,GridSizePickerDisplay
         // box updates, it'll tell you the new contents of the text box, like we're using
         // below.
         //
-        const inputString:string = event.target.value
+        const inputString:string = event.target.value // the string which the user inputs
         const newSize: number = parseInt(inputString);
         const maxSize:number = 100;
         const minSize:number = 0;
-        if(newSize > maxSize || newSize < minSize) {
+
+        if(newSize > maxSize || newSize < minSize) { //checks if the newSize the user inputted is valid
             alert("GridOutOfBounds");
-        } else if(inputString === ""){
+        } else if(inputString === "") {
             this.setState({gridSizePickerDisplayText: ""});
             this.props.onChange(0);
         }else {

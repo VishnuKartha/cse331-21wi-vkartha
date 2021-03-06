@@ -29,8 +29,9 @@ interface GridState {
  */
 class Grid extends Component<GridProps, GridState> {
 
-    canvasReference: React.RefObject<HTMLCanvasElement>
+    canvasReference: React.RefObject<HTMLCanvasElement> // the reference to the canvas which is used for drawing
 
+    // sets the initial state
     constructor(props: GridProps) {
         super(props);
         this.state = {
@@ -64,6 +65,7 @@ class Grid extends Component<GridProps, GridState> {
         background.src = "./image.jpg";
     }
 
+    // redraws the canvas
     redraw = () => {
         if (this.canvasReference.current === null) {
             throw new Error("Unable to access canvas.");
@@ -88,8 +90,7 @@ class Grid extends Component<GridProps, GridState> {
             this.drawCircle(ctx, coordinate);
         }
 
-        //draw all the edges
-
+        // Draw the edges on the canvas
         for(let edge of this.props.edges) {
             this.drawEdge(ctx,edge);
         }
@@ -100,7 +101,6 @@ class Grid extends Component<GridProps, GridState> {
      * be drawn.
      */
     getCoordinates = (): [number, number][] => {
-
         let result:[number, number][] = [];
         let index:number = 0;
         for(let i:number = 1 ; i <=this.props.size;i++){
@@ -113,6 +113,7 @@ class Grid extends Component<GridProps, GridState> {
         return result;
     };
 
+    // draws a scaled circle on the canvas with the given context, at the given coordinate
     drawCircle = (ctx: CanvasRenderingContext2D, coordinate: [number, number]) => {
         ctx.fillStyle = "white";
         // Generally use a radius of 4, but when there are lots of dots on the grid (> 50)
@@ -123,28 +124,28 @@ class Grid extends Component<GridProps, GridState> {
         ctx.fill();
     };
 
+    // draws an line on the canvas with the given context, using the given edge
     drawEdge = (ctx: CanvasRenderingContext2D, edge: [[number, number],[number,number],string])=> {
-        console.log("IN DRAWEDGE");
-        console.log("Drawing edge" + edge);
 
+        // the factors used to scale the coordinates inputted edges to canvas coordinates
         let xScaleFactor:number = this.props.width /(this.props.size +1);
         let yScaleFactor:number = this.props.height /(this.props.size +1);
 
         let point1:[number,number] = edge[0];
         let point2:[number,number] = edge[1];
 
+        // calculates the coordinates to draw on the canvas
+        let x1ToDraw: number = (point1[0] + 1) * xScaleFactor;
+        let y1ToDraw: number = (point1[1] + 1) * yScaleFactor;
+        let x2ToDraw: number = (point2[0] + 1) * xScaleFactor;
+        let y2ToDraw: number = (point2[1] + 1) * yScaleFactor;
 
-            let x1ToDraw: number = (point1[0] + 1) * xScaleFactor;
-            let y1ToDraw: number = (point1[1] + 1) * yScaleFactor;
-            let x2ToDraw: number = (point2[0] + 1) * xScaleFactor;
-            let y2ToDraw: number = (point2[1] + 1) * yScaleFactor;
-
-            ctx.lineWidth = 3;
-            ctx.strokeStyle = edge[2];
-            ctx.beginPath()
-            ctx.moveTo(x1ToDraw, y1ToDraw);
-            ctx.lineTo(x2ToDraw, y2ToDraw);
-            ctx.stroke()
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = edge[2]; // sets the color of the stroke to what the user inputted in the edge
+        ctx.beginPath()
+        ctx.moveTo(x1ToDraw, y1ToDraw);
+        ctx.lineTo(x2ToDraw, y2ToDraw);
+        ctx.stroke()
     };
 
     render() {
