@@ -33,12 +33,13 @@ class App extends Component<{}, AppState> { // <- {} means no props.
         };
     }
 
-    // this method updates the gridSize of the app to newSize
+    // this method updates the gridSize of the app to newSize and clears the drwaing
     updateGridSize = (newSize: number) => {
         this.setState({
             gridSize: newSize,
-        });
-    };
+            edges: []
+        })
+    }
 
     // this method updates the edges of the app to newEdges if the newEdges are able
     // to be drawn given the app's gridSize. Otherwise clears edges.
@@ -54,7 +55,7 @@ class App extends Component<{}, AppState> { // <- {} means no props.
                     edges: []
                 });
             }
-            alert("cannot draw edges:" + customMessage + "Board Cleared");
+            alert("cannot draw edges:" + customMessage);
         } else {
             this.setState({
                 edges: newEdges

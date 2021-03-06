@@ -7,6 +7,7 @@ Describe any additional functionality you added to your application, or any
 significant changes you made to the starter code beyond the basic requirements
 of the assignment, below:
 
--The grid clears out upon any error message, and will retry drawing only on the next click of the draw method.
+-The drawing clears out upon any error message, and will retry drawing only on the next click of the draw method.
+- the drawing clears out when the grid size changes.
 
 
