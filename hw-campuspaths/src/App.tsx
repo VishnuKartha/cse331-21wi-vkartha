@@ -19,8 +19,8 @@ import PathSelector from "./PathSelector";
 import "./App.css";
 
 interface AppState {
-    path:Path
-    emptyPath:Path
+    path:Path // the path that is drawn
+    emptyPath:Path // an empty path used for clearing the path drawn
 }
 
 class App extends Component<{}, AppState> {
@@ -46,8 +46,8 @@ class App extends Component<{}, AppState> {
 
     })
 
-    // updates the path in App's state to be
-    // the path between the given startBuildingShortName and endBuildingShortName, via the spark server.
+    // updates the path in App's state to be the path between the given
+    // startBuildingShortName and endBuildingShortName, via the spark server.
      sendRequestForPath = async (startBuildingShortName:string, endBuildingShortName:string) => {
         try {
             let url:string = `http://localhost:4567/getPath?startShortName=${startBuildingShortName}&endShortName=${endBuildingShortName}`;
@@ -80,7 +80,7 @@ class App extends Component<{}, AppState> {
         };
     }
 
-    // clears the path
+    // clears the path drawn
     clear = () => {
         this.setState({
             path: this.state.emptyPath

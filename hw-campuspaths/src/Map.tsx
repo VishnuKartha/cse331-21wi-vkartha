@@ -34,6 +34,7 @@ class Map extends Component<MapProps, MapState> {
 
     canvas: React.RefObject<HTMLCanvasElement>;
 
+    // sets the initial state
     constructor(props: MapProps) {
         super(props);
         this.state = {
@@ -42,6 +43,7 @@ class Map extends Component<MapProps, MapState> {
         this.canvas = React.createRef();
     }
 
+    // draws the map with no paths on mount
     componentDidMount() {
         // Since we're saving the image in the state and re-using it any time we
         // redraw the canvas, we only need to load it once, when our component first mounts.
@@ -53,6 +55,7 @@ class Map extends Component<MapProps, MapState> {
         this.redraw()
     }
 
+    // redraws the canvas
     redraw = () => {
         if (this.canvas.current === null) {
             throw new Error("Unable to access canvas.");
@@ -74,7 +77,7 @@ class Map extends Component<MapProps, MapState> {
     };
 
 
-    // draws an line on the canvas with the given context, using the given edge
+    // draws the given path on the map via the canvas context
     drawPath = (ctx: CanvasRenderingContext2D)=> {
         const segmentsToDraw:Segment[] = this.props.path.path;
         for(let currSegment of segmentsToDraw) {
@@ -82,6 +85,7 @@ class Map extends Component<MapProps, MapState> {
         }
     };
 
+    // draws a single segment of a path on the map via the canvas context
     drawSegment= (ctx: CanvasRenderingContext2D, segment:Segment)=> {
         ctx.lineWidth = 15;
         ctx.strokeStyle = "red"; // sets the color of the stroke to what the user inputted in the edge
@@ -90,6 +94,7 @@ class Map extends Component<MapProps, MapState> {
         ctx.lineTo(segment.end.x,segment.end.y);
         ctx.stroke()
     }
+
 
     fetchAndSaveImage() {
         // Creates an Image object, and sets a callback function
