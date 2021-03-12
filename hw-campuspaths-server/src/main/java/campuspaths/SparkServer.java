@@ -12,18 +12,61 @@
 package campuspaths;
 
 import campuspaths.utils.CORSFilter;
+import java.util.Map;
+import pathfinder.CampusMap;
+import pathfinder.datastructures.Path;
+import pathfinder.datastructures.Point;
+import spark.Request;
+import spark.Route;
+import spark.Spark;
+
+import com.google.gson.Gson;
+
+import spark.Response;
+
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SparkServer {
 
     public static void main(String[] args) {
         CORSFilter corsFilter = new CORSFilter();
         corsFilter.apply();
-        // The above two lines help set up some settings that allow the
-        // React application to make requests to the Spark server, even though it
-        // comes from a different server.
-        // You should leave these two lines at the very beginning of main().
 
-        // TODO: Create all the Spark Java routes you need here.
+        CampusMap map = new CampusMap();
+        Spark.get("/getBuildings", new Route() {
+            @Override
+            public Object handle(Request request, Response response) throws Exception {
+                Map<String,String> names=  map.buildingNames();
+                Gson gson = new Gson();
+                String jsonResponse = gson.toJson(names);
+                return jsonResponse;
+            }
+        });
+
+
+
+        // Handles Path finding
+        Spark.get("/getPath", new Route() {
+            @Override
+            public Object handle(Request request, Response response) throws Exception {
+
+                String startShortName = request.queryParams("startShortName");
+                String endShortName = request.queryParams("endShortName");
+                if(startShortName == null || endShortName == null ||
+                        !map.shortNameExists(startShortName)||!map.shortNameExists(endShortName))  {
+                    // You can also have a message in "halt" that is displayed in the page.
+                    Spark.halt(400, "invalid start and end buildings inputted");
+                }
+                Path<Point> shortestPath = map.findShortestPath(startShortName,endShortName);
+                Gson gson = new Gson();
+                String jsonResponse = gson.toJson(shortestPath);
+                return jsonResponse;
+            }
+        });
     }
 
 }
+
+

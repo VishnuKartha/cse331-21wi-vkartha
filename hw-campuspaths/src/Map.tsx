@@ -11,12 +11,19 @@
 
 import React, {Component} from 'react';
 import "./Map.css";
+import Path from "./Path";
+import Segment from "./Segment";
+
+
+interface MapProps {
+    path:Path   // the path to draw on the map
+}
 
 interface MapState {
     backgroundImage: HTMLImageElement | null;
 }
 
-class Map extends Component<{}, MapState> {
+class Map extends Component<MapProps, MapState> {
 
     // NOTE:
     // This component is a suggestion for you to use, if you would like to.
@@ -27,7 +34,7 @@ class Map extends Component<{}, MapState> {
 
     canvas: React.RefObject<HTMLCanvasElement>;
 
-    constructor(props: {}) {
+    constructor(props: MapProps) {
         super(props);
         this.state = {
             backgroundImage: null
@@ -36,11 +43,52 @@ class Map extends Component<{}, MapState> {
     }
 
     componentDidMount() {
-        // Might want to do something here?
+        // Since we're saving the image in the state and re-using it any time we
+        // redraw the canvas, we only need to load it once, when our component first mounts.
+        this.fetchAndSaveImage();
+        this.redraw();
     }
 
     componentDidUpdate() {
-        // Might want something here too...
+        this.redraw()
+    }
+
+    redraw = () => {
+        if (this.canvas.current === null) {
+            throw new Error("Unable to access canvas.");
+        }
+        const ctx = this.canvas.current.getContext('2d');
+        if (ctx === null) {
+            throw new Error("Unable to create canvas drawing context.");
+        }
+
+        // First, let's clear the existing drawing so we can start fresh:
+        let canvas = this.canvas.current;
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+
+        // let us redraw the background image
+        this.drawBackgroundImage();
+
+        // let us draw the path
+        this.drawPath(ctx);
+    };
+
+
+    // draws an line on the canvas with the given context, using the given edge
+    drawPath = (ctx: CanvasRenderingContext2D)=> {
+        const segmentsToDraw:Segment[] = this.props.path.path;
+        for(let currSegment of segmentsToDraw) {
+            this.drawSegment(ctx,currSegment);
+        }
+    };
+
+    drawSegment= (ctx: CanvasRenderingContext2D, segment:Segment)=> {
+        ctx.lineWidth = 15;
+        ctx.strokeStyle = "red"; // sets the color of the stroke to what the user inputted in the edge
+        ctx.beginPath()
+        ctx.moveTo(segment.start.x,segment.start.y);
+        ctx.lineTo(segment.end.x,segment.end.y);
+        ctx.stroke()
     }
 
     fetchAndSaveImage() {
